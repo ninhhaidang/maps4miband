@@ -42,3 +42,16 @@ Cài `.rpk` lên vòng bằng Gadgetbridge (Cài đặt ứng dụng / mở file
 - Tuyến lấy từ server demo công khai của OSRM: chỉ profile ô tô, có giới hạn sử dụng.
 - Bản đồ chỉ vẽ tuyến đường, chưa có các phố xung quanh.
 - Chưa đo giới hạn kích thước tin nhắn qua BLE. Một khung hình tối đa khoảng 130 điểm (~1,5 KB JSON).
+
+## Lấy AuthKey
+
+Đăng nhập tài khoản Xiaomi trong AstroBox (macOS), rồi:
+
+```sh
+python3 -I tools/fetch_authkey.py          # hỏi mọi máy chủ Mi Fitness, lưu AuthKey vào Keychain, không in key
+security find-generic-password -s maps4miband-authkey -a <MAC> -w | pbcopy   # chép key để dán
+```
+
+## Giấy phép
+
+AGPL-3.0 (port code từ Gadgetbridge và AstroBox, đều AGPL-3.0).
