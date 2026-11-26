@@ -1,0 +1,11 @@
+.DS_Store
+android/.gradle/
+android/.kotlin/
+android/build/
+android/app/build/
+android/local.properties
+band/node_modules/
+band/build/
+band/dist/
+band/sign/**/*.pem
+.temp_*/
