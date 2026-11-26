@@ -80,6 +80,10 @@ def main():
         mac, key = det.get("mac", ""), det.get("encrypt_key", "")
         print(f"- {d.get('name')} | model={d.get('model')} | mac={mac} | auth key: {'có, ' + str(len(key)) + ' ký tự' if key else 'KHÔNG CÓ'}")
         if key and mac:
+            old = subprocess.run(["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-a", mac, "-w"],
+                                 capture_output=True, text=True).stdout.strip()
+            if old:
+                print(f"  → so với key đã lưu: {'GIỐNG' if old == key else 'KHÁC (key đã đổi)'}")
             # shortcut: the key is briefly visible in this Mac's process list as an argument to `security`
             subprocess.run(["security", "add-generic-password", "-U", "-s", KEYCHAIN_SERVICE, "-a", mac, "-w", key], check=True)
             print(f"  → đã lưu vào Keychain (service={KEYCHAIN_SERVICE}, account={mac})")
