@@ -34,12 +34,15 @@ final class Navigation: NSObject {
     @ObservationIgnored private var owedBuzz = false
     @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
     @ObservationIgnored private let fetchStreets: ([Point]) async throws -> [[Point]]
+    /// Overpass drops connections and turns requests away when busy, and asks to be tried again after a while.
+    @ObservationIgnored private let retryStreetsAfter: [Duration]
 
-    init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
+    init(band: BandConnection, retryStreetsAfter: [Duration] = [.seconds(10), .seconds(30)], fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
          fetchStreets: @escaping ([Point]) async throws -> [[Point]] = Overpass.streets) {
         self.band = band
         self.fetchRoute = fetchRoute
         self.fetchStreets = fetchStreets
+        self.retryStreetsAfter = retryStreetsAfter
         super.init()
         gps.delegate = self
         gps.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -159,12 +162,17 @@ final class Navigation: NSObject {
 
     private func loadStreets(along route: Route) {
         fetchingStreets?.cancel()
-        fetchingStreets = Task { @MainActor [weak self, fetchStreets] in
-            let result: Result<[[Point]], Error>
-            do {
-                result = .success(try await fetchStreets(route.points))
-            } catch {
-                result = .failure(error)
+        fetchingStreets = Task { @MainActor [weak self, fetchStreets, retryStreetsAfter] in
+            var result: Result<[[Point]], Error> = .success([])
+            for wait in [.zero] + retryStreetsAfter {
+                do {
+                    try await Task.sleep(for: wait)
+                    result = .success(try await fetchStreets(route.points))
+                    break
+                } catch {
+                    result = .failure(error)
+                    if Task.isCancelled { break }
+                }
             }
             guard let self, !Task.isCancelled else { return }
             fetchingStreets = nil
@@ -175,8 +183,9 @@ final class Navigation: NSObject {
                 navigator?.streets = streets
             case .failure(let error):
                 // Not "Lỗi": the ride goes on as before, only without grey streets, so no badge on Nhật ký.
-                band.log.add(.nav,
-                    "Không tải được đường xung quanh, đi tiếp không có đường xám: \(error)")
+                let why = error is URLError ? error.localizedDescription : "\(error)"
+                band.log.add(.nav, "Không tải được đường xung quanh sau \(retryStreetsAfter.count + 1) lần, "
+                                   + "đi tiếp không có đường xám: \(why)")
             }
         }
     }

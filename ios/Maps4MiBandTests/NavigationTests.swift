@@ -146,15 +146,38 @@ final class NavigationTests: XCTestCase {
         nav.stop()
     }
 
+    func testOverpassIsAskedAgainAfterAFailure() async throws {
+        let band = BandConnection()
+        var tries = 0
+        let nav = Navigation(band: band, retryStreetsAfter: [.zero, .zero]) { _, _, _ in straight } fetchStreets: { _ in
+            tries += 1
+            if tries < 3 { throw URLError(.networkConnectionLost) }
+            return self.crossing
+        }
+        nav.plan(to: destination, vietmapKey: "vm-key")
+        fix(nav, straight.points[0])
+        try await settle(nav)
+        let line = try await streetsIn(band)
+        XCTAssertEqual(line?.text, "Đường xung quanh: 1 đường từ OpenStreetMap")
+        XCTAssertEqual(tries, 3)
+    }
+
     func testWithoutStreetsItStillNavigatesAndLogsOneLineButNoError() async throws {
         let band = BandConnection()
-        let nav = Navigation(band: band) { _, _, _ in straight } fetchStreets: { _ in throw URLError(.notConnectedToInternet) }
+        var tries = 0
+        let nav = Navigation(band: band, retryStreetsAfter: [.zero, .zero]) { _, _, _ in straight } fetchStreets: { _ in
+            tries += 1
+            throw URLError(.networkConnectionLost)
+        }
         nav.plan(to: destination, vietmapKey: "vm-key")
         fix(nav, straight.points[0])
         try await settle(nav)
         let logged = try await streetsIn(band)
         let line = try XCTUnwrap(logged)
         XCTAssertFalse(line.error, "no badge on Nhật ký: \(line.text)")
+        XCTAssertEqual(tries, 3)
+        XCTAssertTrue(line.text.hasPrefix("Không tải được đường xung quanh sau 3 lần"), line.text)
+        XCTAssertFalse(line.text.contains("Error Domain"), "the reason, not the whole NSError: \(line.text)")
         nav.start(authKey: String(repeating: "0", count: 32))
         fix(nav, straight.points[0])
         XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
