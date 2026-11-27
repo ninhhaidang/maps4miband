@@ -55,8 +55,10 @@ export function segments(p, line = LINE) {
 
 // Grey streets from the phone: flat x1,y1,x2,y2 per segment (BandMessage.g).
 export function streets(g) {
-  const out = []
-  for (let i = 0; i + 3 < g.length; i += 4) out.push(...segments(g.slice(i, i + 4), STREET))
+  // concat, not spread: the build ships this file to the band as written, and spread is the one newer syntax here
+  // the band had never run.
+  let out = []
+  for (let i = 0; i + 3 < g.length; i += 4) out = out.concat(segments(g.slice(i, i + 4), STREET))
   return out
 }
 
