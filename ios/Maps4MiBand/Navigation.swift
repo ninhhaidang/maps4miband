@@ -38,14 +38,17 @@ final class Navigation: NSObject {
     /// A buzz sent while the quick app was still opening, so the screen after it would replace it unbuzzed.
     /// Dropped once the app opens: it showed that screen, buzz and all.
     @ObservationIgnored private var owedBuzz = false
+    @ObservationIgnored private let now: () -> Date
     @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
     @ObservationIgnored private let fetchStreets: ([Point]) async throws -> [[Point]]
 
     init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
+         now: @escaping () -> Date = Date.init,
          fetchStreets: @escaping ([Point]) async throws -> [[Point]] = { route in
              try await Task.detached { try StreetMap.hanoi.get().along(route) }.value
          }) {
         self.band = band
+        self.now = now
         self.fetchRoute = fetchRoute
         self.fetchStreets = fetchStreets
         super.init()
@@ -278,7 +281,7 @@ extension Navigation: @preconcurrency CLLocationManagerDelegate {
         guard let navigator else { return }
         // The phone's clock, not the fix's: fixes held back while the app was away arrive together, seconds apart by
         // their own clocks, and would each send a screen.
-        for effect in navigator.update(here, at: Date()) {
+        for effect in navigator.update(here, at: now()) {
             switch effect {
             case .send(let m):
                 band.log.add(.gps, String(format: "%@ ±%.0f m, cách đây %.1f s", here.text, fix.horizontalAccuracy, age))

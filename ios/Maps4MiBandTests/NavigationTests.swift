@@ -95,6 +95,87 @@ final class NavigationTests: XCTestCase {
         nav.stop()
     }
 
+    func testReroutesAfterVietmapFailsAndSendsTheNewTurnToTheBand() async throws {
+        let off = Point(lat: 21.0003, lon: 105.802)
+        let retryFrom = Point(lat: 21.0008, lon: 105.802)
+        let newRoute = Route(
+            points: [retryFrom, Point(lat: 21.002, lon: 105.802), destination],
+            maneuvers: [Maneuver(at: 0, text: "Xuất phát", angle: nil),
+                        Maneuver(at: 1, text: "Rẽ trái vào Phố Mới", angle: -90),
+                        Maneuver(at: 2, text: "Đến nơi", angle: nil)])
+        var now = Date(timeIntervalSince1970: 0)
+        var writes: [Data] = []
+        var requests: [Point] = []
+        let (waiting, failRequest) = AsyncStream<Void>.makeStream()
+        let band = BandConnection(write: { writes.append($0) }, nonce: { V.phoneNonce })
+        let nav = Navigation(band: band) { from, to, key in
+            XCTAssertEqual(to, destination)
+            XCTAssertEqual(key, "vm-key")
+            requests.append(from)
+            switch requests.count {
+            case 1: return straight
+            case 2:
+                for await _ in waiting {}
+                throw Vietmap.Failure.offline
+            default: return newRoute
+            }
+        } now: { now } fetchStreets: { _ in [] }
+        nav.plan(to: destination, vietmapKey: "vm-key")
+        fix(nav, straight.points[0])
+        try await settle(nav)
+        nav.start(authKey: V.authKey)
+        defer {
+            failRequest.finish()
+            nav.stop()
+        }
+        for reply in [V.bandSessionReply, V.bandVerify, V.bandConfirm, V.bandList, V.bandAsksStatus] {
+            band.receive(reply)
+        }
+        XCTAssertFalse(band.opening)
+        fix(nav, Point(lat: 21.0003, lon: 105.8))
+        XCTAssertEqual(nav.shown?.v, 1)
+
+        fix(nav, off)
+        fix(nav, off)
+        XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
+        let beforeReroute = writes.count
+        fix(nav, off)
+        XCTAssertEqual(nav.shown?.i, "Đang tìm đường lại…")
+        XCTAssertGreaterThan(writes.count, beforeReroute)
+
+        for _ in 0..<100 where requests.count < 2 { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertEqual(requests, [straight.points[0], off])
+        let whileWaiting = writes.count
+        fix(nav, retryFrom)
+        XCTAssertEqual(writes.count, whileWaiting)
+        failRequest.finish()
+
+        let error = "Lỗi: Mất mạng, không gọi được Vietmap"
+        for _ in 0..<100 where nav.shown?.i != error { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertEqual(nav.shown?.i, error)
+        XCTAssertEqual(nav.status, error + ". Sẽ thử lại.")
+        XCTAssertGreaterThan(writes.count, whileWaiting)
+
+        let afterError = writes.count
+        now += 9.999
+        fix(nav, retryFrom)
+        XCTAssertEqual(writes.count, afterError)
+        XCTAssertEqual(nav.shown?.i, error)
+        now = Date(timeIntervalSince1970: 10)
+        fix(nav, retryFrom)
+        XCTAssertEqual(nav.shown?.i, "Đang tìm đường lại…")
+        for _ in 0..<100 where nav.preview?.points != newRoute.points { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertEqual(requests, [straight.points[0], off, retryFrom])
+        XCTAssertEqual(nav.preview?.points, newRoute.points)
+
+        let beforeNewTurn = writes.count
+        fix(nav, retryFrom)
+        XCTAssertEqual(nav.shown?.i, "Rẽ trái vào Phố Mới")
+        XCTAssertEqual(nav.shown?.a, -90)
+        XCTAssertEqual(nav.shown?.v, 1, "the first turn on the new route buzzes again")
+        XCTAssertGreaterThan(writes.count, beforeNewTurn)
+    }
+
     func testAFailedPreviewSaysWhyAndCannotStart() async throws {
         let nav = Navigation(band: BandConnection()) { _, _, _ in throw Vietmap.Failure.offline } fetchStreets: { _ in [] }
         nav.plan(to: destination, vietmapKey: "vm-key")
