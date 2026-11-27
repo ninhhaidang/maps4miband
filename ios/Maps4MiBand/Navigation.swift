@@ -22,6 +22,7 @@ final class Navigation: NSObject {
     private static let noLocation = "App chưa được cấp quyền vị trí. Bật trong ứng dụng Cài đặt của iPhone → Dẫn đường."
 
     @ObservationIgnored private let band: BandConnection
+    @ObservationIgnored private let rideActivity = RideActivity()
     @ObservationIgnored private let rideNotification = RideNotification()
     @ObservationIgnored private var rideStartedAt: TimeInterval = 0
     @ObservationIgnored private var startBattery: Float = -1
@@ -110,7 +111,13 @@ final class Navigation: NSObject {
         phone.isBatteryMonitoringEnabled = true
         startBattery = phone.batteryLevel
         rideStartedAt = ProcessInfo.processInfo.systemUptime
-        rideNotification.show(onStop: { [weak self] in self?.stop() }, onError: { [weak self] message in
+        let onStop: () -> Void = { [weak self] in self?.stop() }
+        do {
+            if try rideActivity.start(first, onStop: onStop) { return }
+        } catch {
+            band.log.add(.nav, "Không hiện được Live Activity: \(error.localizedDescription)")
+        }
+        rideNotification.show(onStop: onStop, onError: { [weak self] message in
             self?.band.log.add(.nav, "Lỗi: " + message)
         })
     }
@@ -141,6 +148,7 @@ final class Navigation: NSObject {
         gps.allowsBackgroundLocationUpdates = false
         gps.pausesLocationUpdatesAutomatically = true
         gps.showsBackgroundLocationIndicator = false
+        rideActivity.end()
         rideNotification.hide()
         let phone = UIDevice.current
         let endBattery = phone.batteryLevel
@@ -225,6 +233,7 @@ final class Navigation: NSObject {
         // A later screen may replace this one before the app opens: the grey layer goes again with the next.
         if band.opening { navigator?.forgetLayer() }
         shown = m
+        rideActivity.update(m)
         logSent(json)
     }
 

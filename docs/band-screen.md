@@ -43,9 +43,9 @@ cả hai đã xoá sau khi đo, lấy lại từ commit `58dca7f` (`band/src/pag
 
 ## Chạy thử khi iPhone khoá màn hình (#10)
 
-1. Ghi pin iPhone và vòng trước khi đi. Cấp quyền vị trí **Luôn luôn** và bật thông báo màn hình khoá cho **Dẫn đường**. Bắt đầu dẫn đường, khoá iPhone ít nhất 30 phút. Ghi lại thời điểm vòng ngừng cập nhật, mất kết nối hoặc rung sai mốc nếu có.
+1. Ghi pin iPhone và vòng trước khi đi. Cấp quyền vị trí **Luôn luôn** và bật **Hoạt động trực tiếp** cho **Dẫn đường**. Bắt đầu dẫn đường, khoá iPhone ít nhất 30 phút. Ghi lại thời điểm vòng ngừng cập nhật, mất kết nối hoặc rung sai mốc nếu có.
 2. Nhờ người khác gọi và nhắn thử trong chuyến, ghi lại vòng có nhận được cả hai và còn tiếp tục dẫn đường sau đó không. Ghi trạng thái Mi Fitness khi thử vì vòng chỉ giữ một phiên xác thực.
-3. Khi đã dừng xe và iPhone còn khoá, nhấn giữ thông báo **Đang dẫn đường** rồi chọn **Dừng dẫn đường**. Vuốt lên để mở Trung tâm thông báo nếu thông báo đã vào danh sách cũ. Kiểm tra vòng hiện **Đã dừng dẫn đường**.
+3. Khi đã dừng xe và iPhone còn khoá, bấm **Dừng** trên Live Activity. Nếu Live Activity bị tắt, bật thông báo màn hình khoá, rồi nhấn giữ thông báo **Đang dẫn đường** và chọn **Dừng dẫn đường**. Kiểm tra vòng hiện **Đã dừng dẫn đường**.
 4. Sao chép **Nhật ký** để lấy dòng **Chuyến đi** (thời lượng, pin iPhone theo giờ và nhịp gửi) và **Khung BLE lớn nhất chuyến đi**. Dòng **Khung** ghi kích thước JSON, số gói và tổng byte khung đã xếp hàng ghi BLE.
 5. Khi dừng xe, quay chậm màn hình vòng lúc bản đồ cập nhật, gồm cả khung đổi ảnh đường xám. Đếm số khung video từ lúc màn hình bắt đầu đổi đến khi bản đồ và chỉ dẫn hiện đủ, rồi chia cho tốc độ khung hình. Số đo này tính thời gian vẽ thấy được trên màn hình. Ghi riêng các lần cập nhật có ảnh mới vì vòng phải giải mã và ghi ảnh.
 6. Ghi kết quả vào #10, gồm pin vòng trước/sau và độ mượt. Thử nhịp 2–3 giây nếu vòng cập nhật không kịp hoặc tốn pin. Dùng kết quả để chốt nhịp gửi, mốc rung và tỉ lệ bản đồ.
