@@ -29,9 +29,9 @@ function onScreen(px, py) {
   return (px - cx) ** 2 + (py - cy) ** 2 <= R * R
 }
 
-// The label is a w × LABEL_H box; the band can't measure text, so the box is what must stay readable.
+// The label is a w × h box; the band can't measure text, so the box is what must stay readable.
 function assertReadable(box, x, y) {
-  for (const [px, py] of [[box.l, box.t], [box.l + box.w, box.t], [box.l, box.t + LABEL_H], [box.l + box.w, box.t + LABEL_H]]) {
+  for (const [px, py] of [[box.l, box.t], [box.l + box.w, box.t], [box.l, box.t + box.h], [box.l + box.w, box.t + box.h]]) {
     assert.ok(onScreen(px, py), `corner ${px},${py} of the label is cut off`)
   }
   assert.ok(box.t >= MAP_TOP, `under the panel: ${box.t}`)
@@ -39,7 +39,7 @@ function assertReadable(box, x, y) {
 }
 
 function overlaps(a, b) {
-  return a.l < b.l + b.w && b.l < a.l + a.w && a.t < b.t + (b.h ?? LABEL_H) && b.t < a.t + (a.h ?? LABEL_H)
+  return a.l < b.l + b.w && b.l < a.l + a.w && a.t < b.t + b.h && b.t < a.t + a.h
 }
 
 // The drawn road along an axis-aligned polyline, as LINE-wide boxes.
@@ -63,12 +63,23 @@ test('labels the turn just above it, centred on it, when the road leaves it side
   assert.ok(!road(p).some((r) => overlaps(box, r)))
 })
 
-test('keeps the label off the road when the road goes on straight up past the turn', () => {
-  // the photo in #13: "Phan Huy Chú" sat on the road
+test('keeps the label off the road when the road goes on straight up past the turn, on two lines if need be', () => {
+  // the photo in #13: "Phan Huy Chú" sat on the road; one line of it is too wide for either side of the road
   const p = [106, 460, 106, 300, 106, 170]
   const box = label(106, 300, 'Phan Huy Chú', p)
   assertReadable(box, 106, 300)
   assert.ok(!road(p).some((r) => overlaps(box, r)), JSON.stringify(box))
+  assert.equal(box.lines, 2)
+})
+
+test('one line whenever it fits off the road', () => {
+  const box = label(106, 300, 'Phan Huy Chú', [106, 460, 106, 300, 0, 300])
+  assert.equal(box.lines, 1)
+  assert.equal(box.h, LABEL_H)
+})
+
+test('the box is wide enough for the name: "Phan Huy Chú" needed more than 98 px on the band', () => {
+  assert.ok(label(106, 300, 'Phan Huy Chú').w > 98)
 })
 
 test('keeps the label off both legs of a right turn', () => {
