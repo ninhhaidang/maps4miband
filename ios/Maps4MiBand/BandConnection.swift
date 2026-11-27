@@ -1,6 +1,7 @@
 import BandLink
 import CoreBluetooth
 import Observation
+import UIKit
 
 /// Thin CoreBluetooth layer: takes the band from the peripherals iOS already has connected (no scanning or
 /// pairing), pipes its bytes through BandLink, and lets go of it when done so Mi Fitness can have it back.
@@ -30,6 +31,8 @@ final class BandConnection: NSObject {
     @ObservationIgnored private var stuck = ""
     /// Navigating: keep the band after each message instead of releasing it.
     @ObservationIgnored private var streaming = false
+    @ObservationIgnored private var rideMaxFrame: Int?
+    @ObservationIgnored private var finishingTask = UIBackgroundTaskIdentifier.invalid
 
     /// Connects, authenticates, opens the quick app, sends `payload` once, then releases the band.
     func sendOnce(authKey: String, payload: Data) {
@@ -41,6 +44,7 @@ final class BandConnection: NSObject {
         guard !busy else { return }
         begin(authKey: authKey, installing: false) { _ in [] }
         streaming = busy
+        if streaming { rideMaxFrame = 0 }
         // Waits in the link from now, so any screen sent before the band answers replaces it, not the other way round.
         send(first)
     }
@@ -48,26 +52,23 @@ final class BandConnection: NSObject {
     /// Replaces the band's screen while streaming. Before the quick app is open only the newest one waits.
     func send(_ payload: Data) {
         guard streaming, let link else { return }
-        run(noteSize(payload, link.send(payload)))
+        run(link.send(payload))
     }
 
     /// Streaming, and the quick app has not taken a screen yet: the next `send` replaces the one waiting.
     var opening: Bool { streaming && timeout != nil }
 
     /// Shows `payload` as the last screen, then releases the band.
+    @MainActor
     func finish(_ payload: Data) {
         guard busy, let link else { return }
         streaming = false
+        // GPS stops immediately, but the final BLE writes still need time on the Lock Screen.
+        finishingTask = UIApplication.shared.beginBackgroundTask(withName: "Finish navigation") { [weak self] in
+            self?.fail("Hết thời gian gửi khung cuối cho vòng.")
+        }
         armTimeout()
-        run(noteSize(payload, link.send(payload)))
-    }
-
-    /// Notes how big a screen is on the way to the band, then passes its writes on.
-    private func noteSize(_ payload: Data, _ effects: [Effect]) -> [Effect] {
-        let writes = effects.compactMap { if case .write(let bytes) = $0 { bytes.count } else { nil } }
-        note(writes.isEmpty ? "Khung \(payload.count) B, chờ app trên vòng mở"
-                            : "Khung \(payload.count) B → \(writes.count) gói BLE, \(writes.reduce(0, +)) B")
-        return effects
+        run(link.send(payload))
     }
 
     /// Connects, authenticates, installs `rpk` as the quick app, then releases the band.
@@ -150,15 +151,20 @@ final class BandConnection: NSObject {
             note("App trên vòng: \(installed.joined(separator: ", "))")
             fail("Quick app “Dẫn đường” chưa được cài trên vòng. Bấm “Cài app lên vòng”.")
         case .sessionTakenOver: fail("Mi Fitness đang giành kết nối — hãy đóng hẳn Mi Fitness rồi thử lại.")
-        case .messageSent where streaming:
-            // The first frame got through: the quick app is open, nothing left to time out on.
-            if timeout != nil { note("Vòng đã mở app dẫn đường.") }
-            timeout?.cancel()
-            timeout = nil
-        case .messageSent:
-            note("Đã gửi khung hình.")
-            // shortcut: fixed 1 s for queued writes to leave; wait for the band's ack if the last screen gets cut off.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in self?.release("Xong, đã nhả kết nối cho Mi Fitness.") }
+        case .messageQueued(let payloadBytes, let frameBytes, let packets):
+            note("Khung \(payloadBytes) B → \(packets) gói BLE, \(frameBytes) B")
+            if let largest = rideMaxFrame { rideMaxFrame = max(largest, frameBytes) }
+            if streaming {
+                if timeout != nil { note("Vòng đã mở app dẫn đường.") }
+                timeout?.cancel()
+                timeout = nil
+            } else {
+                // shortcut: fixed 1 s for queued writes to leave; wait for the band's ack if the last screen gets cut off.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self, weak link] in
+                    guard let self, let link, self.link === link else { return }
+                    release("Xong, đã nhả kết nối cho Mi Fitness.")
+                }
+            }
         case .installProgress(let sent, let total):
             progress = Double(sent) / Double(total)
             armTimeout()
@@ -197,8 +203,14 @@ final class BandConnection: NSObject {
         job = nil
         progress = nil
         streaming = false
+        if let largest = rideMaxFrame, largest > 0 { note("Khung BLE lớn nhất chuyến đi: \(largest) B.") }
+        rideMaxFrame = nil
         busy = false
         note(message)
+        if finishingTask != .invalid {
+            MainActor.assumeIsolated { UIApplication.shared.endBackgroundTask(finishingTask) }
+            finishingTask = .invalid
+        }
     }
 
     private func note(_ line: String) {

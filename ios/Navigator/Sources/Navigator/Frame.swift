@@ -27,7 +27,7 @@ public enum Tuning {
     /// first.
     static let maxSegments = 100
     /// At most one frame per this many seconds, unless it buzzes.
-    static let sendEvery: TimeInterval = 1
+    public static let sendEvery: TimeInterval = 1
     /// Buzz once at each of these distances before a turn.
     static let buzzAtM = [200.0, 40.0]
     static let arrivedM = 20.0

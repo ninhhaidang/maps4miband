@@ -1,12 +1,13 @@
 import CoreLocation
 import Navigator
 import Observation
+import UIKit
 
 /// plan → first GPS fix → Vietmap route from there, shown as `preview`; Bắt đầu → Navigator on that same route
 /// → band, until arrival or Dừng. Off the route it asks Vietmap again. Each route also looks up the streets around
 /// it in the Hà Nội map bundled with the app, in the background, drawn grey on the band once they are in; without
 /// them it navigates all the same.
-// shortcut: GPS only while the app is open, background navigation is #10.
+@MainActor
 @Observable
 final class Navigation: NSObject {
     private(set) var running = false
@@ -21,6 +22,10 @@ final class Navigation: NSObject {
     private static let noLocation = "App chưa được cấp quyền vị trí. Bật trong ứng dụng Cài đặt của iPhone → Dẫn đường."
 
     @ObservationIgnored private let band: BandConnection
+    @ObservationIgnored private let rideNotification = RideNotification()
+    @ObservationIgnored private var rideStartedAt: TimeInterval = 0
+    @ObservationIgnored private var startBattery: Float = -1
+    @ObservationIgnored private var wasMonitoringBattery = false
     @ObservationIgnored private let gps = CLLocationManager()
     @ObservationIgnored private var destination = Point(lat: 0, lon: 0)
     @ObservationIgnored private var vietmapKey = ""
@@ -93,7 +98,21 @@ final class Navigation: NSObject {
         navigator = Navigator(route: preview)
         navigator?.streets = streets
         status = "Đang chờ GPS…"
+        gps.allowsBackgroundLocationUpdates = true
+        gps.pausesLocationUpdatesAutomatically = false
+        gps.showsBackgroundLocationIndicator = true
         gps.startUpdatingLocation()
+        if gps.authorizationStatus == .authorizedWhenInUse {
+            gps.requestAlwaysAuthorization()
+        }
+        let phone = UIDevice.current
+        wasMonitoringBattery = phone.isBatteryMonitoringEnabled
+        phone.isBatteryMonitoringEnabled = true
+        startBattery = phone.batteryLevel
+        rideStartedAt = ProcessInfo.processInfo.systemUptime
+        rideNotification.show(onStop: { [weak self] in self?.stop() }, onError: { [weak self] message in
+            self?.band.log.add(.nav, "Lỗi: " + message)
+        })
     }
 
     func stop() {
@@ -119,6 +138,20 @@ final class Navigation: NSObject {
         band.finish(json)
         logSent(json)
         gps.stopUpdatingLocation()
+        gps.allowsBackgroundLocationUpdates = false
+        gps.pausesLocationUpdatesAutomatically = true
+        gps.showsBackgroundLocationIndicator = false
+        rideNotification.hide()
+        let phone = UIDevice.current
+        let endBattery = phone.batteryLevel
+        phone.isBatteryMonitoringEnabled = wasMonitoringBattery
+        let elapsed = ProcessInfo.processInfo.systemUptime - rideStartedAt
+        let measurement = startBattery >= 0 && endBattery >= 0 && elapsed > 0
+            ? String(format: "pin %.0f%% → %.0f%% (%.1f%%/giờ)",
+                     startBattery * 100, endBattery * 100, Double(startBattery - endBattery) * 360_000 / elapsed)
+            : "không đọc được pin iPhone"
+        band.log.add(.nav, String(format: "Chuyến đi %.1f phút, nhịp gửi %.0f s, %@.",
+                                  elapsed / 60, Tuning.sendEvery, measurement))
         routing?.cancel()
         routing = nil
         navigator = nil
@@ -201,7 +234,7 @@ final class Navigation: NSObject {
     }
 }
 
-extension Navigation: CLLocationManagerDelegate {
+extension Navigation: @preconcurrency CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if [.denied, .restricted].contains(manager.authorizationStatus) {
             fail(Self.noLocation)

@@ -11,7 +11,8 @@ public enum Event: Equatable {
     case authenticated
     /// `installed`: package ids the band listed, to tell a missing app from an id mismatch.
     case appNotInstalled(installed: [String])
-    case messageSent
+    /// A quick-app frame queued for BLE writes. The band has not confirmed drawing it.
+    case messageQueued(payloadBytes: Int, frameBytes: Int, packets: Int)
     case sessionTakenOver
     /// The band would not take the package. PrepareStatus: 1 busy, 2 duplicated, 3 low storage, 4 low battery,
     /// 5 downgrade, 6 not supported, 7 too many apps, 255 failed.
@@ -177,8 +178,7 @@ public final class BandLink {
             // bytes as phone app status CONNECTED).
             guard let payload = pending else { return send(Command.sessionEnd(id: appPackage, sha: sha), encrypted: true) }
             pending = nil
-            return send(Command.message(id: appPackage, sha: sha, payload: payload), encrypted: true)
-                + send(Command.sessionEnd(id: appPackage, sha: sha), encrypted: true) + [.event(.messageSent)]
+            return messageWrites(payload, sha: sha, endSession: true)
         default:
             return []
         }
@@ -190,7 +190,7 @@ public final class BandLink {
             pending = payload
             return []
         }
-        return send(Command.message(id: appPackage, sha: appSha!, payload: payload), encrypted: true) + [.event(.messageSent)]
+        return messageWrites(payload, sha: appSha!)
     }
 
     /// The band only asks (20, 6) when the quick app starts; one still open from the last session never asks.
@@ -200,7 +200,17 @@ public final class BandLink {
         appOpen = true
         guard let payload = pending else { return [] }
         pending = nil
-        return send(Command.message(id: appPackage, sha: sha, payload: payload), encrypted: true) + [.event(.messageSent)]
+        return messageWrites(payload, sha: sha)
+    }
+
+    private func messageWrites(_ payload: Data, sha: Data, endSession: Bool = false) -> [Effect] {
+        let writes = send(Command.message(id: appPackage, sha: sha, payload: payload), encrypted: true)
+        let frameBytes = writes.reduce(0) { total, effect in
+            if case .write(let bytes) = effect { return total + bytes.count }
+            return total
+        }
+        let end = endSession ? send(Command.sessionEnd(id: appPackage, sha: sha), encrypted: true) : []
+        return writes + end + [.event(.messageQueued(payloadBytes: payload.count, frameBytes: frameBytes, packets: writes.count))]
     }
 
     /// Installs `rpk` as the quick app (same package), instead of opening it, once authenticated.

@@ -69,8 +69,8 @@ final class BandLinkTests: XCTestCase {
         XCTAssertEqual(l.send(V.message), [])
         _ = l.receive(V.bandList)
         XCTAssertEqual(l.receive(V.bandAsksStatus),
-                       [.write(V.ack3), .write(V.messageFrame), .write(V.sessionEnd), .event(.messageSent)])
-        XCTAssertEqual(l.send(V.message), [.write(V.secondMessageFrame), .event(.messageSent)])
+                       [.write(V.ack3), .write(V.messageFrame), .write(V.sessionEnd), .event(.messageQueued(payloadBytes: V.message.count, frameBytes: V.messageFrame.count, packets: 1))])
+        XCTAssertEqual(l.send(V.message), [.write(V.secondMessageFrame), .event(.messageQueued(payloadBytes: V.message.count, frameBytes: V.secondMessageFrame.count, packets: 1))])
     }
 
     /// Seen on the band: a quick app left open by the last trip does not ask again, so the phone stops waiting.
@@ -78,7 +78,7 @@ final class BandLinkTests: XCTestCase {
         let l = authenticated()
         XCTAssertEqual(l.send(V.message), [])
         _ = l.receive(V.bandList)
-        XCTAssertEqual(l.assumeAppOpen(), [.write(V.messageFrame), .event(.messageSent)])
+        XCTAssertEqual(l.assumeAppOpen(), [.write(V.messageFrame), .event(.messageQueued(payloadBytes: V.message.count, frameBytes: V.messageFrame.count, packets: 1))])
         // If the band does ask after all, it still gets its answer, without the message twice.
         XCTAssertEqual(l.receive(V.bandAsksStatus), [.write(V.ack3), .write(V.sessionEnd)])
         XCTAssertEqual(l.assumeAppOpen(), [])
