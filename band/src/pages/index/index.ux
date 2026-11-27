@@ -5,7 +5,7 @@
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
-      <text show="{{hasLabel}}" class="label" style="left: {{labelL}}px; top: {{labelT}}px;">{{street}}</text>
+      <text show="{{hasLabel}}" class="label" style="left: {{labelL}}px; top: {{labelT}}px; width: {{labelW}}px;">{{street}}</text>
       <!-- the phone puts the rider at (106, 460), heading up (Tuning.meX/meY) -->
       <div class="me"></div>
     </div>
@@ -52,13 +52,12 @@
 }
 .label {
   position: absolute;
-  /* LABEL_W × LABEL_H in render.js */
-  width: 150px;
+  /* width from label() in render.js, LABEL_H high, PAD of padding */
   height: 26px;
-  padding: 0 6px;
+  padding: 0 4px;
   border-radius: 6px;
   background-color: #222222;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #ffffff;
   text-align: center;
@@ -134,6 +133,7 @@ export default {
     hasLabel: false,
     labelL: 0,
     labelT: 0,
+    labelW: 0,
     street: '',
     hasArrow: false,
     arrowTransform: rotate(0),
@@ -167,16 +167,18 @@ export default {
   // (flat x,y), n = street at the first mark, a = turn angle (deg, null = no arrow), d = distance to the turn,
   // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
-    this.segs = segments(m.p || [])
+    const p = m.p || []
+    this.segs = segments(p)
     const t = m.t || []
     const marks = []
     for (let k = 0; k + 1 < t.length; k += 2) marks.push({ l: t[k] - 8, t: t[k + 1] - 8 }) // centre of the 16 px .mark
     this.marks = marks
-    const box = t.length >= 2 && m.n ? label(t[0], t[1]) : null
+    const box = t.length >= 2 && m.n ? label(t[0], t[1], m.n, p) : null
     this.hasLabel = box !== null
     if (box) {
       this.labelL = box.l
       this.labelT = box.t
+      this.labelW = box.w
       this.street = m.n
     }
     this.hasArrow = m.a !== null && m.a !== undefined
