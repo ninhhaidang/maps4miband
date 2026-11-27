@@ -1,4 +1,4 @@
-import BandLink
+@testable import BandLink
 import Foundation
 import XCTest
 
@@ -96,6 +96,13 @@ final class BandLinkTests: XCTestCase {
         let l = authenticated()
         XCTAssertEqual(l.receive(V.bandSessionReply), [.event(.sessionTakenOver)])
         XCTAssertEqual(authenticated().receive(V.bandVerify), [.write(V.ack0), .event(.sessionTakenOver)])
+    }
+
+    func testInvalidEncryptedCommandDuringAnAuthenticatedSessionReportsTakeover() {
+        let l = authenticated()
+        // Valid wire CRC, but the body does not decode as a Xiaomi Command with our keys.
+        let foreign = Frame(type: .data, seq: 2, payload: Data([1, 2, 0])).bytes
+        XCTAssertEqual(l.receive(foreign), [.write(V.ack2), .event(.sessionTakenOver)])
     }
 
     func testWritesAreSplitToTheBleWriteSize() {

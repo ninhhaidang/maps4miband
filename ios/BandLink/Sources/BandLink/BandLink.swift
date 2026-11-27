@@ -66,11 +66,19 @@ public final class BandLink {
         state = .session
         nextSeq = 0
         reader = FrameReader()
+        keys = nil
+        appSha = nil
+        appOpen = false
         return write(Frame(type: .session, seq: 0, payload: Data([1]) + Self.sessionConfig))
     }
 
     public func receive(_ chunk: Data) -> [Effect] {
-        reader.feed(chunk).flatMap(handle)
+        var effects: [Effect] = []
+        for frame in reader.feed(chunk) {
+            effects += handle(frame)
+            if state == .idle { break }
+        }
+        return effects
     }
 
     private func handle(_ frame: Frame) -> [Effect] {
@@ -91,7 +99,10 @@ public final class BandLink {
                 guard let keys else { return ack }
                 body = aesCTR(key: keys.decKey, iv: keys.decKey, body)
             }
-            guard let cmd = ProtoFields(body) else { return ack }
+            guard let cmd = ProtoFields(body), cmd[varint: 1] != nil, cmd[varint: 2] != nil else {
+                // CRC covers the ciphertext. An intact encrypted command that fails to decode can use another session's keys.
+                return state == .ready && p[1] == 2 ? ack + takenOver() : ack
+            }
             return ack + handle(cmd)
         case .ack where frame.seq == awaitingAck:
             awaitingAck = nil
@@ -246,6 +257,7 @@ public final class BandLink {
     private func takenOver() -> [Effect] {
         state = .idle
         appOpen = false
+        keys = nil
         return [.event(.sessionTakenOver)]
     }
 

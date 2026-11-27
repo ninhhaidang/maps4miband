@@ -13,11 +13,27 @@ final class BandConnection: NSObject {
     private static let rxUUID = CBUUID(string: "005E")
     private static let txUUID = CBUUID(string: "005F")
 
+    private enum Recovery: Equatable {
+        case available, reconnecting, used, paused(String)
+    }
+
+    private static let takeoverWarning = "Mi Fitness đang giành kết nối. Hãy đóng hẳn Mi Fitness rồi thử lại."
+
     let log = Log()
+    private var recovery = Recovery.available
+
+    var retryMessage: String? {
+        if case .paused(let message) = recovery { return message }
+        return nil
+    }
     private(set) var busy = false
     /// Install progress 0...1 while an install runs, nil otherwise.
     private(set) var progress: Double?
 
+    @ObservationIgnored private let write: ((Data) -> Void)?
+    @ObservationIgnored private let nonce: () -> Data
+    @ObservationIgnored private var resumeFrame: (() -> Data)?
+    @ObservationIgnored private var assumeOpen: DispatchWorkItem?
     @ObservationIgnored private var central: CBCentralManager?
     @ObservationIgnored private var peripheral: CBPeripheral?
     @ObservationIgnored private var tx: CBCharacteristic?
@@ -34,24 +50,32 @@ final class BandConnection: NSObject {
     @ObservationIgnored private var rideMaxFrame: Int?
     @ObservationIgnored private var finishingTask = UIBackgroundTaskIdentifier.invalid
 
+    init(write: ((Data) -> Void)? = nil, nonce: @escaping () -> Data = BandLink.randomNonce) {
+        self.write = write
+        self.nonce = nonce
+        super.init()
+    }
+
     /// Connects, authenticates, opens the quick app, sends `payload` once, then releases the band.
     func sendOnce(authKey: String, payload: Data) {
         begin(authKey: authKey, installing: false) { $0.send(payload) }
     }
 
     /// Connects, authenticates, opens the quick app with `first` and keeps the band for `send` until `finish`.
-    func stream(authKey: String, first: Data) {
+    func stream(authKey: String, first: Data, resumeFrame: @escaping () -> Data) {
         guard !busy else { return }
         begin(authKey: authKey, installing: false) { _ in [] }
         streaming = busy
-        if streaming { rideMaxFrame = 0 }
+        guard streaming else { return }
+        rideMaxFrame = 0
+        self.resumeFrame = resumeFrame
         // Waits in the link from now, so any screen sent before the band answers replaces it, not the other way round.
         send(first)
     }
 
     /// Replaces the band's screen while streaming. Before the quick app is open only the newest one waits.
     func send(_ payload: Data) {
-        guard streaming, let link else { return }
+        guard streaming, retryMessage == nil, let link else { return }
         run(link.send(payload))
     }
 
@@ -62,6 +86,7 @@ final class BandConnection: NSObject {
     @MainActor
     func finish(_ payload: Data) {
         guard busy, let link else { return }
+        if retryMessage != nil { return release("Đã dừng, đã nhả kết nối cho Mi Fitness.") }
         streaming = false
         // GPS stops immediately, but the final BLE writes still need time on the Lock Screen.
         finishingTask = UIApplication.shared.beginBackgroundTask(withName: "Finish navigation") { [weak self] in
@@ -78,12 +103,38 @@ final class BandConnection: NSObject {
 
     /// Drops the connection; the band abandons a half-sent package.
     func cancel() {
-        fail("Đã huỷ.")
+        release("Lỗi: Đã huỷ.")
+    }
+
+    func retry() {
+        guard retryMessage != nil else { return }
+        restartSession()
+    }
+
+    private func restartSession() {
+        recovery = .reconnecting
+        assumeOpen?.cancel()
+        outbox.removeAll()
+        stuck = "Không xác thực lại được với vòng. Hãy đóng hẳn Mi Fitness rồi thử lại."
+        armTimeout()
+        if write != nil || (tx != nil && peripheral?.state == .connected) {
+            startSession()
+        } else {
+            connect()
+        }
+        if let resumeFrame { send(resumeFrame()) }
+    }
+
+    private func startSession() {
+        guard let link, let job else { return }
+        note("Đang xác thực…")
+        run(link.start())
+        run(job(link))
     }
 
     private func begin(authKey: String, installing: Bool, job: @escaping (BandLink) -> [Effect]) {
         guard !busy else { return }
-        guard let link = BandLink(authKey: authKey, appPackage: Self.appPackage) else {
+        guard let link = BandLink(authKey: authKey, appPackage: Self.appPackage, nonce: nonce) else {
             return note("Lỗi: AuthKey phải gồm đúng 32 ký tự hex. Vào Cài đặt nhập lại.")
         }
         busy = true
@@ -93,6 +144,10 @@ final class BandConnection: NSObject {
         note("Đang tìm vòng…")
         stuck = "Vòng không phản hồi sau 30 giây. Hãy đóng hẳn Mi Fitness rồi thử lại."
         armTimeout()
+        if write != nil { startSession() } else { connect() }
+    }
+
+    private func connect() {
         if let central { centralManagerDidUpdateState(central) } else { central = CBCentralManager(delegate: self, queue: nil) }
     }
 
@@ -111,11 +166,23 @@ final class BandConnection: NSObject {
         }
         note("Thấy vòng \(p.name ?? p.identifier.uuidString), đang kết nối…")
         peripheral = p
+        tx = nil
         p.delegate = self
         central?.connect(p)
     }
 
+    func receive(_ bytes: Data) {
+        guard retryMessage == nil, let link else { return }
+        run(link.receive(bytes))
+    }
+
     private func run(_ effects: [Effect]) {
+        // None of the queued writes belong to a usable session after a takeover.
+        if effects.contains(.event(.sessionTakenOver)) {
+            outbox.removeAll()
+            handle(.sessionTakenOver)
+            return
+        }
         for effect in effects {
             switch effect {
             case .write(let bytes): outbox.append(bytes)
@@ -126,6 +193,12 @@ final class BandConnection: NSObject {
     }
 
     private func flush() {
+        if let write {
+            let pending = outbox
+            outbox.removeAll()
+            pending.forEach(write)
+            return
+        }
         guard let p = peripheral, let tx else { return }
         while !outbox.isEmpty, writeType == .withResponse || p.canSendWriteWithoutResponse {
             p.writeValue(outbox.removeFirst(), for: tx, type: writeType)
@@ -141,20 +214,34 @@ final class BandConnection: NSObject {
                 : "Vòng ngừng phản hồi khi đang cài. Thử lại; nếu vẫn lỗi, cài bằng AstroBox trên Mac."
             // A quick app left open by the last trip never says it opened; a cold start took ~1 s on the band.
             if progress == nil, let link {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                    guard let self, self.link === link else { return }
+                assumeOpen?.cancel()
+                let assumeOpen = DispatchWorkItem { [weak self, weak link] in
+                    guard let self, let link, self.link === link else { return }
                     run(link.assumeAppOpen())
                 }
+                self.assumeOpen = assumeOpen
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: assumeOpen)
             }
-        case .authKeyRejected: fail("AuthKey sai: vòng từ chối xác thực. Lấy lại AuthKey bằng tools/fetch_authkey.py trên Mac.")
+        case .authKeyRejected:
+            fail(recovery == .reconnecting ? Self.takeoverWarning
+                 : "AuthKey sai: vòng từ chối xác thực. Lấy lại AuthKey bằng tools/fetch_authkey.py trên Mac.")
         case .appNotInstalled(let installed):
             note("App trên vòng: \(installed.joined(separator: ", "))")
             fail("Quick app “Dẫn đường” chưa được cài trên vòng. Bấm “Cài app lên vòng”.")
-        case .sessionTakenOver: fail("Mi Fitness đang giành kết nối — hãy đóng hẳn Mi Fitness rồi thử lại.")
+        case .sessionTakenOver:
+            if !streaming {
+                fail(Self.takeoverWarning)
+            } else if recovery == .available {
+                note("Mi Fitness đã giành kết nối. Đang xác thực lại với vòng…")
+                restartSession()
+            } else {
+                pause(Self.takeoverWarning)
+            }
         case .messageQueued(let payloadBytes, let frameBytes, let packets):
             note("Khung \(payloadBytes) B → \(packets) gói BLE, \(frameBytes) B")
             if let largest = rideMaxFrame { rideMaxFrame = max(largest, frameBytes) }
             if streaming {
+                if recovery == .reconnecting { recovery = .used }
                 if timeout != nil { note("Vòng đã mở app dẫn đường.") }
                 timeout?.cancel()
                 timeout = nil
@@ -188,12 +275,27 @@ final class BandConnection: NSObject {
     }
 
     private func fail(_ message: String) {
-        release("Lỗi: " + message)
+        if streaming && (recovery == .reconnecting || retryMessage != nil) {
+            pause(message)
+        } else {
+            release("Lỗi: " + message)
+        }
+    }
+
+    private func pause(_ message: String) {
+        recovery = .paused(message)
+        timeout?.cancel()
+        timeout = nil
+        assumeOpen?.cancel()
+        outbox.removeAll()
+        note("Lỗi: " + message)
     }
 
     private func release(_ message: String) {
         guard busy else { return }
         timeout?.cancel()
+        timeout = nil
+        assumeOpen?.cancel()
         flush() // the ack of the band's last reply
         if let p = peripheral { central?.cancelPeripheralConnection(p) }
         peripheral = nil
@@ -203,6 +305,8 @@ final class BandConnection: NSObject {
         job = nil
         progress = nil
         streaming = false
+        recovery = .available
+        resumeFrame = nil
         if let largest = rideMaxFrame, largest > 0 { note("Khung BLE lớn nhất chuyến đi: \(largest) B.") }
         rideMaxFrame = nil
         busy = false
@@ -220,9 +324,10 @@ final class BandConnection: NSObject {
 
 extension BandConnection: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        guard busy else { return }
+        guard busy, retryMessage == nil else { return }
         switch central.state {
-        case .poweredOn: findBand()
+        case .poweredOn:
+            if peripheral?.state != .connected || tx == nil { findBand() }
         case .unknown, .resetting: break
         case .unauthorized: fail("App chưa được cấp quyền Bluetooth. Bật trong ứng dụng Cài đặt của iPhone → Dẫn đường.")
         default: fail("Bluetooth của iPhone đang tắt.")
@@ -230,21 +335,30 @@ extension BandConnection: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        guard peripheral === self.peripheral else { return }
         note("Đã kết nối.")
         peripheral.discoverServices([Self.service])
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        guard peripheral === self.peripheral else { return }
+        self.peripheral = nil
+        tx = nil
         fail("Không kết nối được vòng: \(error?.localizedDescription ?? "không rõ lý do").")
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        guard peripheral === self.peripheral else { return }
+        self.peripheral = nil
+        tx = nil
+        if retryMessage != nil { return }
         fail(progress == nil ? "Mất kết nối với vòng." : "Mất kết nối với vòng khi đang cài. Đưa vòng lại gần rồi cài lại.")
     }
 }
 
 extension BandConnection: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        guard peripheral === self.peripheral, retryMessage == nil else { return }
         guard let s = peripheral.services?.first(where: { $0.uuid == Self.service }) else {
             return fail("Vòng không có dịch vụ Bluetooth fe95 của Xiaomi.")
         }
@@ -252,37 +366,46 @@ extension BandConnection: CBPeripheralDelegate {
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        guard peripheral === self.peripheral, retryMessage == nil else { return }
         let chars = service.characteristics ?? []
         guard let rx = chars.first(where: { $0.uuid == Self.rxUUID }),
-              let tx = chars.first(where: { $0.uuid == Self.txUUID }) else {
+              chars.contains(where: { $0.uuid == Self.txUUID }) else {
             return fail("Vòng không có kênh dữ liệu 005e/005f (giao thức BLE V2).")
         }
-        self.tx = tx
-        writeType = tx.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
-        peripheral.setNotifyValue(true, for: rx)
+        if rx.isNotifying {
+            self.peripheral(peripheral, didUpdateNotificationStateFor: rx, error: nil)
+        } else {
+            peripheral.setNotifyValue(true, for: rx)
+        }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        guard error == nil, characteristic.isNotifying, let link, let job else {
+        guard peripheral === self.peripheral, retryMessage == nil, characteristic.uuid == Self.rxUUID else { return }
+        guard error == nil, characteristic.isNotifying, let link,
+              let tx = characteristic.service?.characteristics?.first(where: { $0.uuid == Self.txUUID }) else {
+            self.tx = nil
             return fail("Không bật được thông báo từ vòng: \(error?.localizedDescription ?? "không rõ lý do").")
         }
-        note("Đang xác thực…")
+        guard self.tx == nil else { return }
+        self.tx = tx
+        writeType = tx.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
         link.maxWriteLength = peripheral.maximumWriteValueLength(for: writeType)
         note("Gói BLE tối đa \(link.maxWriteLength) B, ghi \(writeType == .withoutResponse ? "không chờ" : "chờ") phản hồi.")
-        run(link.start())
-        run(job(link))
+        startSession()
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let value = characteristic.value, let link else { return }
-        run(link.receive(value))
+        guard peripheral === self.peripheral, error == nil, let value = characteristic.value else { return }
+        receive(value)
     }
 
     func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+        guard peripheral === self.peripheral else { return }
         flush()
     }
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard peripheral === self.peripheral, retryMessage == nil else { return }
         if let error { fail("Ghi xuống vòng thất bại: \(error.localizedDescription)") }
     }
 }

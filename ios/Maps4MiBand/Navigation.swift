@@ -87,14 +87,23 @@ final class Navigation: NSObject {
     func start(authKey: String) {
         guard !running, !planning, !band.busy, let preview else { return }
         let first = BandMessage(i: "Đang chờ GPS…")
-        band.stream(authKey: authKey, first: first.json)
+        band.stream(authKey: authKey, first: first.json) { [weak self] in
+            guard let self else { return first.json }
+            // A reopened quick app may have lost its street layer, and an old turn must not buzz again.
+            navigator?.forgetLayer()
+            owedBuzz = false
+            var frame = shown ?? first
+            if frame.s == nil { frame.o = nil }
+            frame.v = nil
+            return frame.json
+        }
         guard band.busy else {
             band.log.add(.nav, "Lỗi: không kết nối được vòng")
             status = "Không kết nối được vòng, xem nhật ký."
             return
         }
         band.log.add(.nav, "Bắt đầu dẫn đường, tuyến \(formatDistance(preview.length))")
-        logSent(first.json)
+        logFrame(first.json)
         (running, shown, owedBuzz) = (true, first, false)
         navigator = Navigator(route: preview)
         navigator?.streets = streets
@@ -143,7 +152,7 @@ final class Navigation: NSObject {
         running = false
         let json = last.json
         band.finish(json)
-        logSent(json)
+        logFrame(json)
         gps.stopUpdatingLocation()
         gps.allowsBackgroundLocationUpdates = false
         gps.pausesLocationUpdatesAutomatically = true
@@ -234,11 +243,11 @@ final class Navigation: NSObject {
         if band.opening { navigator?.forgetLayer() }
         shown = m
         rideActivity.update(m)
-        logSent(json)
+        logFrame(json)
     }
 
-    /// The JSON the band got, but the grey-street picture as its size: ~11 KB of base64 a line buried the log.
-    private func logSent(_ json: Data) {
+    /// The JSON generated for the band, with the grey-street picture shown as its size.
+    private func logFrame(_ json: Data) {
         band.log.add(.nav, String(decoding: json, as: UTF8.self).replacing(/"s":"([^"]*)"/) { #""s":"<ảnh \#($0.1.count) ký tự base64>""# })
     }
 }

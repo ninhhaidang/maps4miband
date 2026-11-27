@@ -103,7 +103,20 @@ struct MapTab: View {
             if !nav.running {
                 searchBox
             } else if let shown = nav.shown {
-                card(shown)
+                VStack(spacing: 8) {
+                    card(shown)
+                    if let message = band.retryMessage {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(message)
+                            Button("Thử lại", systemImage: "arrow.clockwise") { band.retry() }
+                                .buttonStyle(.borderedProminent)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(.regularMaterial, in: .rect(cornerRadius: 16))
+                        .padding(.horizontal)
+                    }
+                }
             }
         }
         .safeAreaInset(edge: .bottom) {
