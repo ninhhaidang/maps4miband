@@ -14,7 +14,7 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.d, "80 m")
         XCTAssertEqual(m.i, "Chếch phải vào Ngõ 73 Nguyễn Trãi")
         XCTAssertEqual(m.r, "Còn 1.4 km")
-        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460])
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 345])
 
         let p = route.points[0] // stays 80 m from the turn: no new buzz
         XCTAssertEqual(nav.update(p, at: t0 + 0.5), [])
@@ -52,8 +52,8 @@ final class NavigatorTests: XCTestCase {
         ])
         let first = Navigator(route: r).update(o, at: t0)
         guard case .send(let m) = first.first else { return XCTFail("\(first)") }
-        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460]) // rider near the bottom, heading up, 2 m/px
-        XCTAssertEqual(m.t, [106, 410, 156, 410]) // both turns; the arrival is not a turn
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 345]) // rider in the middle of the map, north up, 2 m/px
+        XCTAssertEqual(m.t, [156, 345, 156, 395]) // both turns; the arrival is not a turn
         XCTAssertEqual(m.n, "Láng Hạ")
     }
 
@@ -65,7 +65,7 @@ final class NavigatorTests: XCTestCase {
         let o = street.points[0], m = 1 / (111_320 * cos(o.lat * .pi / 180))
         nav.streets = [[Point(lat: o.lat + 50 / 111_320.0, lon: o.lon + 100 * m), Point(lat: o.lat - 50 / 111_320.0, lon: o.lon + 100 * m)]]
         guard case .send(let after) = nav.update(street.points[0], at: t0 + 1).first else { return XCTFail() }
-        XCTAssertEqual(after.g, [81, 410, 131, 410])
+        XCTAssertEqual(after.g, [156, 320, 156, 370])
     }
 
     func testDrawsAtMost100SegmentsTheMostTheBandRedrawsEverySecond() throws {
@@ -77,7 +77,7 @@ final class NavigatorTests: XCTestCase {
         let first = Navigator(route: r).update(o, at: t0)
         guard case .send(let m) = first.first else { return XCTFail("\(first)") }
         XCTAssertEqual(m.p!.count / 2 - 1, 100)
-        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460]) // the near end is kept, the far end goes
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 345]) // the near end is kept, the far end goes
     }
 
     /// Rides `route` in 5 m steps, 0.1 s apart (faster than frames go out), and returns everything sent.

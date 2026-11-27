@@ -1,7 +1,7 @@
 import Foundation
 
-/// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,460,
-/// heading up), t = turn marks on it (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street of the
+/// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,345,
+/// north up), t = turn marks on it (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street of the
 /// first mark, a = turn angle (+ right, nil = no arrow), d = distance to the turn, i = instruction, r = remaining,
 /// v = 1 to buzz.
 /// A message with only `i` is a status message.

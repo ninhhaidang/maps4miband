@@ -13,8 +13,8 @@ struct Maps4MiBandApp: App {
 /// The quick app build bundled by the "Bundle band .rpk" build phase (newest band/dist/*.rpk), if there was one.
 let bundledRpk = Bundle.main.url(forResource: "band", withExtension: "rpk").flatMap { try? Data(contentsOf: $0) }
 
-/// One screen in the quick app's message format (BandMessage): rider at 106,460 heading up, a left turn 160 m ahead.
-let sampleFrame = Data(#"{"p":[106,510,106,460,106,380,40,380],"t":[106,380],"n":"Phố Tôn Đức Thắng","a":-90,"d":"160 m","i":"Rẽ trái vào Phố Tôn Đức Thắng","r":"Còn 1.6 km","v":1}"#.utf8)
+/// One screen in the quick app's message format (BandMessage): rider at 106,345 north up, a left turn 160 m north.
+let sampleFrame = Data(#"{"p":[106,395,106,345,106,265,40,265],"t":[106,265],"n":"Phố Tôn Đức Thắng","a":-90,"d":"160 m","i":"Rẽ trái vào Phố Tôn Đức Thắng","r":"Còn 1.6 km","v":1}"#.utf8)
 
 /// Bản đồ · Nhật ký · Cài đặt; opens on Cài đặt while a key is missing.
 struct ContentView: View {
@@ -63,7 +63,7 @@ struct ContentView: View {
 }
 
 /// The map fills the tab. Idle: search box on top with results dropping down from it, the route's length and
-/// Bắt đầu in a card at the bottom. Navigating: the map follows the rider heading-up, under a card showing what
+/// Bắt đầu in a card at the bottom. Navigating: the map follows the rider north-up like the band, under a card showing what
 /// the band shows, with Dừng below.
 struct MapTab: View {
     let band: BandConnection
@@ -119,7 +119,7 @@ struct MapTab: View {
             }
         }
         .onChange(of: nav.running) {
-            camera = nav.running ? .userLocation(followsHeading: true, fallback: .automatic) : nav.preview.map(fit) ?? camera
+            camera = nav.running ? .userLocation(fallback: .automatic) : nav.preview.map(fit) ?? camera
         }
         .onChange(of: nav.preview?.points) {
             if !nav.running, let route = nav.preview { camera = fit(route) }

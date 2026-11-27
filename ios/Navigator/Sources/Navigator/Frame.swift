@@ -2,10 +2,10 @@ import Foundation
 
 /// Every number to tune after a test ride, in one place.
 public enum Tuning {
-    /// Rider marker in band px, near the bottom under the instruction panel; must match `.me` in
-    /// band/src/pages/index/index.ux.
+    /// Rider marker in band px, in the middle of the map under the instruction panel: north is up, so the route may
+    /// leave it any way. Must match `.me` in band/src/pages/index/index.ux.
     static let meX = 106.0
-    static let meY = 460.0
+    static let meY = 345.0
     /// The map on the band: 212×520 px, the instruction panel covering y < 170 (MAP_TOP in band/src/common/render.js).
     static let screenW = 212.0
     static let screenH = 520.0
@@ -34,7 +34,7 @@ public enum Tuning {
     static let rerouteEvery: TimeInterval = 10
 }
 
-/// Where the rider is on the route, and the heading-up screen polyline. `seg` is the segment snapped to;
+/// Where the rider is on the route, and the north-up screen polyline. `seg` is the segment snapped to;
 /// feed it back as the next `hint`.
 /// `marks` are the turns in the drawn stretch (street-name changes and the arrival left out), flat x,y like
 /// `poly`; the first of them, if any, is `turn`. `streets` are grey segments, flat x1,y1,x2,y2.
@@ -49,7 +49,7 @@ struct Frame {
     let seg: Int
 }
 
-/// Snaps `here` to the route and builds the heading-up polyline in band px, with the `streets` around it.
+/// Snaps `here` to the route and builds the north-up polyline in band px, with the `streets` around it.
 /// Only searches forward from `hint` so an out-and-back route can't snap to the return leg.
 func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> Frame {
     let pts = route.points, cum = route.cum
@@ -69,13 +69,9 @@ func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> F
     let a = pts[best], b = pts[best + 1]
     let snap = Point(lat: a.lat + bestT * (b.lat - a.lat), lon: a.lon + bestT * (b.lon - a.lon))
 
-    // Heading from the route rather than GPS: GPS bearing is noise at walking speed.
-    let (he, hn) = local(a, b)
-    let h = atan2(he, hn)
     func screen(_ p: Point) -> (x: Double, y: Double) {
         let (e, n) = local(snap, p)
-        return (Tuning.meX + (e * cos(h) - n * sin(h)) / Tuning.metresPerPx,
-                Tuning.meY - (e * sin(h) + n * cos(h)) / Tuning.metresPerPx)
+        return (Tuning.meX + e / Tuning.metresPerPx, Tuning.meY - n / Tuning.metresPerPx)
     }
     var poly: [Int] = []
     var last = (x: Double.nan, y: Double.nan)
