@@ -193,6 +193,16 @@ public final class BandLink {
         return send(Command.message(id: appPackage, sha: appSha!, payload: payload), encrypted: true) + [.event(.messageSent)]
     }
 
+    /// The band only asks (20, 6) when the quick app starts; one still open from the last session never asks.
+    /// Once launched, call this when that question is overdue: the waiting message goes straight to the app.
+    public func assumeAppOpen() -> [Effect] {
+        guard state == .ready, rpk == nil, !appOpen, let sha = appSha else { return [] }
+        appOpen = true
+        guard let payload = pending else { return [] }
+        pending = nil
+        return send(Command.message(id: appPackage, sha: sha, payload: payload), encrypted: true) + [.event(.messageSent)]
+    }
+
     /// Installs `rpk` as the quick app (same package), instead of opening it, once authenticated.
     public func install(_ rpk: Data) -> [Effect] {
         self.rpk = rpk

@@ -126,6 +126,13 @@ final class BandConnection: NSObject {
             stuck = progress == nil
                 ? "Quick app “Dẫn đường” không mở trên vòng. Kiểm tra app đã cài và thử lại."
                 : "Vòng ngừng phản hồi khi đang cài. Thử lại; nếu vẫn lỗi, cài bằng AstroBox trên Mac."
+            // A quick app left open by the last trip never says it opened; a cold start took ~1 s on the band.
+            if progress == nil, let link {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                    guard let self, self.link === link else { return }
+                    run(link.assumeAppOpen())
+                }
+            }
         case .authKeyRejected: fail("AuthKey sai: vòng từ chối xác thực. Lấy lại AuthKey bằng tools/fetch_authkey.py trên Mac.")
         case .appNotInstalled(let installed):
             note("App trên vòng: \(installed.joined(separator: ", "))")

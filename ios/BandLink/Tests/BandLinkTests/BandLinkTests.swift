@@ -73,6 +73,23 @@ final class BandLinkTests: XCTestCase {
         XCTAssertEqual(l.send(V.message), [.write(V.secondMessageFrame), .event(.messageSent)])
     }
 
+    /// Seen on the band: a quick app left open by the last trip does not ask again, so the phone stops waiting.
+    func testMessageGoesToAQuickAppThatWasAlreadyOpen() {
+        let l = authenticated()
+        XCTAssertEqual(l.send(V.message), [])
+        _ = l.receive(V.bandList)
+        XCTAssertEqual(l.assumeAppOpen(), [.write(V.messageFrame), .event(.messageSent)])
+        // If the band does ask after all, it still gets its answer, without the message twice.
+        XCTAssertEqual(l.receive(V.bandAsksStatus), [.write(V.ack3), .write(V.sessionEnd)])
+        XCTAssertEqual(l.assumeAppOpen(), [])
+    }
+
+    func testNothingIsAssumedBeforeTheQuickAppIsLaunched() {
+        let l = authenticated()
+        _ = l.send(V.message)
+        XCTAssertEqual(l.assumeAppOpen(), [])
+    }
+
     /// On iOS every app shares one BLE link: once we are in, a session reply or auth reply we did not
     /// ask for means another app (Mi Fitness) has just started its own session (AstroBox report_shared_link).
     func testAnotherAppsHandshakeIsReportedAsTakeover() {
