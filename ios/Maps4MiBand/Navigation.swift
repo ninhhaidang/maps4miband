@@ -189,6 +189,8 @@ final class Navigation: NSObject {
         let json = m.json
         band.send(json)
         owedBuzz = band.opening && m.v == 1
+        // A later screen may replace this one before the app opens: the grey layer goes again with the next.
+        if band.opening { navigator?.forgetLayer() }
         shown = m
         logSent(json)
     }

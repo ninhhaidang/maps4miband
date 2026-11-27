@@ -1,14 +1,15 @@
 import Foundation
 
 /// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,345,
-/// north up), t = turn marks on it (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street of the
-/// first mark, h = the rider's heading (degrees clockwise from north), a = turn angle (+ right, nil = no arrow),
+/// north up), t = turn marks on it (flat x,y), s = a new layer of grey streets (flat x1,y1,x2,y2 from its top-left),
+/// o = where the layer's top-left goes on the screen (x,y; nil = no layer), n = street of the first mark, h = the rider's heading (degrees clockwise from north), a = turn angle (+ right, nil = no arrow),
 /// d = distance to the turn, i = instruction, r = remaining, v = 1 to buzz.
 /// A message with only `i` is a status message.
 public struct BandMessage: Encodable, Equatable {
     public var p: [Int]?
     public var t: [Int]?
-    public var g: [Int]?
+    public var s: [Int]?
+    public var o: [Int]?
     public var n: String?
     public var h: Int?
     public var a: Int?
@@ -17,9 +18,10 @@ public struct BandMessage: Encodable, Equatable {
     public var r: String?
     public var v: Int?
 
-    public init(p: [Int]? = nil, t: [Int]? = nil, g: [Int]? = nil, n: String? = nil, h: Int? = nil, a: Int? = nil,
-                d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
-        (self.p, self.t, self.g, self.n, self.h, self.a, self.d, self.i, self.r, self.v) = (p, t, g, n, h, a, d, i, r, v)
+    public init(p: [Int]? = nil, t: [Int]? = nil, s: [Int]? = nil, o: [Int]? = nil, n: String? = nil, h: Int? = nil,
+                a: Int? = nil, d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
+        (self.p, self.t, self.s, self.o, self.n, self.h, self.a, self.d, self.i, self.r, self.v) =
+            (p, t, s, o, n, h, a, d, i, r, v)
     }
 
     /// Keys sorted so the same screen is always the same bytes, in the log too.
@@ -42,7 +44,9 @@ public final class Navigator {
 
     private var route: Route
     /// Streets around the route (StreetMap), drawn grey once they are in; none until then.
-    public var streets: [[Point]] = []
+    public var streets: [[Point]] = [] { didSet { anchor = nil } }
+    /// Middle of the grey layer the band has; nil = send a new one.
+    private var anchor: Point?
     private var seg = 0
     private var lastSend: Date?
     private var done = false
@@ -69,9 +73,14 @@ public final class Navigator {
         rerouting = false
     }
 
+    /// The band may not have the grey layer (its app was still opening): send it again with the next frame.
+    public func forgetLayer() {
+        anchor = nil
+    }
+
     public func update(_ here: Point, at time: Date) -> [Effect] {
         guard !done else { return [] }
-        let f = frame(route, here: here, hint: seg, streets: streets)
+        let f = frame(route, here: here, hint: seg)
         let onRoute = f.offRoute <= Tuning.offRouteM
         // Off the route the snap is a guess; keep the last good one so rejoining where we left counts as back.
         if onRoute { seg = f.seg }
@@ -93,7 +102,19 @@ public final class Navigator {
         buzzes = max(buzzes, due)
         if !buzz, let lastSend, time.timeIntervalSince(lastSend) < Tuning.sendEvery { return [] }
         lastSend = time
-        return [.send(BandMessage(p: f.poly, t: f.marks, g: f.streets.isEmpty ? nil : f.streets,
+        var layerSegs: [Int]?, layerAt: [Int]?
+        if !streets.isEmpty {
+            // Past the layer's margin the screen would show its edge.
+            let off = anchor.map { local($0, f.snap) }.map { max(abs($0.e), abs($0.n)) } ?? .infinity
+            if off > Tuning.layerMarginPx * Tuning.metresPerPx {
+                anchor = f.snap
+                layerSegs = layer(streets, around: f.snap)
+            }
+            let (e, n) = local(f.snap, anchor!)
+            layerAt = [Int((Tuning.meX + e / Tuning.metresPerPx - layerW / 2).rounded()),
+                       Int((Tuning.meY - n / Tuning.metresPerPx - layerH / 2).rounded())]
+        }
+        return [.send(BandMessage(p: f.poly, t: f.marks, s: layerSegs, o: layerAt,
                                   n: f.marks.isEmpty ? nil : f.turn.street, h: f.heading, a: f.turn.angle,
                                   d: formatDistance(f.toTurn), i: f.turn.text, r:"Còn \(formatDistance(f.remaining))", v: buzz ? 1 : 0))]
     }

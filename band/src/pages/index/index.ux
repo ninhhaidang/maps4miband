@@ -1,9 +1,12 @@
 <template>
   <!-- Later children draw on top: the map fills the page, the panel covers its top MAP_TOP px. -->
-  <stack class="page" onlongpress="openProbe">
+  <stack class="page">
     <div class="map">
-      <div for="{{streets}}" class="street"
-           style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
+      <!-- Grey streets, built once per layer and then only moved: the band can't redraw this many each second. -->
+      <div show="{{hasLayer}}" class="layer" style="left: {{layerL}}px; top: {{layerT}}px;">
+        <div for="{{streets}}" class="street"
+             style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
+      </div>
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
@@ -42,6 +45,12 @@
   background-color: #2f8cff;
   /* px only: the band reads 50% as 50px */
   transform-origin: 4px 4px;
+}
+.layer {
+  position: absolute;
+  /* layerW × layerH in ios/Navigator Frame.swift: the map plus 50 px each side */
+  width: 312px;
+  height: 450px;
 }
 .street {
   position: absolute;
@@ -128,7 +137,6 @@
 
 <script>
 import interconnect from '@system.interconnect'
-import router from '@system.router'
 import brightness from '@system.brightness'
 import vibrator from '@system.vibrator'
 import { segments, streets, rotate, label } from '../../common/render.js'
@@ -136,6 +144,9 @@ import { segments, streets, rotate, label } from '../../common/render.js'
 export default {
   private: {
     streets: [],
+    hasLayer: false,
+    layerL: 0,
+    layerT: 0,
     segs: [],
     marks: [],
     hasLabel: false,
@@ -170,17 +181,19 @@ export default {
   onDestroy() {
     brightness.setKeepScreenOn({ keepScreenOn: false })
   },
-  // shortcut: opens the #15 measuring page; goes with it.
-  openProbe() {
-    router.push({ uri: 'pages/probe' })
-  },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
-  // (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street at the first mark, a = turn angle (deg,
+  // (flat x,y), s = a new layer of grey streets (flat x1,y1,x2,y2 from its top-left), o = where the layer's top-left
+  // goes (x,y; none = hide it), n = street at the first mark, a = turn angle (deg,
   // null = no arrow), h = the rider's heading (deg clockwise from north), d = distance to the turn,
   // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     const p = m.p || []
-    this.streets = streets(m.g || [])
+    if (m.s) this.streets = streets(m.s)
+    this.hasLayer = !!m.o
+    if (m.o) {
+      this.layerL = m.o[0]
+      this.layerT = m.o[1]
+    }
     this.segs = segments(p)
     const t = m.t || []
     const marks = []

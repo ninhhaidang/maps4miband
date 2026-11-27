@@ -40,30 +40,36 @@ final class FrameTests: XCTestCase {
         Maneuver(at: 0, text: "", angle: nil), Maneuver(at: 1, text: "", angle: 90), Maneuver(at: 2, text: "", angle: nil),
     ])
 
-    func testDrawsStreetsAroundTheRouteClippedToTheMapNearestTheTurnFirst() {
+    func testALayerOfStreetsAroundTheAnchorCutToItsBoxNearestFirst() {
+        // The box is the map plus 100 m each side: 312×450 px, the anchor in its middle at (156, 225).
         let streets = [
-            [at(east: 0, north: 20), at(east: 1000, north: 20)], // parallel, 20 m north, runs off the right edge
-            [at(east: 100, north: 0), at(east: 100, north: 100)], // carries on north at the turn
-            [at(east: 2000, north: 0), at(east: 2000, north: 100)], // far off the map
-            [o, at(east: 100, north: 0), at(east: 100, north: -50)], // the route's own street, hidden under it
+            [at(east: 0, north: 20), at(east: 1000, north: 20)], // 20 m north, runs off the right edge
+            [at(east: 100, north: 0), at(east: 100, north: 100)], // 100 m east, going north
+            [at(east: 2000, north: 0), at(east: 2000, north: 100)], // far off
         ]
-        let f = frame(r, here: o, hint: 0, streets: streets)
-        XCTAssertEqual(f.streets, [156, 345, 156, 295, 106, 335, 212, 335])
+        XCTAssertEqual(layer(streets, around: o), [156, 215, 312, 215, 206, 225, 206, 175])
     }
 
-    func testStreetsGetOnlyTheSegmentsTheRouteLeavesOf100() {
-        // 120 short streets 40–50 m west of the start, 5.5 m apart from 330 m south to 325 m north.
-        let streets = (0..<120).map { k in
-            let north = -330 + 5.5 * Double(k)
-            return [at(east: -50, north: north), at(east: -40, north: north)]
+    func testStreetsAreSimplifiedToWithin2MOfWhereTheyAre() {
+        // 100 m east with a point every 10 m, each up to 0.5 m off the line: one segment.
+        let wobbly = (0...10).map { k in at(east: 10 * Double(k), north: k % 2 == 0 ? 0.5 : -0.5) }
+        XCTAssertEqual(layer([wobbly], around: o), [156, 225, 206, 225])
+        // A real corner stays.
+        let corner = [at(east: 0, north: -40), at(east: 50, north: -40), at(east: 50, north: -80)]
+        XCTAssertEqual(layer([corner], around: o), [156, 245, 181, 245, 181, 245, 181, 265])
+    }
+
+    func testALayerHoldsAt300SegmentsTheBandCanMove() {
+        // 400 short streets 10 m apart, 100 m each way around the anchor.
+        let streets = (0..<400).map { k in
+            let e = -100 + 10 * Double(k % 20), n = -100 + 10 * Double(k / 20)
+            return [at(east: e, north: n), at(east: e + 6, north: n)]
         }
-        let f = frame(r, here: o, hint: 0, streets: streets)
-        XCTAssertEqual(f.poly.count / 2 - 1, 2)
-        XCTAssertEqual(f.streets.count / 4, 98)
-        let ys = stride(from: 1, to: f.streets.count, by: 4).map { f.streets[$0] }
-        XCTAssertTrue(ys.contains(345)) // the one level with the turn stays
-        XCTAssertLessThan(ys.max()!, 510) // the far ends, south and north of the turn, go
-        XCTAssertGreaterThan(ys.min()!, 183)
+        let l = layer(streets, around: o)
+        XCTAssertEqual(l.count / 4, 300)
+        let starts = stride(from: 0, to: l.count, by: 4).map { [l[$0], l[$0 + 1]] }
+        XCTAssertTrue(starts.contains([156, 225]), "the one at the anchor stays")
+        XCTAssertFalse(starts.contains([106, 275]), "the far corner goes")
     }
 
     func testAfterTheUturnItDoesNotSnapBackToTheOutboundLeg() {

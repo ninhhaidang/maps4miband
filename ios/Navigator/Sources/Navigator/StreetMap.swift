@@ -20,14 +20,15 @@ public struct StreetMap {
         self.streets = streets
     }
 
-    /// Every street within 150 m of `route` (and some up to ~300 m: whole grid cells of 0.001°, about 110 m).
+    /// Every street within 500 m of `route`, enough for the grey layer around any point of it (and some up to ~650 m:
+    /// whole grid cells of 0.001°, about 110 m).
     public func along(_ route: [Point]) -> [[Point]] {
         let cell = 0.001
         func key(_ lat: Int, _ lon: Int) -> Int { lat * 1_000_000 + lon }
         var near = Set<Int>()
         sample(route) { p in
             let lat = Int((p.lat / cell).rounded(.down)), lon = Int((p.lon / cell).rounded(.down))
-            for a in lat - 2...lat + 2 { for b in lon - 2...lon + 2 { near.insert(key(a, b)) } }
+            for a in lat - 5...lat + 5 { for b in lon - 5...lon + 5 { near.insert(key(a, b)) } }
         }
         return streets.filter { street in
             var hit = false

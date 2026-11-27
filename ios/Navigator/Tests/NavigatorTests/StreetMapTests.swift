@@ -15,17 +15,17 @@ final class StreetMapTests: XCTestCase {
         return try (ints.withUnsafeBytes { Data($0) } as NSData).compressed(using: .zlib) as Data
     }
 
-    func testFindsTheStreetsWithin150MOfTheRouteOnly() throws {
+    func testFindsTheStreetsWithin500MOfTheRouteOnly() throws {
         // 1 km due east.
         let route = [o, at(east: 1000, north: 0)]
         let crossing = [at(east: 500, north: -100), at(east: 500, north: 100)]
-        let alongside = [at(east: 0, north: 140), at(east: 300, north: 140)]
+        let alongside = [at(east: 0, north: 480), at(east: 300, north: 480)]
         // A long straight road with no point anywhere near the route, crossing it all the same.
         let longCrossing = [at(east: 800, north: -1500), at(east: 800, north: 1500)]
-        let farAway = [at(east: 500, north: 600), at(east: 600, north: 600)]
+        let farAway = [at(east: 500, north: 900), at(east: 600, north: 900)]
         let map = try StreetMap(deflated: deflated([crossing, farAway, alongside, longCrossing]))
         XCTAssertEqual(map.along(route).count, 3)
-        XCTAssertFalse(map.along(route).contains { $0.first!.lat > o.lat + 500 / 111_320 }, "the one 600 m off")
+        XCTAssertFalse(map.along(route).contains { $0.first!.lat > o.lat + 800 / 111_320 }, "the one 900 m off")
         // Coordinates come back to 1e-5°, about a metre.
         XCTAssertEqual(map.along(route)[0][0].lat, crossing[0].lat, accuracy: 1e-5)
     }
@@ -35,9 +35,9 @@ final class StreetMapTests: XCTestCase {
             .appending(path: "../../../../Maps4MiBand/hanoi-streets.bin").standardized)
         let map = try StreetMap(deflated: data)
         let around = map.along(try Vietmap.parse(fixture, status: 200).points)
-        // Overpass found 202 within 150 m (lanes included); the grid takes in some more, up to ~300 m.
-        XCTAssertGreaterThan(around.count, 202)
-        XCTAssertLessThan(around.count, 1000)
+        // Overpass found 202 within 150 m (lanes included); 500 m and more take in 1176.
+        XCTAssertGreaterThan(around.count, 1000)
+        XCTAssertLessThan(around.count, 1500)
     }
 
     func testBrokenDataSaysSo() {

@@ -142,7 +142,7 @@ final class NavigationTests: XCTestCase {
         nav.start(authKey: String(repeating: "0", count: 32))
         fix(nav, straight.points[0])
         XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
-        XCTAssertNotNil(nav.shown?.g)
+        XCTAssertNotNil(nav.shown?.s)
         nav.stop()
     }
 
@@ -159,7 +159,7 @@ final class NavigationTests: XCTestCase {
         nav.start(authKey: String(repeating: "0", count: 32))
         fix(nav, straight.points[0])
         XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
-        XCTAssertNil(nav.shown?.g)
+        XCTAssertNil(nav.shown?.s)
         XCTAssertEqual(band.log.lines.filter { $0.text.contains("đường xung quanh") }.count, 1)
         nav.stop()
     }

@@ -10,8 +10,14 @@ public enum Tuning {
     static let screenW = 212.0
     static let screenH = 520.0
     static let mapTop = 170.0
-    /// Half the route's 8 px stroke (LINE in render.js): a grey segment this close along its whole length is hidden.
-    static let routeHalfWidthPx = 4.0
+    /// Grey streets go to the band as one layer it moves rather than redraws: the map plus this much each side, so a
+    /// new one is due once the rider is this far from where the last one was made.
+    static let layerMarginPx = 50.0
+    /// Moving a layer of 300 streets takes up to 1.3 s a frame, 500 take 2.4 s and 4 s to build, 800 freeze the band
+    /// (docs/band-screen.md); the ones furthest from the rider go first.
+    static let maxLayerSegments = 300
+    /// Grey streets are simplified to within this of where they are, 2 m: fewer segments, the same streets.
+    static let streetTolerancePx = 1.0
     static let metresPerPx = 2.0
     static let aheadM = 700.0
     static let behindM = 100.0
@@ -20,7 +26,7 @@ public enum Tuning {
     /// Polyline points closer than this to the previous one are dropped.
     static let minStepPx = 3.0
     /// The band redraws 100 segments a second smoothly, 200 take 3 s (docs/band-screen.md): the route's far end goes
-    /// first, grey streets get what the route leaves.
+    /// first.
     static let maxSegments = 100
     /// At most one frame per this many seconds, unless it buzzes.
     static let sendEvery: TimeInterval = 1
@@ -37,12 +43,12 @@ public enum Tuning {
 /// Where the rider is on the route, and the north-up screen polyline. `seg` is the segment snapped to;
 /// feed it back as the next `hint`.
 /// `marks` are the turns in the drawn stretch (street-name changes and the arrival left out), flat x,y like
-/// `poly`; the first of them, if any, is `turn`. `streets` are grey segments, flat x1,y1,x2,y2. `heading` is the way
-/// the rider goes, in degrees clockwise from north.
+/// `poly`; the first of them, if any, is `turn`. `snap` is the rider on the route, drawn at (meX, meY). `heading` is
+/// the way they go, in degrees clockwise from north.
 struct Frame {
     let poly: [Int]
     let marks: [Int]
-    let streets: [Int]
+    let snap: Point
     let heading: Int
     let turn: Maneuver
     let toTurn: Double
@@ -51,9 +57,9 @@ struct Frame {
     let seg: Int
 }
 
-/// Snaps `here` to the route and builds the north-up polyline in band px, with the `streets` around it.
+/// Snaps `here` to the route and builds the north-up polyline in band px.
 /// Only searches forward from `hint` so an out-and-back route can't snap to the return leg.
-func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> Frame {
+func frame(_ route: Route, here: Point, hint: Int) -> Frame {
     let pts = route.points, cum = route.cum
     var best = hint, bestT = 0.0, bestD = Double.greatestFiniteMagnitude
     var i = hint
@@ -103,39 +109,58 @@ func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> F
         .filter { ahead($0) && $0 != route.maneuvers.last && cum[$0.at] - along < Tuning.aheadM }
         .flatMap { m in let (x, y) = screen(pts[m.at]); return [Int(x.rounded()), Int(y.rounded())] }
 
-    // Grey streets: each segment cut to the map, those nearest the next turn (the rider if it is off the map) first,
-    // until the route and they make Tuning.maxSegments. The route's own street would only hide under it, so it goes.
-    let focus = marks.isEmpty ? (x: Tuning.meX, y: Tuning.meY) : (x: Double(marks[0]), y: Double(marks[1]))
-    let route = stride(from: 0, to: poly.count - 3, by: 2).map { poly[$0..<$0 + 4].map(Double.init) }
-    func underRoute(_ c: [Double]) -> Bool {
-        [(c[0], c[1]), ((c[0] + c[2]) / 2, (c[1] + c[3]) / 2), (c[2], c[3])].allSatisfy { p in
-            route.contains { distance(p, $0) <= Tuning.routeHalfWidthPx }
-        }
-    }
-    var grey: [(d: Double, s: [Int])] = []
-    for street in streets {
-        var a = (x: Double.nan, y: Double.nan)
-        for (k, p) in street.enumerated() {
-            let b = screen(p)
-            if k > 0 && k < street.count - 1 && hypot(b.x - a.x, b.y - a.y) < Tuning.minStepPx { continue }
-            if k > 0, let c = clip(a, b), !underRoute(c) {
-                grey.append((distance(focus, c), c.map { Int($0.rounded()) }))
-            }
-            a = b
-        }
-    }
-    let room = max(Tuning.maxSegments - (poly.count / 2 - 1), 0)
-    let streets = grey.sorted { $0.d < $1.d }.prefix(room).flatMap(\.s)
-    return Frame(poly: poly, marks: marks, streets: streets, heading: heading, turn: turn, toTurn: max(cum[turn.at] - along, 0),
-                 remaining: cum.last! - along,
-                 offRoute: bestD, seg: best)
+    return Frame(poly: poly, marks: marks, snap: snap, heading: heading, turn: turn, toTurn: max(cum[turn.at] - along, 0),
+                 remaining: cum.last! - along, offRoute: bestD, seg: best)
 }
 
-/// The part of a→b on the map under the panel as x1,y1,x2,y2, nil if none (Liang–Barsky).
+/// The grey layer's size in band px: the map under the panel plus `Tuning.layerMarginPx` each side.
+let layerW = Tuning.screenW + 2 * Tuning.layerMarginPx
+let layerH = Tuning.screenH - Tuning.mapTop + 2 * Tuning.layerMarginPx
+
+/// `streets` around `anchor`, north up, as segments flat x1,y1,x2,y2 from the layer's top-left, `anchor` in its
+/// middle: cut to the layer, nearest `anchor` first, at most `Tuning.maxLayerSegments`.
+func layer(_ streets: [[Point]], around anchor: Point) -> [Int] {
+    func px(_ p: Point) -> (x: Double, y: Double) {
+        let (e, n) = local(anchor, p)
+        return (layerW / 2 + e / Tuning.metresPerPx, layerH / 2 - n / Tuning.metresPerPx)
+    }
+    var segs: [(d: Double, s: [Int])] = []
+    for street in streets {
+        let line = simplify(street.map(px), tolerance: Tuning.streetTolerancePx)
+        for (a, b) in zip(line, line.dropFirst()) {
+            if let c = clip(a, b) { segs.append((distance((layerW / 2, layerH / 2), c), c.map { Int($0.rounded()) })) }
+        }
+    }
+    return segs.sorted { $0.d < $1.d }.prefix(Tuning.maxLayerSegments).flatMap(\.s)
+}
+
+/// The points of `line` that keep it within `tolerance` px of where it was (Douglas–Peucker): fewer segments for
+/// the same street.
+private func simplify(_ line: [(x: Double, y: Double)], tolerance: Double) -> [(x: Double, y: Double)] {
+    guard line.count > 2 else { return line }
+    var keep = [Bool](repeating: false, count: line.count)
+    (keep[0], keep[line.count - 1]) = (true, true)
+    var spans = [(0, line.count - 1)]
+    while let (i, j) = spans.popLast() {
+        let chord = [line[i].x, line[i].y, line[j].x, line[j].y]
+        var far = i, farD = tolerance
+        for k in i + 1 ..< j {
+            let d = distance(line[k], chord)
+            if d > farD { (far, farD) = (k, d) }
+        }
+        if far != i {
+            keep[far] = true
+            spans += [(i, far), (far, j)]
+        }
+    }
+    return line.indices.filter { keep[$0] }.map { line[$0] }
+}
+
+/// The part of a→b on the layer as x1,y1,x2,y2, nil if none (Liang–Barsky).
 private func clip(_ a: (x: Double, y: Double), _ b: (x: Double, y: Double)) -> [Double]? {
     let dx = b.x - a.x, dy = b.y - a.y
     var t0 = 0.0, t1 = 1.0
-    for (p, q) in [(-dx, a.x), (dx, Tuning.screenW - a.x), (-dy, a.y - Tuning.mapTop), (dy, Tuning.screenH - a.y)] {
+    for (p, q) in [(-dx, a.x), (dx, layerW - a.x), (-dy, a.y), (dy, layerH - a.y)] {
         if p == 0 {
             if q < 0 { return nil }
         } else if p < 0 {

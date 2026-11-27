@@ -57,16 +57,31 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.n, "Láng Hạ")
     }
 
-    func testSendsTheStreetsAroundTheRouteInGreyOnceTheyAreIn() throws {
+    func testSendsTheStreetsAsALayerOnceThenOnlyWhereItIs() throws {
         let nav = Navigator(route: street)
-        guard case .send(let before) = nav.update(street.points[0], at: t0).first else { return XCTFail() }
-        XCTAssertNil(before.g)
-        // A side street 100 m ahead, 50 m each side of the route.
         let o = street.points[0], m = 1 / (111_320 * cos(o.lat * .pi / 180))
+        func east(_ d: Double) -> Point { Point(lat: o.lat, lon: o.lon + d * m) }
+        guard case .send(let before) = nav.update(o, at: t0).first else { return XCTFail() }
+        XCTAssertNil(before.s)
+        XCTAssertNil(before.o)
+        // A side street 100 m ahead, 50 m each side of the route.
         nav.streets = [[Point(lat: o.lat + 50 / 111_320.0, lon: o.lon + 100 * m), Point(lat: o.lat - 50 / 111_320.0, lon: o.lon + 100 * m)]]
-        guard case .send(let after) = nav.update(street.points[0], at: t0 + 1).first else { return XCTFail() }
-        XCTAssertEqual(after.g, [156, 320, 156, 370])
-        XCTAssertEqual(after.h, 90) // heading east
+        guard case .send(let first) = nav.update(o, at: t0 + 1).first else { return XCTFail() }
+        XCTAssertEqual(first.s, [206, 200, 206, 250]) // in the layer, whose middle (156, 225) is on the rider
+        XCTAssertEqual(first.o, [-50, 120]) // where the layer's top-left goes on the screen
+        XCTAssertEqual(first.h, 90) // heading east
+        // 40 m on: the same layer, 20 px further left.
+        guard case .send(let moved) = nav.update(east(40), at: t0 + 2).first else { return XCTFail() }
+        XCTAssertNil(moved.s)
+        XCTAssertEqual(moved.o, [-70, 120])
+        // 120 m on, past its 100 m margin: a new layer around here.
+        guard case .send(let anew) = nav.update(east(120), at: t0 + 3).first else { return XCTFail() }
+        XCTAssertEqual(anew.s, [146, 200, 146, 250])
+        XCTAssertEqual(anew.o, [-50, 120])
+        // A band that may have missed it gets it again.
+        nav.forgetLayer()
+        guard case .send(let again) = nav.update(east(120), at: t0 + 4).first else { return XCTFail() }
+        XCTAssertEqual(again.s, anew.s)
     }
 
     func testDrawsAtMost100SegmentsTheMostTheBandRedrawsEverySecond() throws {
