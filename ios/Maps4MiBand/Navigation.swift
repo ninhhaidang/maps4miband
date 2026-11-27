@@ -24,6 +24,9 @@ final class Navigation: NSObject {
     @ObservationIgnored private var vietmapKey = ""
     @ObservationIgnored private var navigator: Navigator?
     @ObservationIgnored private var routing: Task<Void, Never>?
+    /// A buzz sent while the quick app was still opening, so the screen after it would replace it unbuzzed.
+    /// Dropped once the app opens: it showed that screen, buzz and all.
+    @ObservationIgnored private var owedBuzz = false
     @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
 
     init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route) {
@@ -74,7 +77,7 @@ final class Navigation: NSObject {
         }
         band.log.add(.nav, "Bắt đầu dẫn đường, tuyến \(formatDistance(preview.length))")
         logSent(first.json)
-        (running, shown) = (true, first)
+        (running, shown, owedBuzz) = (true, first, false)
         navigator = Navigator(route: preview)
         status = "Đang chờ GPS…"
         gps.startUpdatingLocation()
@@ -143,8 +146,11 @@ final class Navigation: NSObject {
     }
 
     private func show(_ m: BandMessage) {
+        var m = m
+        if owedBuzz && band.opening { m.v = 1 }
         let json = m.json
         band.send(json)
+        owedBuzz = band.opening && m.v == 1
         shown = m
         logSent(json)
     }
@@ -178,7 +184,9 @@ extension Navigation: CLLocationManagerDelegate {
             return finish(BandMessage(i: ""), "Mất kết nối với vòng, xem nhật ký.")
         }
         guard let navigator else { return }
-        for effect in navigator.update(here, at: fix.timestamp) {
+        // The phone's clock, not the fix's: fixes held back while the app was away arrive together, seconds apart by
+        // their own clocks, and would each send a screen.
+        for effect in navigator.update(here, at: Date()) {
             switch effect {
             case .send(let m):
                 band.log.add(.gps, String(format: "%@ ±%.0f m, cách đây %.1f s", here.text, fix.horizontalAccuracy, age))

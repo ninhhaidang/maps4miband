@@ -12,9 +12,9 @@ private let destination = Point(lat: 21.004, lon: 105.8)
 
 @MainActor
 final class NavigationTests: XCTestCase {
-    private func fix(_ nav: Navigation, _ p: Point) {
+    private func fix(_ nav: Navigation, _ p: Point, age: TimeInterval = 0) {
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: p.lat, longitude: p.lon), altitude: 0,
-                                  horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date())
+                                  horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date(timeIntervalSinceNow: -age))
         nav.locationManager(CLLocationManager(), didUpdateLocations: [location])
     }
 
@@ -53,6 +53,46 @@ final class NavigationTests: XCTestCase {
         XCTAssertTrue(band.log.lines.contains { $0.source == .nav && $0.text == sent }, sent)
         nav.stop()
         XCTAssertNil(nav.shown)
+    }
+
+    /// Planned and started on `straight`; the band in tests never opens the quick app, so every screen waits.
+    private func started() async throws -> (Navigation, BandConnection) {
+        let band = BandConnection()
+        let nav = Navigation(band: band) { _, _, _ in straight }
+        nav.plan(to: destination, vietmapKey: "vm-key")
+        fix(nav, straight.points[0])
+        try await settle(nav)
+        nav.start(authKey: String(repeating: "0", count: 32))
+        XCTAssertTrue(nav.running)
+        return (nav, band)
+    }
+
+    private func screensSent(_ band: BandConnection) -> [String] {
+        band.log.lines.filter { $0.source == .nav && $0.text.hasPrefix("{\"a\"") }.map(\.text)
+    }
+
+    func testABuzzStillWaitingForTheQuickAppIsCarriedOntoTheScreenThatReplacesIt() async throws {
+        let (nav, _) = try await started()
+        // About 190 m before the turn: the 200 m buzz.
+        let near = Point(lat: 21.0003, lon: 105.8)
+        fix(nav, near)
+        XCTAssertEqual(nav.shown?.v, 1)
+        // Off the route three times: "Đang tìm đường lại…" replaces the waiting screen right away.
+        let off = Point(lat: 21.0003, lon: 105.802)
+        for _ in 0..<3 { fix(nav, off) }
+        XCTAssertEqual(nav.shown?.i, "Đang tìm đường lại…")
+        XCTAssertEqual(nav.shown?.v, 1, "the buzz never left the phone")
+        nav.stop()
+    }
+
+    func testFixesThatArriveTogetherSendOneScreen() async throws {
+        let (nav, band) = try await started()
+        // iOS hands over fixes held back while the app was away, seconds apart by their own clocks.
+        fix(nav, straight.points[0], age: 5.2)
+        fix(nav, straight.points[0], age: 3.3)
+        fix(nav, straight.points[0], age: 1.4)
+        XCTAssertEqual(screensSent(band).count, 1)
+        nav.stop()
     }
 
     func testAFailedPreviewSaysWhyAndCannotStart() async throws {

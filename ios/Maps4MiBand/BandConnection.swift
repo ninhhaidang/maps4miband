@@ -39,12 +39,10 @@ final class BandConnection: NSObject {
     /// Connects, authenticates, opens the quick app with `first` and keeps the band for `send` until `finish`.
     func stream(authKey: String, first: Data) {
         guard !busy else { return }
-        // If `finish` came first, its message already waits in the link; `first` must not replace it.
-        begin(authKey: authKey, installing: false) { [weak self] link in
-            guard let self, streaming else { return [] }
-            return noteSize(first, link.send(first))
-        }
+        begin(authKey: authKey, installing: false) { _ in [] }
         streaming = busy
+        // Waits in the link from now, so any screen sent before the band answers replaces it, not the other way round.
+        send(first)
     }
 
     /// Replaces the band's screen while streaming. Before the quick app is open only the newest one waits.
@@ -52,6 +50,9 @@ final class BandConnection: NSObject {
         guard streaming, let link else { return }
         run(noteSize(payload, link.send(payload)))
     }
+
+    /// Streaming, and the quick app has not taken a screen yet: the next `send` replaces the one waiting.
+    var opening: Bool { streaming && timeout != nil }
 
     /// Shows `payload` as the last screen, then releases the band.
     func finish(_ payload: Data) {
