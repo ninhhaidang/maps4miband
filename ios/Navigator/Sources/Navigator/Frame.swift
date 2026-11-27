@@ -2,9 +2,10 @@ import Foundation
 
 /// Every number to tune after a test ride, in one place.
 public enum Tuning {
-    /// Rider marker in band px; must match `.me` in band/src/pages/index/index.ux.
+    /// Rider marker in band px, near the bottom under the instruction panel; must match `.me` in
+    /// band/src/pages/index/index.ux.
     static let meX = 106.0
-    static let meY = 280.0
+    static let meY = 460.0
     static let metresPerPx = 2.0
     static let aheadM = 700.0
     static let behindM = 100.0
@@ -26,8 +27,11 @@ public enum Tuning {
 
 /// Where the rider is on the route, and the heading-up screen polyline. `seg` is the segment snapped to;
 /// feed it back as the next `hint`.
+/// `marks` are the turns in the drawn stretch (street-name changes and the arrival left out), flat x,y like
+/// `poly`; the first of them, if any, is `turn`.
 struct Frame {
     let poly: [Int]
+    let marks: [Int]
     let turn: Maneuver
     let toTurn: Double
     let remaining: Double
@@ -58,12 +62,15 @@ func frame(_ route: Route, here: Point, hint: Int) -> Frame {
     // Heading from the route rather than GPS: GPS bearing is noise at walking speed.
     let (he, hn) = local(a, b)
     let h = atan2(he, hn)
+    func screen(_ p: Point) -> (x: Double, y: Double) {
+        let (e, n) = local(snap, p)
+        return (Tuning.meX + (e * cos(h) - n * sin(h)) / Tuning.metresPerPx,
+                Tuning.meY - (e * sin(h) + n * cos(h)) / Tuning.metresPerPx)
+    }
     var poly: [Int] = []
     var last = (x: Double.nan, y: Double.nan)
     func add(_ p: Point, force: Bool = false) {
-        let (e, n) = local(snap, p)
-        let x = Tuning.meX + (e * cos(h) - n * sin(h)) / Tuning.metresPerPx
-        let y = Tuning.meY - (e * sin(h) + n * cos(h)) / Tuning.metresPerPx
+        let (x, y) = screen(p)
         if !force && hypot(x - last.x, y - last.y) < Tuning.minStepPx { return }
         poly += [Int(x.rounded()), Int(y.rounded())]
         last = (x, y)
@@ -79,8 +86,12 @@ func frame(_ route: Route, here: Point, hint: Int) -> Frame {
     }
 
     // Skip street-name changes ("Đi thẳng", nearly every junction) so the real turn behind one shows and buzzes on time.
-    let turn = route.maneuvers.first { $0.at > best && $0.angle != 0 } ?? route.maneuvers.last!
-    return Frame(poly: poly, turn: turn, toTurn: max(cum[turn.at] - along, 0), remaining: cum.last! - along,
+    func ahead(_ m: Maneuver) -> Bool { m.at > best && m.angle != 0 }
+    let turn = route.maneuvers.first(where: ahead) ?? route.maneuvers.last!
+    let marks = route.maneuvers
+        .filter { ahead($0) && $0 != route.maneuvers.last && cum[$0.at] - along < Tuning.aheadM }
+        .flatMap { m in let (x, y) = screen(pts[m.at]); return [Int(x.rounded()), Int(y.rounded())] }
+    return Frame(poly: poly, marks: marks, turn: turn, toTurn: max(cum[turn.at] - along, 0), remaining: cum.last! - along,
                  offRoute: bestD, seg: best)
 }
 

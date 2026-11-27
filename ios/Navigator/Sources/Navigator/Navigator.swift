@@ -1,18 +1,22 @@
 import Foundation
 
-/// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,280,
-/// heading up), a = turn angle (+ right, nil = no arrow), d = distance to the turn, i = instruction,
-/// r = remaining, v = 1 to buzz. A message with only `i` is a status message.
+/// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,460,
+/// heading up), t = turn marks on it (flat x,y), n = street of the first mark, a = turn angle (+ right,
+/// nil = no arrow), d = distance to the turn, i = instruction, r = remaining, v = 1 to buzz.
+/// A message with only `i` is a status message.
 public struct BandMessage: Encodable, Equatable {
     public var p: [Int]?
+    public var t: [Int]?
+    public var n: String?
     public var a: Int?
     public var d: String?
     public var i: String
     public var r: String?
     public var v: Int?
 
-    public init(p: [Int]? = nil, a: Int? = nil, d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
-        (self.p, self.a, self.d, self.i, self.r, self.v) = (p, a, d, i, r, v)
+    public init(p: [Int]? = nil, t: [Int]? = nil, n: String? = nil, a: Int? = nil, d: String? = nil, i: String,
+                r: String? = nil, v: Int? = nil) {
+        (self.p, self.t, self.n, self.a, self.d, self.i, self.r, self.v) = (p, t, n, a, d, i, r, v)
     }
 
     public var json: Data { try! JSONEncoder().encode(self) }
@@ -79,7 +83,8 @@ public final class Navigator {
         buzzes = max(buzzes, due)
         if !buzz, let lastSend, time.timeIntervalSince(lastSend) < Tuning.sendEvery { return [] }
         lastSend = time
-        return [.send(BandMessage(p: f.poly, a: f.turn.angle, d: formatDistance(f.toTurn), i: f.turn.text,
+        return [.send(BandMessage(p: f.poly, t: f.marks, n: f.marks.isEmpty ? nil : f.turn.street,
+                                  a: f.turn.angle, d: formatDistance(f.toTurn), i: f.turn.text,
                                   r: "Còn \(formatDistance(f.remaining))", v: buzz ? 1 : 0))]
     }
 }

@@ -17,6 +17,9 @@
     },
     {
       "name": "system.vibrator"
+    },
+    {
+      "name": "system.router"
     }
   ],
   "config": {
@@ -32,6 +35,9 @@
       "pages/index": {
         "component": "index",
         "path": "/"
+      },
+      "pages/proto": {
+        "component": "proto"
       }
     }
   }

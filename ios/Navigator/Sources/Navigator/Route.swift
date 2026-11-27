@@ -18,15 +18,18 @@ public struct Point: Equatable {
 }
 
 /// A turn at route point `at`; `angle` is the turn in degrees (+ = right), nil = no arrow.
+/// `street` is the street it leads onto, "" if Vietmap has no name.
 public struct Maneuver: Equatable {
     public var at: Int
     public var text: String
     public var angle: Int?
+    public var street: String
 
-    public init(at: Int, text: String, angle: Int?) {
+    public init(at: Int, text: String, angle: Int?, street: String = "") {
         self.at = at
         self.text = text
         self.angle = angle
+        self.street = street
     }
 }
 

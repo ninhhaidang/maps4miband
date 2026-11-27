@@ -113,7 +113,8 @@ public enum Vietmap {
         default: throw Failure.badResponse
         }
         let maneuvers = steps.enumerated().map { k, step in
-            Maneuver(at: step.interval[0] + k * shift, text: instruction(step, first: k == 0), angle: k == 0 ? nil : signs[step.sign]?.angle)
+            Maneuver(at: step.interval[0] + k * shift, text: instruction(step, first: k == 0), angle: k == 0 ? nil : signs[step.sign]?.angle,
+                     street: step.street_name ?? "")
         }
         return Route(points: points, maneuvers: maneuvers)
     }

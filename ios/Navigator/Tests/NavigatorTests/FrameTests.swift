@@ -12,7 +12,7 @@ final class FrameTests: XCTestCase {
         XCTAssertEqual(f.toTurn, 81, accuracy: 2) // haversine to point 2
         XCTAssertEqual(f.remaining, 1421, accuracy: 2)
         XCTAssertEqual(f.offRoute, 0, accuracy: 1)
-        XCTAssertEqual(Array(f.poly.prefix(2)), [106, 280]) // rider is drawn at the marker
+        XCTAssertEqual(Array(f.poly.prefix(2)), [106, 460]) // rider is drawn at the marker
     }
 
     func testHeadingUpWithTheTurnDrawnToTheRight() {
@@ -24,7 +24,7 @@ final class FrameTests: XCTestCase {
             Maneuver(at: 0, text: "", angle: nil), Maneuver(at: 1, text: "", angle: 90), Maneuver(at: 2, text: "", angle: nil),
         ])
         let f = frame(r, here: o, hint: 0)
-        XCTAssertEqual(f.poly, [106, 280, 106, 230, 156, 230])
+        XCTAssertEqual(f.poly, [106, 460, 106, 410, 156, 410])
         XCTAssertEqual(f.toTurn, 100, accuracy: 1)
     }
 

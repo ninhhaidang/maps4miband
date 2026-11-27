@@ -14,7 +14,7 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.d, "80 m")
         XCTAssertEqual(m.i, "Chếch phải vào Ngõ 73 Nguyễn Trãi")
         XCTAssertEqual(m.r, "Còn 1.4 km")
-        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 280])
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460])
 
         let p = route.points[0] // stays 80 m from the turn: no new buzz
         XCTAssertEqual(nav.update(p, at: t0 + 0.5), [])
@@ -37,6 +37,25 @@ final class NavigatorTests: XCTestCase {
             Maneuver(at: 3, text: "Đến nơi", angle: nil),
         ])
     }()
+
+    func testMarksTheTurnsAheadOnTheMapAndNamesTheStreetOfTheNextOne() throws {
+        // 100 m east, right onto Láng Hạ for 100 m, left onto Thái Hà for 100 m, arrive.
+        let o = Point(lat: 21, lon: 105.8)
+        func at(east: Double, south: Double) -> Point {
+            Point(lat: o.lat - south / 111_320, lon: o.lon + east / (111_320 * cos(o.lat * .pi / 180)))
+        }
+        let r = Route(points: [o, at(east: 100, south: 0), at(east: 100, south: 100), at(east: 200, south: 100)], maneuvers: [
+            Maneuver(at: 0, text: "Xuất phát", angle: nil),
+            Maneuver(at: 1, text: "Rẽ phải vào Láng Hạ", angle: 90, street: "Láng Hạ"),
+            Maneuver(at: 2, text: "Rẽ trái vào Thái Hà", angle: -90, street: "Thái Hà"),
+            Maneuver(at: 3, text: "Đến nơi", angle: nil),
+        ])
+        let first = Navigator(route: r).update(o, at: t0)
+        guard case .send(let m) = first.first else { return XCTFail("\(first)") }
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460]) // rider near the bottom, heading up, 2 m/px
+        XCTAssertEqual(m.t, [106, 410, 156, 410]) // both turns; the arrival is not a turn
+        XCTAssertEqual(m.n, "Láng Hạ")
+    }
 
     /// Rides `route` in 5 m steps, 0.1 s apart (faster than frames go out), and returns everything sent.
     func ride(_ nav: Navigator, _ route: Route, from start: Date? = nil) -> [Navigator.Effect] {

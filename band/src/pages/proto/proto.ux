@@ -1,0 +1,106 @@
+<template>
+  <!-- shortcut: measuring page for #13 (long-press the navigation screen to open, tap to switch, swipe back);
+       delete it and its router entry once docs/band-screen.md has the numbers. -->
+  <stack class="page" onclick="next">
+    <div if="{{mode === 'ruler'}}" class="page">
+      <!-- Full-width rows every 10 px from the top and bottom: the corners shorten the first ones; the first row
+           that reaches both edges is SAFE.corner. Columns every 4 px in from each long edge, mid-height: the first
+           one fully lit is SAFE.side. -->
+      <div for="{{ticks}}" class="tick" style="left: 0px; top: {{$item.row}}px; width: 212px; height: 2px; background-color: {{$item.c}};"></div>
+      <div for="{{ticks}}" class="tick" style="left: 0px; top: {{$item.bottom}}px; width: 212px; height: 2px; background-color: {{$item.c}};"></div>
+      <div for="{{ticks}}" class="tick" style="left: {{$item.side}}px; top: 200px; width: 2px; height: 120px; background-color: {{$item.c}};"></div>
+      <div for="{{ticks}}" class="tick" style="left: {{$item.right}}px; top: 200px; width: 2px; height: 120px; background-color: {{$item.c}};"></div>
+      <div class="legend">
+        <text class="key">hàng · cạnh</text>
+        <text for="{{ticks}}" class="key" style="color: {{$item.c}};">{{$item.row}} · {{$item.side}}</text>
+      </div>
+    </div>
+    <div else class="page">
+      <div for="{{segs}}" class="seg"
+           style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
+      <div class="legend">
+        <text class="key">{{mode}} đoạn</text>
+        <text class="key">{{minutes}} phút</text>
+        <text class="key">chu kỳ chậm nhất {{worst}} ms</text>
+      </div>
+    </div>
+  </stack>
+</template>
+
+<style>
+.page {
+  width: 212px;
+  height: 520px;
+  background-color: #000000;
+}
+.tick {
+  position: absolute;
+}
+.legend {
+  position: absolute;
+  left: 56px;
+  top: 120px;
+  width: 100px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000;
+}
+.key {
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+}
+.seg {
+  position: absolute;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #8a8a8a;
+  transform-origin: 4px 4px;
+}
+</style>
+
+<script>
+import { segments } from '../../common/render.js'
+
+const COLORS = ['#ff3b30', '#34c759', '#2f8cff', '#ffcc00', '#ffffff', '#00e5ff', '#ff2dff', '#ff9500', '#a2845e', '#8e8e93']
+const MODES = ['ruler', 50, 100, 200]
+
+export default {
+  private: {
+    mode: 'ruler',
+    ticks: COLORS.map((c, i) => ({ row: i * 10, bottom: 518 - i * 10, side: i * 4, right: 210 - i * 4, c })),
+    segs: [],
+    minutes: 0,
+    worst: 0
+  },
+  onDestroy() {
+    clearInterval(this.timer)
+  },
+  next() {
+    this.mode = MODES[(MODES.indexOf(this.mode) + 1) % MODES.length]
+    clearInterval(this.timer)
+    this.segs = []
+    if (this.mode === 'ruler') return
+    const start = Date.now()
+    let last = start
+    this.worst = 0
+    // New random segments every second, like a navigation frame; a slow render shows up as a long tick.
+    this.timer = setInterval(() => {
+      const now = Date.now()
+      this.worst = Math.max(this.worst, now - last)
+      last = now
+      this.minutes = Math.floor((now - start) / 60000)
+      const p = []
+      let x = 106
+      let y = 510
+      for (let k = 0; k <= this.mode; k++) {
+        p.push(Math.round(x), Math.round(y))
+        x = Math.min(Math.max(x + Math.random() * 40 - 20, 10), 202)
+        y = y - 2 - Math.random() * 3
+        if (y < 170) y = 510
+      }
+      this.segs = segments(p)
+    }, 1000)
+  }
+}
+</script>

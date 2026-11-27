@@ -1,12 +1,16 @@
 <template>
-  <stack class="page">
+  <!-- Later children draw on top: the map fills the page, the panel covers its top MAP_TOP px. -->
+  <stack class="page" onlongpress="openProto">
     <div class="map">
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
-      <!-- the phone puts the rider at (106, 280), heading up -->
+      <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
+      <text show="{{hasLabel}}" class="label" style="left: {{labelL}}px; top: {{labelT}}px;">{{street}}</text>
+      <!-- the phone puts the rider at (106, 460), heading up (Tuning.meX/meY) -->
       <div class="me"></div>
     </div>
-    <div class="panel">
+    <!-- shortcut: three layouts to pick from on the band (tap the panel), keep the chosen one and drop the rest. -->
+    <div if="{{layout === 'A'}}" class="panel" onclick="nextLayout">
       <div class="row">
         <image show="{{hasArrow}}" class="arrow" src="/common/arrow.png" style="transform: {{arrowTransform}};"></image>
         <text class="dist">{{dist}}</text>
@@ -14,10 +18,23 @@
       <text class="instr">{{instr}}</text>
       <text class="rem">{{rem}}</text>
     </div>
+    <div elif="{{layout === 'B'}}" class="panel" onclick="nextLayout">
+      <image show="{{hasArrow}}" class="arrow-b" src="/common/arrow.png" style="transform: {{arrowTransform}};"></image>
+      <text class="dist-b">{{dist}}</text>
+      <text class="instr-b">{{instr}}</text>
+    </div>
+    <div else class="panel panel-c" onclick="nextLayout">
+      <div class="row">
+        <image show="{{hasArrow}}" class="arrow" src="/common/arrow.png" style="transform: {{arrowTransform}};"></image>
+        <text class="dist-c">{{dist}}</text>
+      </div>
+      <text class="instr-c">{{instr}}</text>
+    </div>
   </stack>
 </template>
 
 <style>
+/* Text stays centred and at least SAFE.side (render.js) from the edges; rows in the top SAFE.corner px stay narrow. */
 .page {
   width: 212px;
   height: 520px;
@@ -25,7 +42,7 @@
 }
 .map {
   width: 212px;
-  height: 360px;
+  height: 520px;
 }
 .seg {
   position: absolute;
@@ -35,10 +52,34 @@
   /* px only: the band reads 50% as 50px */
   transform-origin: 4px 4px;
 }
+.mark {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border-width: 3px;
+  border-color: #ffffff;
+  background-color: #2f8cff;
+}
+.label {
+  position: absolute;
+  /* LABEL_W × LABEL_H in render.js */
+  width: 150px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background-color: #222222;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  lines: 1;
+  text-overflow: ellipsis;
+}
 .me {
   position: absolute;
   left: 97px;
-  top: 271px;
+  top: 451px;
   width: 18px;
   height: 18px;
   border-radius: 9px;
@@ -48,39 +89,80 @@
 }
 .panel {
   position: absolute;
-  top: 360px;
+  top: 0px;
   width: 212px;
+  /* MAP_TOP in render.js */
   height: 160px;
-  padding: 8px 10px;
+  padding: 14px 12px 0 12px;
   flex-direction: column;
+  align-items: center;
   background-color: #111111;
+}
+/* shortcut: street labels still hide above MAP_TOP (160), so in C a turn at y 120–160 has no label */
+.panel-c {
+  height: 120px;
 }
 .row {
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 .arrow {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   margin-right: 8px;
-  transform-origin: 24px 24px;
+  transform-origin: 26px 26px;
 }
 .dist {
-  font-size: 34px;
+  font-size: 36px;
   font-weight: bold;
   color: #ffffff;
 }
 .instr {
+  width: 188px;
   margin-top: 4px;
-  font-size: 18px;
+  font-size: 19px;
   color: #ffffff;
+  text-align: center;
   lines: 2;
   text-overflow: ellipsis;
 }
 .rem {
-  margin-top: 4px;
-  font-size: 14px;
+  margin-top: 2px;
+  font-size: 15px;
   color: #8a8a8a;
+}
+.arrow-b {
+  width: 56px;
+  height: 56px;
+  transform-origin: 28px 28px;
+}
+.dist-b {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.instr-b {
+  width: 188px;
+  font-size: 17px;
+  color: #ffffff;
+  text-align: center;
+  lines: 2;
+  text-overflow: ellipsis;
+}
+.dist-c {
+  font-size: 40px;
+  font-weight: bold;
+  color: #ffffff;
+}
+.instr-c {
+  width: 188px;
+  margin-top: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  lines: 1;
+  text-overflow: ellipsis;
 }
 </style>
 
@@ -88,11 +170,29 @@
 import interconnect from '@system.interconnect'
 import brightness from '@system.brightness'
 import vibrator from '@system.vibrator'
-import { segments, rotate } from '../../common/render.js'
+import router from '@system.router'
+import { segments, rotate, label } from '../../common/render.js'
+
+// shortcut: a fixed frame so the layouts can be compared without riding; goes with the layout picker.
+const DEMO = {
+  p: [106, 510, 106, 300, 170, 300, 170, 150],
+  t: [106, 300, 170, 300],
+  n: 'Phố Tôn Đức Thắng',
+  a: 90,
+  d: '260 m',
+  i: 'Rẽ phải vào Phố Tôn Đức Thắng',
+  r: 'Còn 1.6 km'
+}
 
 export default {
   private: {
+    layout: 'A',
     segs: [],
+    marks: [],
+    hasLabel: false,
+    labelL: 0,
+    labelT: 0,
+    street: '',
     hasArrow: false,
     arrowTransform: rotate(0),
     dist: '',
@@ -108,18 +208,41 @@ export default {
         m = JSON.parse(msg.data)
       } catch (e) {
         console.log('bad message: ' + msg.data)
+        // Also how a too-big message shows up when probing the size limit.
+        this.got = true
+        this.show({ i: 'Tin nhắn hỏng (' + msg.data.length + ' ký tự)' })
         return
       }
+      this.got = true
       this.show(m)
     }
   },
   onDestroy() {
     brightness.setKeepScreenOn({ keepScreenOn: false })
   },
-  // Message from the phone: p = flat polyline in screen px, a = turn angle (deg, null = no arrow),
-  // d = distance to the turn, i = instruction, r = remaining trip, v = 1 to buzz.
+  nextLayout() {
+    this.layout = { A: 'B', B: 'C', C: 'A' }[this.layout]
+    if (!this.got) this.show(DEMO)
+  },
+  openProto() {
+    router.push({ uri: 'pages/proto' })
+  },
+  // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
+  // (flat x,y), n = street at the first mark, a = turn angle (deg, null = no arrow), d = distance to the turn,
+  // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     this.segs = segments(m.p || [])
+    const t = m.t || []
+    const marks = []
+    for (let k = 0; k + 1 < t.length; k += 2) marks.push({ l: t[k] - 8, t: t[k + 1] - 8 }) // centre of the 16 px .mark
+    this.marks = marks
+    const box = t.length >= 2 && m.n ? label(t[0], t[1]) : null
+    this.hasLabel = box !== null
+    if (box) {
+      this.labelL = box.l
+      this.labelT = box.t
+      this.street = m.n
+    }
     this.hasArrow = m.a !== null && m.a !== undefined
     this.arrowTransform = rotate(m.a || 0)
     this.dist = m.d || ''
