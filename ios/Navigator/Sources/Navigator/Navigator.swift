@@ -40,7 +40,7 @@ public final class Navigator {
     }
 
     private var route: Route
-    /// Streets around the route (Overpass), drawn grey once they are in; none until then.
+    /// Streets around the route (StreetMap), drawn grey once they are in; none until then.
     public var streets: [[Point]] = []
     private var seg = 0
     private var lastSend: Date?

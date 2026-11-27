@@ -3,9 +3,9 @@ import Navigator
 import Observation
 
 /// plan → first GPS fix → Vietmap route from there, shown as `preview`; Bắt đầu → Navigator on that same route
-/// → band, until arrival or Dừng. Off the route it asks Vietmap again. Each route also fetches the streets around
-/// it from OpenStreetMap in the background, drawn grey on the band once they are in; without them it navigates all
-/// the same.
+/// → band, until arrival or Dừng. Off the route it asks Vietmap again. Each route also looks up the streets around
+/// it in the Hà Nội map bundled with the app, in the background, drawn grey on the band once they are in; without
+/// them it navigates all the same.
 // shortcut: GPS only while the app is open, background navigation is #10.
 @Observable
 final class Navigation: NSObject {
@@ -34,15 +34,14 @@ final class Navigation: NSObject {
     @ObservationIgnored private var owedBuzz = false
     @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
     @ObservationIgnored private let fetchStreets: ([Point]) async throws -> [[Point]]
-    /// Overpass drops connections and turns requests away when busy, and asks to be tried again after a while.
-    @ObservationIgnored private let retryStreetsAfter: [Duration]
 
-    init(band: BandConnection, retryStreetsAfter: [Duration] = [.seconds(10), .seconds(30)], fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
-         fetchStreets: @escaping ([Point]) async throws -> [[Point]] = Overpass.streets) {
+    init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
+         fetchStreets: @escaping ([Point]) async throws -> [[Point]] = { route in
+             try await Task.detached { try StreetMap.hanoi.get().along(route) }.value
+         }) {
         self.band = band
         self.fetchRoute = fetchRoute
         self.fetchStreets = fetchStreets
-        self.retryStreetsAfter = retryStreetsAfter
         super.init()
         gps.delegate = self
         gps.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -162,17 +161,12 @@ final class Navigation: NSObject {
 
     private func loadStreets(along route: Route) {
         fetchingStreets?.cancel()
-        fetchingStreets = Task { @MainActor [weak self, fetchStreets, retryStreetsAfter] in
-            var result: Result<[[Point]], Error> = .success([])
-            for wait in [.zero] + retryStreetsAfter {
-                do {
-                    try await Task.sleep(for: wait)
-                    result = .success(try await fetchStreets(route.points))
-                    break
-                } catch {
-                    result = .failure(error)
-                    if Task.isCancelled { break }
-                }
+        fetchingStreets = Task { @MainActor [weak self, fetchStreets] in
+            let result: Result<[[Point]], Error>
+            do {
+                result = .success(try await fetchStreets(route.points))
+            } catch {
+                result = .failure(error)
             }
             guard let self, !Task.isCancelled else { return }
             fetchingStreets = nil
@@ -183,9 +177,8 @@ final class Navigation: NSObject {
                 navigator?.streets = streets
             case .failure(let error):
                 // Not "Lỗi": the ride goes on as before, only without grey streets, so no badge on Nhật ký.
-                let why = error is URLError ? error.localizedDescription : "\(error)"
-                band.log.add(.nav, "Không tải được đường xung quanh sau \(retryStreetsAfter.count + 1) lần, "
-                                   + "đi tiếp không có đường xám: \(why)")
+                band.log.add(.nav, "Không đọc được đường xung quanh, đi tiếp không có đường xám: "
+                                   + error.localizedDescription)
             }
         }
     }
@@ -248,6 +241,13 @@ extension Navigation: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // kCLErrorLocationUnknown is transient; CoreLocation keeps trying.
         if (error as? CLError)?.code == .denied { fail(Self.noLocation) }
+    }
+}
+
+extension StreetMap {
+    /// Hà Nội (tools/streets.py), read once on first use.
+    static let hanoi = Result {
+        try StreetMap(deflated: Data(contentsOf: Bundle.main.bundleURL.appending(path: "hanoi-streets.bin")))
     }
 }
 
