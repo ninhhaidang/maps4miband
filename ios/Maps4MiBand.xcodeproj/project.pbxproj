@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A10000000000000000000006 /* BandLink in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000005 /* BandLink */; };
+		A10000000000000000000008 /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000007 /* Navigator */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000006 /* BandLink in Frameworks */,
+				A10000000000000000000008 /* Navigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +70,7 @@
 			name = Maps4MiBand;
 			packageProductDependencies = (
 				A10000000000000000000005 /* BandLink */,
+				A10000000000000000000007 /* Navigator */,
 			);
 			productName = Maps4MiBand;
 			productReference = A10000000000000000000010 /* Maps4MiBand.app */;
@@ -94,6 +97,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A10000000000000000000004 /* XCLocalSwiftPackageReference "BandLink" */,
+				A10000000000000000000003 /* XCLocalSwiftPackageReference "Navigator" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A10000000000000000000012 /* Products */;
@@ -182,6 +186,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dẫn đường";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Dùng Bluetooth để kết nối với Xiaomi Smart Band và gửi chỉ dẫn đường lên vòng.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Dùng vị trí để tìm đường từ chỗ bạn đứng và dẫn đường từng ngã rẽ trên vòng.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -206,6 +211,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dẫn đường";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Dùng Bluetooth để kết nối với Xiaomi Smart Band và gửi chỉ dẫn đường lên vòng.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Dùng vị trí để tìm đường từ chỗ bạn đứng và dẫn đường từng ngã rẽ trên vòng.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -249,12 +255,20 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = BandLink;
 		};
+		A10000000000000000000003 /* XCLocalSwiftPackageReference "Navigator" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Navigator;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		A10000000000000000000005 /* BandLink */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BandLink;
+		};
+		A10000000000000000000007 /* Navigator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Navigator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

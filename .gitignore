@@ -11,5 +11,7 @@ band/sign/**/*.pem
 .temp_*/
 ios/BandLink/.build/
 ios/BandLink/.swiftpm/
+ios/Navigator/.build/
+ios/Navigator/.swiftpm/
 xcuserdata/
 .env

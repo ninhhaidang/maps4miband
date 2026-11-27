@@ -1,4 +1,5 @@
 import BandLink
+import Navigator
 import SwiftUI
 
 @main
@@ -16,10 +17,20 @@ let bundledRpk = Bundle.main.url(forResource: "band", withExtension: "rpk").flat
 let sampleFrame = Data(#"{"p":[106,330,106,280,106,150,40,150],"a":-90,"d":"260 m","i":"Rẽ trái vào Phố Tôn Đức Thắng","r":"Còn 1.6 km","v":1}"#.utf8)
 
 struct ContentView: View {
-    @State private var band = BandConnection()
-    @State private var authKey = Keychain.load() ?? ""
-    @State private var saved = Keychain.load() != nil
+    @State private var band: BandConnection
+    @State private var nav: Navigation
+    @State private var authKey = Keychain.load(Keychain.authKey) ?? ""
+    @State private var saved = Keychain.load(Keychain.authKey) != nil
     @State private var invalid = false
+    @State private var vietmapKey = Keychain.load(Keychain.vietmapKey) ?? ""
+    @State private var vietmapSaved = Keychain.load(Keychain.vietmapKey) != nil
+    @State private var destination = ""
+
+    init() {
+        let band = BandConnection()
+        _band = State(initialValue: band)
+        _nav = State(initialValue: Navigation(band: band))
+    }
 
     var body: some View {
         NavigationStack {
@@ -33,9 +44,18 @@ struct ContentView: View {
                     Button(saved ? "Đã lưu trong Keychain" : "Lưu vào Keychain") {
                         let key = authKey.trimmingCharacters(in: .whitespaces)
                         invalid = BandLink(authKey: key, appPackage: BandConnection.appPackage) == nil
-                        saved = !invalid && Keychain.save(key)
+                        saved = !invalid && Keychain.save(key, as: Keychain.authKey)
                     }
                     .disabled(saved || authKey.isEmpty)
+                    SecureField("Vietmap API key", text: $vietmapKey)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .font(.body.monospaced())
+                        .onChange(of: vietmapKey) { vietmapSaved = false }
+                    Button(vietmapSaved ? "Đã lưu trong Keychain" : "Lưu vào Keychain") {
+                        vietmapSaved = Keychain.save(vietmapKey.trimmingCharacters(in: .whitespaces), as: Keychain.vietmapKey)
+                    }
+                    .disabled(vietmapSaved || vietmapKey.trimmingCharacters(in: .whitespaces).isEmpty)
                 } header: {
                     Text("Cài đặt")
                 } footer: {
@@ -43,8 +63,30 @@ struct ContentView: View {
                 }
 
                 Section {
+                    TextField("Điểm đến: vĩ độ,kinh độ", text: $destination)
+                        .keyboardType(.numbersAndPunctuation)
+                        .autocorrectionDisabled()
+                        .disabled(nav.running)
+                    if nav.running {
+                        Button("Dừng", role: .destructive) { nav.stop() }
+                    } else {
+                        Button("Bắt đầu") {
+                            guard let to = Point(parsing: destination) else { return }
+                            nav.start(to: to, authKey: Keychain.load(Keychain.authKey) ?? "",
+                                      vietmapKey: Keychain.load(Keychain.vietmapKey) ?? "")
+                        }
+                        .disabled(band.busy || !saved || !vietmapSaved || Point(parsing: destination) == nil)
+                    }
+                    if !nav.status.isEmpty { Text(nav.status) }
+                } header: {
+                    Text("Dẫn đường xe máy")
+                } footer: {
+                    Text("Đóng hẳn Mi Fitness trước. Giữ app mở trên màn hình trong lúc đi.")
+                }
+
+                Section {
                     Button(band.progress != nil ? "Đang cài…" : "Cài app lên vòng") {
-                        if let rpk = bundledRpk { band.install(authKey: Keychain.load() ?? "", rpk: rpk) }
+                        if let rpk = bundledRpk { band.install(authKey: Keychain.load(Keychain.authKey) ?? "", rpk: rpk) }
                     }
                     .disabled(band.busy || !saved || bundledRpk == nil)
                     if let progress = band.progress {
@@ -58,7 +100,7 @@ struct ContentView: View {
 
                 Section {
                     Button(band.busy && band.progress == nil ? "Đang gửi…" : "Gửi thử lên vòng") {
-                        band.sendOnce(authKey: Keychain.load() ?? "", payload: sampleFrame)
+                        band.sendOnce(authKey: Keychain.load(Keychain.authKey) ?? "", payload: sampleFrame)
                     }
                     .disabled(band.busy || !saved)
                 } footer: {

@@ -28,10 +28,34 @@ final class BandConnection: NSObject {
     @ObservationIgnored private var timeout: DispatchWorkItem?
     /// What the timeout tells the user, depending on how far we got.
     @ObservationIgnored private var stuck = ""
+    /// Navigating: keep the band after each message instead of releasing it.
+    @ObservationIgnored private var streaming = false
 
     /// Connects, authenticates, opens the quick app, sends `payload` once, then releases the band.
     func sendOnce(authKey: String, payload: Data) {
         begin(authKey: authKey, installing: false) { $0.send(payload) }
+    }
+
+    /// Connects, authenticates, opens the quick app with `first` and keeps the band for `send` until `finish`.
+    func stream(authKey: String, first: Data) {
+        guard !busy else { return }
+        // If `finish` came first, its message already waits in the link; `first` must not replace it.
+        begin(authKey: authKey, installing: false) { [weak self] in self?.streaming == true ? $0.send(first) : [] }
+        streaming = busy
+    }
+
+    /// Replaces the band's screen while streaming. Before the quick app is open only the newest one waits.
+    func send(_ payload: Data) {
+        guard streaming, let link else { return }
+        run(link.send(payload))
+    }
+
+    /// Shows `payload` as the last screen, then releases the band.
+    func finish(_ payload: Data) {
+        guard busy, let link else { return }
+        streaming = false
+        armTimeout()
+        run(link.send(payload))
     }
 
     /// Connects, authenticates, installs `rpk` as the quick app, then releases the band.
@@ -107,9 +131,14 @@ final class BandConnection: NSObject {
             note("App trên vòng: \(installed.joined(separator: ", "))")
             fail("Quick app “Dẫn đường” chưa được cài trên vòng. Bấm “Cài app lên vòng”.")
         case .sessionTakenOver: fail("Mi Fitness đang giành kết nối — hãy đóng hẳn Mi Fitness rồi thử lại.")
+        case .messageSent where streaming:
+            // The first frame got through: the quick app is open, nothing left to time out on.
+            if timeout != nil { note("Vòng đã mở app dẫn đường.") }
+            timeout?.cancel()
+            timeout = nil
         case .messageSent:
             note("Đã gửi khung hình.")
-            // shortcut: fixed 1 s for queued writes to leave; wait for the band's ack once frames stream every second.
+            // shortcut: fixed 1 s for queued writes to leave; wait for the band's ack if the last screen gets cut off.
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in self?.release("Xong, đã nhả kết nối cho Mi Fitness.") }
         case .installProgress(let sent, let total):
             progress = Double(sent) / Double(total)
@@ -148,6 +177,7 @@ final class BandConnection: NSObject {
         link = nil
         job = nil
         progress = nil
+        streaming = false
         busy = false
         note(message)
     }

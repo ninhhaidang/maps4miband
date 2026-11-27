@@ -1,0 +1,58 @@
+import Foundation
+
+/// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,280,
+/// heading up), a = turn angle (+ right, nil = no arrow), d = distance to the turn, i = instruction,
+/// r = remaining, v = 1 to buzz. A message with only `i` is a status message.
+public struct BandMessage: Encodable, Equatable {
+    public var p: [Int]?
+    public var a: Int?
+    public var d: String?
+    public var i: String
+    public var r: String?
+    public var v: Int?
+
+    public init(p: [Int]? = nil, a: Int? = nil, d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
+        (self.p, self.a, self.d, self.i, self.r, self.v) = (p, a, d, i, r, v)
+    }
+
+    public var json: Data { try! JSONEncoder().encode(self) }
+}
+
+/// Follows timed GPS fixes along a route and decides what the band shows and when.
+public final class Navigator {
+    public enum Effect: Equatable {
+        case send(BandMessage)
+        /// Last message; navigation is over.
+        case arrived(BandMessage)
+    }
+
+    private let route: Route
+    private var seg = 0
+    private var lastSend: Date?
+    private var done = false
+    /// Turn we last buzzed for, and how many of `Tuning.buzzAtM` it has had.
+    private var buzzTurn: Int?
+    private var buzzes = 0
+
+    public init(route: Route) {
+        self.route = route
+    }
+
+    public func update(_ here: Point, at time: Date) -> [Effect] {
+        guard !done else { return [] }
+        let f = frame(route, here: here, hint: seg)
+        seg = f.seg
+        if f.remaining < Tuning.arrivedM {
+            done = true
+            return [.arrived(BandMessage(p: f.poly, d: "", i: "Đã đến nơi", v: 1))]
+        }
+        if buzzTurn != f.turn.at { (buzzTurn, buzzes) = (f.turn.at, 0) }
+        let due = Tuning.buzzAtM.filter { f.toTurn < $0 }.count
+        let buzz = due > buzzes
+        buzzes = max(buzzes, due)
+        if !buzz, let lastSend, time.timeIntervalSince(lastSend) < Tuning.sendEvery { return [] }
+        lastSend = time
+        return [.send(BandMessage(p: f.poly, a: f.turn.angle, d: formatDistance(f.toTurn), i: f.turn.text,
+                                  r: "Còn \(formatDistance(f.remaining))", v: buzz ? 1 : 0))]
+    }
+}
