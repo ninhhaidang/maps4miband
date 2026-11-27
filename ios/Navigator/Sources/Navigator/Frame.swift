@@ -37,11 +37,13 @@ public enum Tuning {
 /// Where the rider is on the route, and the north-up screen polyline. `seg` is the segment snapped to;
 /// feed it back as the next `hint`.
 /// `marks` are the turns in the drawn stretch (street-name changes and the arrival left out), flat x,y like
-/// `poly`; the first of them, if any, is `turn`. `streets` are grey segments, flat x1,y1,x2,y2.
+/// `poly`; the first of them, if any, is `turn`. `streets` are grey segments, flat x1,y1,x2,y2. `heading` is the way
+/// the rider goes, in degrees clockwise from north.
 struct Frame {
     let poly: [Int]
     let marks: [Int]
     let streets: [Int]
+    let heading: Int
     let turn: Maneuver
     let toTurn: Double
     let remaining: Double
@@ -69,6 +71,9 @@ func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> F
     let a = pts[best], b = pts[best + 1]
     let snap = Point(lat: a.lat + bestT * (b.lat - a.lat), lon: a.lon + bestT * (b.lon - a.lon))
 
+    // From the route rather than GPS: GPS bearing is noise at walking speed.
+    let (he, hn) = local(a, b)
+    let heading = (Int((atan2(he, hn) * 180 / .pi).rounded()) + 360) % 360
     func screen(_ p: Point) -> (x: Double, y: Double) {
         let (e, n) = local(snap, p)
         return (Tuning.meX + e / Tuning.metresPerPx, Tuning.meY - n / Tuning.metresPerPx)
@@ -121,7 +126,7 @@ func frame(_ route: Route, here: Point, hint: Int, streets: [[Point]] = []) -> F
     }
     let room = max(Tuning.maxSegments - (poly.count / 2 - 1), 0)
     let streets = grey.sorted { $0.d < $1.d }.prefix(room).flatMap(\.s)
-    return Frame(poly: poly, marks: marks, streets: streets, turn: turn, toTurn: max(cum[turn.at] - along, 0),
+    return Frame(poly: poly, marks: marks, streets: streets, heading: heading, turn: turn, toTurn: max(cum[turn.at] - along, 0),
                  remaining: cum.last! - along,
                  offRoute: bestD, seg: best)
 }

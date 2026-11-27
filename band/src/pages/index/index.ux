@@ -8,8 +8,8 @@
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
       <text show="{{hasLabel}}" class="label" style="left: {{labelL}}px; top: {{labelT}}px; width: {{labelW}}px; height: {{labelH}}px;">{{street}}</text>
-      <!-- the phone puts the rider at (106, 345), north up (Tuning.meX/meY) -->
-      <div class="me"></div>
+      <!-- the phone puts the rider at (106, 345), north up (Tuning.meX/meY); the arrow points the way they go -->
+      <image class="me" src="/common/me.png" style="transform: {{meTransform}};"></image>
     </div>
     <!-- Layout A, picked on the band (docs/band-screen.md): arrow and distance on one row, two-line instruction,
          remaining trip. -->
@@ -75,14 +75,12 @@
 }
 .me {
   position: absolute;
-  left: 97px;
-  top: 336px;
-  width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  border-width: 3px;
-  border-color: #ffffff;
-  background-color: #ff7a00;
+  /* centred on (106, 345) */
+  left: 92px;
+  top: 331px;
+  width: 28px;
+  height: 28px;
+  transform-origin: 14px 14px;
 }
 .panel {
   position: absolute;
@@ -147,6 +145,7 @@ export default {
     street: '',
     hasArrow: false,
     arrowTransform: rotate(0),
+    meTransform: rotate(0),
     dist: '',
     instr: 'Bắt đầu dẫn đường trên điện thoại',
     rem: ''
@@ -172,7 +171,7 @@ export default {
   },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
   // (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street at the first mark, a = turn angle (deg,
-  // null = no arrow), d = distance to the turn,
+  // null = no arrow), h = the rider's heading (deg clockwise from north), d = distance to the turn,
   // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     const p = m.p || []
@@ -193,6 +192,7 @@ export default {
     }
     this.hasArrow = m.a !== null && m.a !== undefined
     this.arrowTransform = rotate(m.a || 0)
+    this.meTransform = rotate(m.h || 0)
     this.dist = m.d || ''
     this.instr = m.i || ''
     this.rem = m.r || ''

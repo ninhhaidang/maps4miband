@@ -66,6 +66,7 @@ final class NavigatorTests: XCTestCase {
         nav.streets = [[Point(lat: o.lat + 50 / 111_320.0, lon: o.lon + 100 * m), Point(lat: o.lat - 50 / 111_320.0, lon: o.lon + 100 * m)]]
         guard case .send(let after) = nav.update(street.points[0], at: t0 + 1).first else { return XCTFail() }
         XCTAssertEqual(after.g, [156, 320, 156, 370])
+        XCTAssertEqual(after.h, 90) // heading east
     }
 
     func testDrawsAtMost100SegmentsTheMostTheBandRedrawsEverySecond() throws {

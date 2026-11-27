@@ -2,23 +2,24 @@ import Foundation
 
 /// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,345,
 /// north up), t = turn marks on it (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street of the
-/// first mark, a = turn angle (+ right, nil = no arrow), d = distance to the turn, i = instruction, r = remaining,
-/// v = 1 to buzz.
+/// first mark, h = the rider's heading (degrees clockwise from north), a = turn angle (+ right, nil = no arrow),
+/// d = distance to the turn, i = instruction, r = remaining, v = 1 to buzz.
 /// A message with only `i` is a status message.
 public struct BandMessage: Encodable, Equatable {
     public var p: [Int]?
     public var t: [Int]?
     public var g: [Int]?
     public var n: String?
+    public var h: Int?
     public var a: Int?
     public var d: String?
     public var i: String
     public var r: String?
     public var v: Int?
 
-    public init(p: [Int]? = nil, t: [Int]? = nil, g: [Int]? = nil, n: String? = nil, a: Int? = nil, d: String? = nil,
-                i: String, r: String? = nil, v: Int? = nil) {
-        (self.p, self.t, self.g, self.n, self.a, self.d, self.i, self.r, self.v) = (p, t, g, n, a, d, i, r, v)
+    public init(p: [Int]? = nil, t: [Int]? = nil, g: [Int]? = nil, n: String? = nil, h: Int? = nil, a: Int? = nil,
+                d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
+        (self.p, self.t, self.g, self.n, self.h, self.a, self.d, self.i, self.r, self.v) = (p, t, g, n, h, a, d, i, r, v)
     }
 
     /// Keys sorted so the same screen is always the same bytes, in the log too.
@@ -76,7 +77,7 @@ public final class Navigator {
         if onRoute { seg = f.seg }
         if onRoute && f.remaining < Tuning.arrivedM {
             done = true
-            return [.arrived(BandMessage(p: f.poly, d: "", i: "Đã đến nơi", v: 1))]
+            return [.arrived(BandMessage(p: f.poly, h: f.heading, d: "", i: "Đã đến nơi", v: 1))]
         }
         offFixes = onRoute ? 0 : offFixes + 1
         if offFixes >= Tuning.offRouteFixes {
@@ -93,7 +94,7 @@ public final class Navigator {
         if !buzz, let lastSend, time.timeIntervalSince(lastSend) < Tuning.sendEvery { return [] }
         lastSend = time
         return [.send(BandMessage(p: f.poly, t: f.marks, g: f.streets.isEmpty ? nil : f.streets,
-                                  n: f.marks.isEmpty ? nil : f.turn.street, a: f.turn.angle,
+                                  n: f.marks.isEmpty ? nil : f.turn.street, h: f.heading, a: f.turn.angle,
                                   d: formatDistance(f.toTurn), i: f.turn.text, r:"Còn \(formatDistance(f.remaining))", v: buzz ? 1 : 0))]
     }
 }

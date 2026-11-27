@@ -26,6 +26,9 @@ final class FrameTests: XCTestCase {
         let f = frame(r, here: o, hint: 0)
         XCTAssertEqual(f.poly, [106, 345, 156, 345, 156, 395])
         XCTAssertEqual(f.toTurn, 100, accuracy: 1)
+        // The rider's arrow points along the route: east, then south after the turn.
+        XCTAssertEqual(f.heading, 90)
+        XCTAssertEqual(frame(r, here: south, hint: 1).heading, 180)
     }
 
     /// 100 m east, right turn, 100 m south; north up, the rider in the middle of the map.
