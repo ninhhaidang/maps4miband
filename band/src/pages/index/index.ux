@@ -9,11 +9,15 @@
       <!-- the phone puts the rider at (106, 460), heading up (Tuning.meX/meY) -->
       <div class="me"></div>
     </div>
-    <!-- Layout B, picked on the band (docs/band-screen.md): arrow alone, distance under it, two-line instruction. -->
+    <!-- Layout A, picked on the band (docs/band-screen.md): arrow and distance on one row, two-line instruction,
+         remaining trip. -->
     <div class="panel">
-      <image show="{{hasArrow}}" class="arrow" src="/common/arrow.png" style="transform: {{arrowTransform}};"></image>
-      <text class="dist">{{dist}}</text>
+      <div class="row">
+        <image show="{{hasArrow}}" class="arrow" src="/common/arrow.png" style="transform: {{arrowTransform}};"></image>
+        <text class="dist">{{dist}}</text>
+      </div>
       <text class="instr">{{instr}}</text>
+      <text class="rem">{{rem}}</text>
     </div>
   </stack>
 </template>
@@ -83,23 +87,35 @@
   align-items: center;
   background-color: #111111;
 }
+.row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .arrow {
-  width: 56px;
-  height: 56px;
-  transform-origin: 28px 28px;
+  width: 52px;
+  height: 52px;
+  margin-right: 8px;
+  transform-origin: 26px 26px;
 }
 .dist {
-  font-size: 30px;
+  font-size: 36px;
   font-weight: bold;
   color: #ffffff;
 }
 .instr {
   width: 188px;
-  font-size: 17px;
+  margin-top: 4px;
+  font-size: 19px;
   color: #ffffff;
   text-align: center;
   lines: 2;
   text-overflow: ellipsis;
+}
+.rem {
+  margin-top: 2px;
+  font-size: 15px;
+  color: #8a8a8a;
 }
 </style>
 
@@ -121,7 +137,8 @@ export default {
     hasArrow: false,
     arrowTransform: rotate(0),
     dist: '',
-    instr: 'Bắt đầu dẫn đường trên điện thoại'
+    instr: 'Bắt đầu dẫn đường trên điện thoại',
+    rem: ''
   },
   onInit() {
     brightness.setKeepScreenOn({ keepScreenOn: true })
@@ -147,7 +164,7 @@ export default {
   },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
   // (flat x,y), n = street at the first mark, a = turn angle (deg, null = no arrow), d = distance to the turn,
-  // i = instruction, v = 1 to buzz. r (remaining trip) is for the phone's status line; the band leaves it out.
+  // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     this.segs = segments(m.p || [])
     const t = m.t || []
@@ -165,6 +182,7 @@ export default {
     this.arrowTransform = rotate(m.a || 0)
     this.dist = m.d || ''
     this.instr = m.i || ''
+    this.rem = m.r || ''
     if (m.v) vibrator.vibrate({ mode: 'long' })
   }
 }
