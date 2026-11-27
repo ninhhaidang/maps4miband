@@ -28,6 +28,40 @@ final class FrameTests: XCTestCase {
         XCTAssertEqual(f.toTurn, 100, accuracy: 1)
     }
 
+    /// 100 m east, right turn, 100 m south; heading up, so north is to the left on the band.
+    let o = Point(lat: 21, lon: 105.8)
+    func at(east: Double, north: Double) -> Point {
+        Point(lat: o.lat + north / 111_320, lon: o.lon + east / (111_320 * cos(o.lat * .pi / 180)))
+    }
+    lazy var r = Route(points: [o, at(east: 100, north: 0), at(east: 100, north: -100)], maneuvers: [
+        Maneuver(at: 0, text: "", angle: nil), Maneuver(at: 1, text: "", angle: 90), Maneuver(at: 2, text: "", angle: nil),
+    ])
+
+    func testDrawsStreetsAroundTheRouteClippedToTheMapNearestTheTurnFirst() {
+        let streets = [
+            [at(east: 0, north: 20), at(east: 1000, north: 20)], // parallel, 20 m north, runs up under the panel
+            [at(east: 100, north: 0), at(east: 100, north: 100)], // carries on north at the turn
+            [at(east: 2000, north: 0), at(east: 2000, north: 100)], // far off the map
+            [o, at(east: 100, north: 0), at(east: 100, north: -50)], // the route's own street, hidden under it
+        ]
+        let f = frame(r, here: o, hint: 0, streets: streets)
+        XCTAssertEqual(f.streets, [106, 410, 56, 410, 96, 460, 96, 170])
+    }
+
+    func testStreetsGetOnlyTheSegmentsTheRouteLeavesOf100() {
+        // 120 short side streets 40 m north of the route, 5.5 m apart from 110 m behind to 545 m ahead.
+        let streets = (0..<120).map { k in
+            let east = -110 + 5.5 * Double(k)
+            return [at(east: east, north: 40), at(east: east, north: 50)]
+        }
+        let f = frame(r, here: o, hint: 0, streets: streets)
+        XCTAssertEqual(f.poly.count / 2 - 1, 2)
+        XCTAssertEqual(f.streets.count / 4, 98)
+        let ys = stride(from: 1, to: f.streets.count, by: 4).map { f.streets[$0] }
+        XCTAssertEqual(ys.max(), 515) // the one behind the rider, 105 px from the turn, stays
+        XCTAssertGreaterThan(ys.min()!, 240) // the far ones ahead, over 170 px from the turn, go
+    }
+
     func testAfterTheUturnItDoesNotSnapBackToTheOutboundLeg() {
         let uturn = route.maneuvers[3].at
         XCTAssertEqual(route.maneuvers[3].text, "Quay đầu vào Nguyễn Trãi")

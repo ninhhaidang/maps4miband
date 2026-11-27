@@ -1,0 +1,7311 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-27T08:03:02Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 35972592,
+  "bounds": {
+    "minlat": 21.0018862,
+    "minlon": 105.8169541,
+    "maxlat": 21.0052150,
+    "maxlon": 105.8182888
+  },
+  "geometry": [
+    { "lat": 21.0052150, "lon": 105.8169541 },
+    { "lat": 21.0050108, "lon": 105.8169889 },
+    { "lat": 21.0049279, "lon": 105.8170158 },
+    { "lat": 21.0046119, "lon": 105.8171325 },
+    { "lat": 21.0042574, "lon": 105.8172555 },
+    { "lat": 21.0040193, "lon": 105.8173382 },
+    { "lat": 21.0034996, "lon": 105.8175419 },
+    { "lat": 21.0034427, "lon": 105.8175642 },
+    { "lat": 21.0033090, "lon": 105.8176165 },
+    { "lat": 21.0020049, "lon": 105.8182342 },
+    { "lat": 21.0019298, "lon": 105.8182696 },
+    { "lat": 21.0018862, "lon": 105.8182888 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Cầu Mới",
+    "name:en": "Cau Moi Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 35972593,
+  "bounds": {
+    "minlat": 21.0032768,
+    "minlon": 105.8179006,
+    "maxlat": 21.0043221,
+    "maxlon": 105.8192561
+  },
+  "geometry": [
+    { "lat": 21.0043221, "lon": 105.8179006 },
+    { "lat": 21.0042658, "lon": 105.8179607 },
+    { "lat": 21.0042281, "lon": 105.8180009 },
+    { "lat": 21.0039563, "lon": 105.8182566 },
+    { "lat": 21.0037492, "lon": 105.8184915 },
+    { "lat": 21.0037345, "lon": 105.8185081 },
+    { "lat": 21.0036630, "lon": 105.8185892 },
+    { "lat": 21.0036450, "lon": 105.8186123 },
+    { "lat": 21.0036046, "lon": 105.8186640 },
+    { "lat": 21.0034876, "lon": 105.8188294 },
+    { "lat": 21.0034740, "lon": 105.8188540 },
+    { "lat": 21.0033772, "lon": 105.8190292 },
+    { "lat": 21.0032768, "lon": 105.8192561 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 35977789,
+  "bounds": {
+    "minlat": 21.0052039,
+    "minlon": 105.8153620,
+    "maxlat": 21.0077222,
+    "maxlon": 105.8171357
+  },
+  "geometry": [
+    { "lat": 21.0052039, "lon": 105.8171357 },
+    { "lat": 21.0055384, "lon": 105.8168988 },
+    { "lat": 21.0057527, "lon": 105.8167471 },
+    { "lat": 21.0060746, "lon": 105.8165418 },
+    { "lat": 21.0062468, "lon": 105.8164237 },
+    { "lat": 21.0065606, "lon": 105.8162123 },
+    { "lat": 21.0073042, "lon": 105.8156665 },
+    { "lat": 21.0074649, "lon": 105.8155536 },
+    { "lat": 21.0076719, "lon": 105.8153995 },
+    { "lat": 21.0077222, "lon": 105.8153620 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 35978173,
+  "bounds": {
+    "minlat": 21.0022176,
+    "minlon": 105.8190895,
+    "maxlat": 21.0044915,
+    "maxlon": 105.8220258
+  },
+  "geometry": [
+    { "lat": 21.0022176, "lon": 105.8190895 },
+    { "lat": 21.0028938, "lon": 105.8200037 },
+    { "lat": 21.0035017, "lon": 105.8208141 },
+    { "lat": 21.0038345, "lon": 105.8212739 },
+    { "lat": 21.0040441, "lon": 105.8215515 },
+    { "lat": 21.0041332, "lon": 105.8216654 },
+    { "lat": 21.0042275, "lon": 105.8217736 },
+    { "lat": 21.0043399, "lon": 105.8218827 },
+    { "lat": 21.0044915, "lon": 105.8220258 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "name:en": "Nga Tu So Overpass",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 136161379,
+  "bounds": {
+    "minlat": 21.0022848,
+    "minlon": 105.8190266,
+    "maxlat": 21.0045686,
+    "maxlon": 105.8219435
+  },
+  "geometry": [
+    { "lat": 21.0045686, "lon": 105.8219435 },
+    { "lat": 21.0044714, "lon": 105.8218787 },
+    { "lat": 21.0043711, "lon": 105.8217830 },
+    { "lat": 21.0042485, "lon": 105.8216627 },
+    { "lat": 21.0041531, "lon": 105.8215535 },
+    { "lat": 21.0040585, "lon": 105.8214276 },
+    { "lat": 21.0038575, "lon": 105.8211615 },
+    { "lat": 21.0035466, "lon": 105.8207493 },
+    { "lat": 21.0027005, "lon": 105.8196072 },
+    { "lat": 21.0022848, "lon": 105.8190266 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "name:en": "Nga Tu So Overpass",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 136161769,
+  "bounds": {
+    "minlat": 21.0036036,
+    "minlon": 105.8206802,
+    "maxlat": 21.0048876,
+    "maxlon": 105.8221002
+  },
+  "geometry": [
+    { "lat": 21.0048876, "lon": 105.8221002 },
+    { "lat": 21.0047568, "lon": 105.8219971 },
+    { "lat": 21.0046570, "lon": 105.8219249 },
+    { "lat": 21.0045548, "lon": 105.8218432 },
+    { "lat": 21.0044381, "lon": 105.8217497 },
+    { "lat": 21.0043083, "lon": 105.8216135 },
+    { "lat": 21.0041009, "lon": 105.8213531 },
+    { "lat": 21.0037108, "lon": 105.8208251 },
+    { "lat": 21.0036036, "lon": 105.8206802 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "name:en": "Tay Son Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 136161770,
+  "bounds": {
+    "minlat": 21.0033732,
+    "minlon": 105.8207826,
+    "maxlat": 21.0048548,
+    "maxlon": 105.8223217
+  },
+  "geometry": [
+    { "lat": 21.0033732, "lon": 105.8207826 },
+    { "lat": 21.0034855, "lon": 105.8209171 },
+    { "lat": 21.0035553, "lon": 105.8210059 },
+    { "lat": 21.0037603, "lon": 105.8213015 },
+    { "lat": 21.0039604, "lon": 105.8215682 },
+    { "lat": 21.0041400, "lon": 105.8217883 },
+    { "lat": 21.0042016, "lon": 105.8218564 },
+    { "lat": 21.0042856, "lon": 105.8219408 },
+    { "lat": 21.0044116, "lon": 105.8220448 },
+    { "lat": 21.0044497, "lon": 105.8220767 },
+    { "lat": 21.0045235, "lon": 105.8221384 },
+    { "lat": 21.0047302, "lon": 105.8222675 },
+    { "lat": 21.0048548, "lon": 105.8223217 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "name:en": "Tay Son Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 136161771,
+  "bounds": {
+    "minlat": 21.0034190,
+    "minlon": 105.8180310,
+    "maxlat": 21.0044283,
+    "maxlon": 105.8193971
+  },
+  "geometry": [
+    { "lat": 21.0034190, "lon": 105.8193971 },
+    { "lat": 21.0034638, "lon": 105.8192838 },
+    { "lat": 21.0035181, "lon": 105.8191670 },
+    { "lat": 21.0035792, "lon": 105.8190468 },
+    { "lat": 21.0036388, "lon": 105.8189463 },
+    { "lat": 21.0036953, "lon": 105.8188661 },
+    { "lat": 21.0038031, "lon": 105.8187146 },
+    { "lat": 21.0044283, "lon": 105.8180310 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 177433576,
+  "bounds": {
+    "minlat": 21.0028361,
+    "minlon": 105.8196100,
+    "maxlat": 21.0030929,
+    "maxlon": 105.8199683
+  },
+  "geometry": [
+    { "lat": 21.0030929, "lon": 105.8199683 },
+    { "lat": 21.0028361, "lon": 105.8196100 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 207272548,
+  "bounds": {
+    "minlat": 21.0063694,
+    "minlon": 105.8147683,
+    "maxlat": 21.0066666,
+    "maxlon": 105.8153402
+  },
+  "geometry": [
+    { "lat": 21.0063694, "lon": 105.8147683 },
+    { "lat": 21.0065048, "lon": 105.8150111 },
+    { "lat": 21.0066666, "lon": 105.8153402 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "name": "Ngõ 213 Giáp Nhất",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 218427624,
+  "bounds": {
+    "minlat": 21.0049643,
+    "minlon": 105.8133317,
+    "maxlat": 21.0085866,
+    "maxlon": 105.8164429
+  },
+  "geometry": [
+    { "lat": 21.0085866, "lon": 105.8133317 },
+    { "lat": 21.0079468, "lon": 105.8142669 },
+    { "lat": 21.0078271, "lon": 105.8143955 },
+    { "lat": 21.0077363, "lon": 105.8144834 },
+    { "lat": 21.0066666, "lon": 105.8153402 },
+    { "lat": 21.0062095, "lon": 105.8157181 },
+    { "lat": 21.0061293, "lon": 105.8157730 },
+    { "lat": 21.0052626, "lon": 105.8163028 },
+    { "lat": 21.0051237, "lon": 105.8163754 },
+    { "lat": 21.0049643, "lon": 105.8164429 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Phố Giáp Nhất",
+    "name:en": "Giap Nhat Street",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 251780514,
+  "bounds": {
+    "minlat": 20.9962347,
+    "minlon": 105.8151919,
+    "maxlat": 21.0013002,
+    "maxlon": 105.8181693
+  },
+  "geometry": [
+    { "lat": 20.9962347, "lon": 105.8151919 },
+    { "lat": 20.9963280, "lon": 105.8152568 },
+    { "lat": 20.9964859, "lon": 105.8153666 },
+    { "lat": 20.9970103, "lon": 105.8157452 },
+    { "lat": 20.9975736, "lon": 105.8161247 },
+    { "lat": 20.9979376, "lon": 105.8163883 },
+    { "lat": 20.9981847, "lon": 105.8165970 },
+    { "lat": 20.9982322, "lon": 105.8166418 },
+    { "lat": 20.9984902, "lon": 105.8168658 },
+    { "lat": 20.9991773, "lon": 105.8174497 },
+    { "lat": 20.9995732, "lon": 105.8177629 },
+    { "lat": 20.9998270, "lon": 105.8179495 },
+    { "lat": 20.9999241, "lon": 105.8180206 },
+    { "lat": 21.0000122, "lon": 105.8180731 },
+    { "lat": 21.0001487, "lon": 105.8181288 },
+    { "lat": 21.0002802, "lon": 105.8181486 },
+    { "lat": 21.0005605, "lon": 105.8181693 },
+    { "lat": 21.0007115, "lon": 105.8181607 },
+    { "lat": 21.0007245, "lon": 105.8181600 },
+    { "lat": 21.0007579, "lon": 105.8181556 },
+    { "lat": 21.0009799, "lon": 105.8181117 },
+    { "lat": 21.0010623, "lon": 105.8180853 },
+    { "lat": 21.0010801, "lon": 105.8180796 },
+    { "lat": 21.0013002, "lon": 105.8179713 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "cycleway": "no",
+    "foot": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Phố Thượng Đình",
+    "name:en": "Thuong Dinh Street",
+    "sidewalk": "both",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 251784279,
+  "bounds": {
+    "minlat": 21.0001295,
+    "minlon": 105.8185051,
+    "maxlat": 21.0013636,
+    "maxlon": 105.8186853
+  },
+  "geometry": [
+    { "lat": 21.0001295, "lon": 105.8186576 },
+    { "lat": 21.0002612, "lon": 105.8186696 },
+    { "lat": 21.0004633, "lon": 105.8186853 },
+    { "lat": 21.0007489, "lon": 105.8186760 },
+    { "lat": 21.0010582, "lon": 105.8186006 },
+    { "lat": 21.0011127, "lon": 105.8185873 },
+    { "lat": 21.0013636, "lon": 105.8185051 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Phố Khương Trung",
+    "name:en": "Khuong Trung Street",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 330602536,
+  "bounds": {
+    "minlat": 21.0030743,
+    "minlon": 105.8194944,
+    "maxlat": 21.0034471,
+    "maxlon": 105.8204427
+  },
+  "geometry": [
+    { "lat": 21.0034471, "lon": 105.8204427 },
+    { "lat": 21.0033581, "lon": 105.8202251 },
+    { "lat": 21.0033080, "lon": 105.8200972 },
+    { "lat": 21.0032751, "lon": 105.8200166 },
+    { "lat": 21.0030743, "lon": 105.8194944 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "highway": "footway",
+    "layer": "-1",
+    "lit": "yes",
+    "motor_vehicle": "no",
+    "name": "Hầm đường bộ Ngã Tư Sở",
+    "oneway": "no",
+    "surface": "paved",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 330602538,
+  "bounds": {
+    "minlat": 21.0026764,
+    "minlon": 105.8192700,
+    "maxlat": 21.0027728,
+    "maxlon": 105.8194112
+  },
+  "geometry": [
+    { "lat": 21.0027728, "lon": 105.8194112 },
+    { "lat": 21.0026764, "lon": 105.8192700 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 330602539,
+  "bounds": {
+    "minlat": 21.0031553,
+    "minlon": 105.8191348,
+    "maxlat": 21.0032424,
+    "maxlon": 105.8193447
+  },
+  "geometry": [
+    { "lat": 21.0032424, "lon": 105.8191348 },
+    { "lat": 21.0031553, "lon": 105.8193447 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 330602542,
+  "bounds": {
+    "minlat": 21.0026700,
+    "minlon": 105.8203481,
+    "maxlat": 21.0027338,
+    "maxlon": 105.8205081
+  },
+  "geometry": [
+    { "lat": 21.0027338, "lon": 105.8203481 },
+    { "lat": 21.0026700, "lon": 105.8205081 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 330602556,
+  "bounds": {
+    "minlat": 21.0026413,
+    "minlon": 105.8194944,
+    "maxlat": 21.0030743,
+    "maxlon": 105.8209791
+  },
+  "geometry": [
+    { "lat": 21.0030743, "lon": 105.8194944 },
+    { "lat": 21.0030565, "lon": 105.8195112 },
+    { "lat": 21.0030047, "lon": 105.8195663 },
+    { "lat": 21.0029375, "lon": 105.8196399 },
+    { "lat": 21.0026413, "lon": 105.8199905 },
+    { "lat": 21.0026775, "lon": 105.8201415 },
+    { "lat": 21.0026975, "lon": 105.8202233 },
+    { "lat": 21.0027338, "lon": 105.8203481 },
+    { "lat": 21.0029830, "lon": 105.8209791 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "highway": "footway",
+    "layer": "-1",
+    "lit": "yes",
+    "motor_vehicle": "no",
+    "name": "Hầm đường bộ Ngã Tư Sở",
+    "oneway": "no",
+    "surface": "paved",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 330602558,
+  "bounds": {
+    "minlat": 21.0029830,
+    "minlon": 105.8204427,
+    "maxlat": 21.0034471,
+    "maxlon": 105.8209791
+  },
+  "geometry": [
+    { "lat": 21.0029830, "lon": 105.8209791 },
+    { "lat": 21.0030887, "lon": 105.8208585 },
+    { "lat": 21.0031461, "lon": 105.8207926 },
+    { "lat": 21.0032265, "lon": 105.8207028 },
+    { "lat": 21.0034471, "lon": 105.8204427 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "highway": "footway",
+    "layer": "-1",
+    "lit": "yes",
+    "motor_vehicle": "no",
+    "name": "Hầm đường bộ Ngã Tư Sở",
+    "oneway": "no",
+    "surface": "paved",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 397649390,
+  "bounds": {
+    "minlat": 21.0016380,
+    "minlon": 105.8184796,
+    "maxlat": 21.0025823,
+    "maxlon": 105.8197502
+  },
+  "geometry": [
+    { "lat": 21.0016380, "lon": 105.8184796 },
+    { "lat": 21.0016750, "lon": 105.8185302 },
+    { "lat": 21.0018875, "lon": 105.8188218 },
+    { "lat": 21.0020177, "lon": 105.8189954 },
+    { "lat": 21.0023365, "lon": 105.8194207 },
+    { "lat": 21.0024759, "lon": 105.8196075 },
+    { "lat": 21.0025823, "lon": 105.8197502 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 537687398,
+  "bounds": {
+    "minlat": 21.0051536,
+    "minlon": 105.8168320,
+    "maxlat": 21.0052150,
+    "maxlon": 105.8169541
+  },
+  "geometry": [
+    { "lat": 21.0052150, "lon": 105.8169541 },
+    { "lat": 21.0051722, "lon": 105.8168697 },
+    { "lat": 21.0051536, "lon": 105.8168320 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Cầu Giáp Nhất",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 537687399,
+  "bounds": {
+    "minlat": 21.0049927,
+    "minlon": 105.8165132,
+    "maxlat": 21.0051536,
+    "maxlon": 105.8168320
+  },
+  "geometry": [
+    { "lat": 21.0051536, "lon": 105.8168320 },
+    { "lat": 21.0049927, "lon": 105.8165132 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu Giáp Nhất",
+    "name:en": "Giap Nhat Bridge",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 537687400,
+  "bounds": {
+    "minlat": 21.0049643,
+    "minlon": 105.8164429,
+    "maxlat": 21.0049927,
+    "maxlon": 105.8165132
+  },
+  "geometry": [
+    { "lat": 21.0049927, "lon": 105.8165132 },
+    { "lat": 21.0049643, "lon": 105.8164429 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu Giáp Nhất",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 591296755,
+  "bounds": {
+    "minlat": 21.0026033,
+    "minlon": 105.8195644,
+    "maxlat": 21.0028048,
+    "maxlon": 105.8197890
+  },
+  "geometry": [
+    { "lat": 21.0026033, "lon": 105.8197736 },
+    { "lat": 21.0026404, "lon": 105.8197840 },
+    { "lat": 21.0026788, "lon": 105.8197890 },
+    { "lat": 21.0027264, "lon": 105.8197840 },
+    { "lat": 21.0027662, "lon": 105.8197564 },
+    { "lat": 21.0027842, "lon": 105.8197304 },
+    { "lat": 21.0028004, "lon": 105.8196810 },
+    { "lat": 21.0028048, "lon": 105.8196410 },
+    { "lat": 21.0028013, "lon": 105.8196012 },
+    { "lat": 21.0027980, "lon": 105.8195644 }
+  ],
+  "tags": {
+    "destination:street": "Đường Nguyễn Trãi",
+    "highway": "primary_link",
+    "lanes": "1",
+    "lit": "yes",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 591354553,
+  "bounds": {
+    "minlat": 21.0032161,
+    "minlon": 105.8156388,
+    "maxlat": 21.0045865,
+    "maxlon": 105.8167167
+  },
+  "geometry": [
+    { "lat": 21.0032161, "lon": 105.8167167 },
+    { "lat": 21.0033303, "lon": 105.8166597 },
+    { "lat": 21.0034471, "lon": 105.8166054 },
+    { "lat": 21.0035711, "lon": 105.8165390 },
+    { "lat": 21.0038145, "lon": 105.8163738 },
+    { "lat": 21.0039814, "lon": 105.8162360 },
+    { "lat": 21.0044368, "lon": 105.8159061 },
+    { "lat": 21.0045002, "lon": 105.8158475 },
+    { "lat": 21.0045658, "lon": 105.8157506 },
+    { "lat": 21.0045865, "lon": 105.8156388 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "maxspeed": "20",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 596710683,
+  "bounds": {
+    "minlat": 21.0031473,
+    "minlon": 105.8206948,
+    "maxlat": 21.0033732,
+    "maxlon": 105.8207826
+  },
+  "geometry": [
+    { "lat": 21.0031473, "lon": 105.8207341 },
+    { "lat": 21.0031869, "lon": 105.8207108 },
+    { "lat": 21.0032419, "lon": 105.8206948 },
+    { "lat": 21.0032688, "lon": 105.8206996 },
+    { "lat": 21.0033001, "lon": 105.8207165 },
+    { "lat": 21.0033732, "lon": 105.8207826 }
+  ],
+  "tags": {
+    "destination:street": "Phố Tây Sơn",
+    "highway": "primary",
+    "lanes": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "name:en": "Tay Son Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 596710686,
+  "bounds": {
+    "minlat": 21.0033610,
+    "minlon": 105.8193971,
+    "maxlat": 21.0034630,
+    "maxlon": 105.8204857
+  },
+  "geometry": [
+    { "lat": 21.0034630, "lon": 105.8204857 },
+    { "lat": 21.0033729, "lon": 105.8200149 },
+    { "lat": 21.0033610, "lon": 105.8199004 },
+    { "lat": 21.0033754, "lon": 105.8197654 },
+    { "lat": 21.0034134, "lon": 105.8195974 },
+    { "lat": 21.0034210, "lon": 105.8194994 },
+    { "lat": 21.0034190, "lon": 105.8193971 }
+  ],
+  "tags": {
+    "destination:street": "Đường Láng",
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "name:en": "Tay Son Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 596710689,
+  "bounds": {
+    "minlat": 21.0026723,
+    "minlon": 105.8198871,
+    "maxlat": 21.0028548,
+    "maxlon": 105.8208163
+  },
+  "geometry": [
+    { "lat": 21.0026723, "lon": 105.8198871 },
+    { "lat": 21.0027201, "lon": 105.8200482 },
+    { "lat": 21.0028548, "lon": 105.8208163 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 597111782,
+  "bounds": {
+    "minlat": 21.0013792,
+    "minlon": 105.8201729,
+    "maxlat": 21.0020211,
+    "maxlon": 105.8208678
+  },
+  "geometry": [
+    { "lat": 21.0020211, "lon": 105.8205503 },
+    { "lat": 21.0016906, "lon": 105.8208678 },
+    { "lat": 21.0013792, "lon": 105.8204775 },
+    { "lat": 21.0016121, "lon": 105.8202736 },
+    { "lat": 21.0017300, "lon": 105.8201729 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 597111783,
+  "bounds": {
+    "minlat": 21.0001894,
+    "minlon": 105.8207628,
+    "maxlat": 21.0011404,
+    "maxlon": 105.8213262
+  },
+  "geometry": [
+    { "lat": 21.0011404, "lon": 105.8207628 },
+    { "lat": 21.0010680, "lon": 105.8209464 },
+    { "lat": 21.0010429, "lon": 105.8210609 },
+    { "lat": 21.0010313, "lon": 105.8211923 },
+    { "lat": 21.0002900, "lon": 105.8212244 },
+    { "lat": 21.0001894, "lon": 105.8213262 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 40 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 597111788,
+  "bounds": {
+    "minlat": 21.0022550,
+    "minlon": 105.8207582,
+    "maxlat": 21.0023992,
+    "maxlon": 105.8212572
+  },
+  "geometry": [
+    { "lat": 21.0022904, "lon": 105.8207582 },
+    { "lat": 21.0023992, "lon": 105.8208161 },
+    { "lat": 21.0023170, "lon": 105.8210677 },
+    { "lat": 21.0022550, "lon": 105.8212572 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 369 Đường Trường Chinh",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 597111789,
+  "bounds": {
+    "minlat": 21.0020980,
+    "minlon": 105.8211815,
+    "maxlat": 21.0026777,
+    "maxlon": 105.8214555
+  },
+  "geometry": [
+    { "lat": 21.0026777, "lon": 105.8214555 },
+    { "lat": 21.0025610, "lon": 105.8213978 },
+    { "lat": 21.0022550, "lon": 105.8212572 },
+    { "lat": 21.0020980, "lon": 105.8211815 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 369 Đường Trường Chinh",
+    "service": "alley",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 597111791,
+  "bounds": {
+    "minlat": 21.0020211,
+    "minlon": 105.8200482,
+    "maxlat": 21.0027201,
+    "maxlon": 105.8205503
+  },
+  "geometry": [
+    { "lat": 21.0027201, "lon": 105.8200482 },
+    { "lat": 21.0025714, "lon": 105.8201779 },
+    { "lat": 21.0023394, "lon": 105.8203875 },
+    { "lat": 21.0022677, "lon": 105.8204093 },
+    { "lat": 21.0021829, "lon": 105.8204183 },
+    { "lat": 21.0021406, "lon": 105.8204479 },
+    { "lat": 21.0020211, "lon": 105.8205503 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 19 Đường Nguyễn Trãi",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 597543673,
+  "bounds": {
+    "minlat": 21.0028361,
+    "minlon": 105.8192561,
+    "maxlat": 21.0032768,
+    "maxlon": 105.8196176
+  },
+  "geometry": [
+    { "lat": 21.0032768, "lon": 105.8192561 },
+    { "lat": 21.0031411, "lon": 105.8195376 },
+    { "lat": 21.0030783, "lon": 105.8195931 },
+    { "lat": 21.0030077, "lon": 105.8196143 },
+    { "lat": 21.0029124, "lon": 105.8196176 },
+    { "lat": 21.0028361, "lon": 105.8196100 }
+  ],
+  "tags": {
+    "destination:street": "Nguyễn Trãi",
+    "highway": "primary_link",
+    "lanes": "2",
+    "lit": "yes",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 600062991,
+  "bounds": {
+    "minlat": 21.0065606,
+    "minlon": 105.8162123,
+    "maxlat": 21.0072681,
+    "maxlon": 105.8171920
+  },
+  "geometry": [
+    { "lat": 21.0065606, "lon": 105.8162123 },
+    { "lat": 21.0065891, "lon": 105.8162620 },
+    { "lat": 21.0067492, "lon": 105.8165378 },
+    { "lat": 21.0068353, "lon": 105.8166845 },
+    { "lat": 21.0069191, "lon": 105.8166381 },
+    { "lat": 21.0069429, "lon": 105.8166360 },
+    { "lat": 21.0069692, "lon": 105.8166437 },
+    { "lat": 21.0070002, "lon": 105.8166638 },
+    { "lat": 21.0070272, "lon": 105.8166919 },
+    { "lat": 21.0072335, "lon": 105.8169372 },
+    { "lat": 21.0072681, "lon": 105.8169802 },
+    { "lat": 21.0069418, "lon": 105.8171920 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 242 Đường Láng"
+  }
+},
+{
+  "type": "way",
+  "id": 600062992,
+  "bounds": {
+    "minlat": 21.0062694,
+    "minlon": 105.8169794,
+    "maxlat": 21.0065151,
+    "maxlon": 105.8172434
+  },
+  "geometry": [
+    { "lat": 21.0062707, "lon": 105.8170851 },
+    { "lat": 21.0062694, "lon": 105.8171307 },
+    { "lat": 21.0062827, "lon": 105.8171741 },
+    { "lat": 21.0063071, "lon": 105.8172083 },
+    { "lat": 21.0063405, "lon": 105.8172322 },
+    { "lat": 21.0063792, "lon": 105.8172434 },
+    { "lat": 21.0064193, "lon": 105.8172407 },
+    { "lat": 21.0064565, "lon": 105.8172244 },
+    { "lat": 21.0064868, "lon": 105.8171962 },
+    { "lat": 21.0065070, "lon": 105.8171591 },
+    { "lat": 21.0065151, "lon": 105.8171170 },
+    { "lat": 21.0065102, "lon": 105.8170743 },
+    { "lat": 21.0064927, "lon": 105.8170356 },
+    { "lat": 21.0064646, "lon": 105.8170049 },
+    { "lat": 21.0064287, "lon": 105.8169855 },
+    { "lat": 21.0063890, "lon": 105.8169794 },
+    { "lat": 21.0063495, "lon": 105.8169873 },
+    { "lat": 21.0063145, "lon": 105.8170084 },
+    { "lat": 21.0062863, "lon": 105.8170426 },
+    { "lat": 21.0062707, "lon": 105.8170851 }
+  ],
+  "tags": {
+    "highway": "service",
+    "junction": "roundabout",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 600083145,
+  "bounds": {
+    "minlat": 21.0055753,
+    "minlon": 105.8152619,
+    "maxlat": 21.0076421,
+    "maxlon": 105.8167320
+  },
+  "geometry": [
+    { "lat": 21.0076421, "lon": 105.8152619 },
+    { "lat": 21.0073545, "lon": 105.8154884 },
+    { "lat": 21.0066641, "lon": 105.8159867 },
+    { "lat": 21.0061894, "lon": 105.8163210 },
+    { "lat": 21.0057774, "lon": 105.8165951 },
+    { "lat": 21.0055753, "lon": 105.8167320 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 600083178,
+  "bounds": {
+    "minlat": 21.0069507,
+    "minlon": 105.8139798,
+    "maxlat": 21.0075710,
+    "maxlon": 105.8142849
+  },
+  "geometry": [
+    { "lat": 21.0075710, "lon": 105.8142849 },
+    { "lat": 21.0073288, "lon": 105.8139798 },
+    { "lat": 21.0069507, "lon": 105.8142453 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 600083180,
+  "bounds": {
+    "minlat": 21.0065048,
+    "minlon": 105.8131836,
+    "maxlat": 21.0084469,
+    "maxlon": 105.8150111
+  },
+  "geometry": [
+    { "lat": 21.0084469, "lon": 105.8131836 },
+    { "lat": 21.0078415, "lon": 105.8139853 },
+    { "lat": 21.0078013, "lon": 105.8140386 },
+    { "lat": 21.0077181, "lon": 105.8141394 },
+    { "lat": 21.0076530, "lon": 105.8142118 },
+    { "lat": 21.0075710, "lon": 105.8142849 },
+    { "lat": 21.0075626, "lon": 105.8142907 },
+    { "lat": 21.0068031, "lon": 105.8148118 },
+    { "lat": 21.0065048, "lon": 105.8150111 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "name": "Ngõ 1 Phố Quan Nhân"
+  }
+},
+{
+  "type": "way",
+  "id": 600536743,
+  "bounds": {
+    "minlat": 21.0014586,
+    "minlon": 105.8188218,
+    "maxlat": 21.0018982,
+    "maxlon": 105.8201729
+  },
+  "geometry": [
+    { "lat": 21.0018875, "lon": 105.8188218 },
+    { "lat": 21.0017867, "lon": 105.8189027 },
+    { "lat": 21.0015133, "lon": 105.8190975 },
+    { "lat": 21.0014858, "lon": 105.8191417 },
+    { "lat": 21.0014660, "lon": 105.8192995 },
+    { "lat": 21.0014586, "lon": 105.8193746 },
+    { "lat": 21.0016987, "lon": 105.8197170 },
+    { "lat": 21.0018982, "lon": 105.8199666 },
+    { "lat": 21.0017300, "lon": 105.8201729 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 73 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 600536744,
+  "bounds": {
+    "minlat": 21.0061920,
+    "minlon": 105.8171741,
+    "maxlat": 21.0070408,
+    "maxlon": 105.8179280
+  },
+  "geometry": [
+    { "lat": 21.0062827, "lon": 105.8171741 },
+    { "lat": 21.0061920, "lon": 105.8172333 },
+    { "lat": 21.0062670, "lon": 105.8173278 },
+    { "lat": 21.0063972, "lon": 105.8175603 },
+    { "lat": 21.0066032, "lon": 105.8179280 },
+    { "lat": 21.0069181, "lon": 105.8177738 },
+    { "lat": 21.0070408, "lon": 105.8177483 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 600536748,
+  "bounds": {
+    "minlat": 21.0008709,
+    "minlon": 105.8164931,
+    "maxlat": 21.0013010,
+    "maxlon": 105.8171009
+  },
+  "geometry": [
+    { "lat": 21.0013010, "lon": 105.8171009 },
+    { "lat": 21.0011202, "lon": 105.8168475 },
+    { "lat": 21.0009746, "lon": 105.8166344 },
+    { "lat": 21.0009514, "lon": 105.8166009 },
+    { "lat": 21.0008709, "lon": 105.8164931 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "name": "Royal City",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 601535720,
+  "bounds": {
+    "minlat": 21.0030637,
+    "minlon": 105.8153798,
+    "maxlat": 21.0039814,
+    "maxlon": 105.8162360
+  },
+  "geometry": [
+    { "lat": 21.0030637, "lon": 105.8153798 },
+    { "lat": 21.0030987, "lon": 105.8154361 },
+    { "lat": 21.0031015, "lon": 105.8154750 },
+    { "lat": 21.0030818, "lon": 105.8155386 },
+    { "lat": 21.0030818, "lon": 105.8155923 },
+    { "lat": 21.0030998, "lon": 105.8156609 },
+    { "lat": 21.0031559, "lon": 105.8157425 },
+    { "lat": 21.0032354, "lon": 105.8157891 },
+    { "lat": 21.0033124, "lon": 105.8158107 },
+    { "lat": 21.0033865, "lon": 105.8158117 },
+    { "lat": 21.0034240, "lon": 105.8158061 },
+    { "lat": 21.0034937, "lon": 105.8157957 },
+    { "lat": 21.0035703, "lon": 105.8157747 },
+    { "lat": 21.0036409, "lon": 105.8157860 },
+    { "lat": 21.0037082, "lon": 105.8158261 },
+    { "lat": 21.0037915, "lon": 105.8159434 },
+    { "lat": 21.0038810, "lon": 105.8160779 },
+    { "lat": 21.0039239, "lon": 105.8161424 },
+    { "lat": 21.0039814, "lon": 105.8162360 }
+  ],
+  "tags": {
+    "highway": "service",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 602402524,
+  "bounds": {
+    "minlat": 21.0060746,
+    "minlon": 105.8165418,
+    "maxlat": 21.0063145,
+    "maxlon": 105.8170084
+  },
+  "geometry": [
+    { "lat": 21.0060746, "lon": 105.8165418 },
+    { "lat": 21.0060996, "lon": 105.8165839 },
+    { "lat": 21.0063145, "lon": 105.8170084 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 616838530,
+  "bounds": {
+    "minlat": 21.0026156,
+    "minlon": 105.8162024,
+    "maxlat": 21.0030211,
+    "maxlon": 105.8167083
+  },
+  "geometry": [
+    { "lat": 21.0026156, "lon": 105.8162024 },
+    { "lat": 21.0028623, "lon": 105.8165641 },
+    { "lat": 21.0029067, "lon": 105.8166101 },
+    { "lat": 21.0030211, "lon": 105.8167083 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 616838544,
+  "bounds": {
+    "minlat": 21.0016984,
+    "minlon": 105.8183597,
+    "maxlat": 21.0022176,
+    "maxlon": 105.8190895
+  },
+  "geometry": [
+    { "lat": 21.0016984, "lon": 105.8183597 },
+    { "lat": 21.0018100, "lon": 105.8185181 },
+    { "lat": 21.0019644, "lon": 105.8187425 },
+    { "lat": 21.0022176, "lon": 105.8190895 }
+  ],
+  "tags": {
+    "foot": "no",
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "name:en": "Nga Tu So Overpass",
+    "oneway": "yes",
+    "sidewalk": "no",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 616838545,
+  "bounds": {
+    "minlat": 21.0017879,
+    "minlon": 105.8182251,
+    "maxlat": 21.0022848,
+    "maxlon": 105.8190266
+  },
+  "geometry": [
+    { "lat": 21.0022848, "lon": 105.8190266 },
+    { "lat": 21.0018999, "lon": 105.8184862 },
+    { "lat": 21.0018154, "lon": 105.8183390 },
+    { "lat": 21.0017879, "lon": 105.8182251 }
+  ],
+  "tags": {
+    "foot": "no",
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "name:en": "Nga Tu So Overpass",
+    "oneway": "yes",
+    "sidewalk": "no",
+    "smoothness": "excellent",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 616838546,
+  "bounds": {
+    "minlat": 21.0014447,
+    "minlon": 105.8180175,
+    "maxlat": 21.0016984,
+    "maxlon": 105.8183597
+  },
+  "geometry": [
+    { "lat": 21.0014447, "lon": 105.8180175 },
+    { "lat": 21.0016984, "lon": 105.8183597 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "maxweight": "30",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 616838547,
+  "bounds": {
+    "minlat": 21.0016110,
+    "minlon": 105.8179422,
+    "maxlat": 21.0017879,
+    "maxlon": 105.8182251
+  },
+  "geometry": [
+    { "lat": 21.0017879, "lon": 105.8182251 },
+    { "lat": 21.0017070, "lon": 105.8180957 },
+    { "lat": 21.0016110, "lon": 105.8179422 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "4",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "maxweight": "30",
+    "name": "Cầu Mới",
+    "name:en": "Moi Bridge",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 683844933,
+  "bounds": {
+    "minlat": 21.0078249,
+    "minlon": 105.8151852,
+    "maxlat": 21.0096905,
+    "maxlon": 105.8154172
+  },
+  "geometry": [
+    { "lat": 21.0078249, "lon": 105.8152738 },
+    { "lat": 21.0079337, "lon": 105.8152505 },
+    { "lat": 21.0080702, "lon": 105.8152213 },
+    { "lat": 21.0083632, "lon": 105.8151852 },
+    { "lat": 21.0085789, "lon": 105.8151908 },
+    { "lat": 21.0087648, "lon": 105.8152002 },
+    { "lat": 21.0089438, "lon": 105.8152203 },
+    { "lat": 21.0091015, "lon": 105.8152465 },
+    { "lat": 21.0092525, "lon": 105.8152800 },
+    { "lat": 21.0094652, "lon": 105.8153432 },
+    { "lat": 21.0095551, "lon": 105.8153727 },
+    { "lat": 21.0096905, "lon": 105.8154172 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "name": "Ngõ 177 Phố Yên Lãng",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 683863920,
+  "bounds": {
+    "minlat": 21.0057527,
+    "minlon": 105.8167471,
+    "maxlat": 21.0065266,
+    "maxlon": 105.8180710
+  },
+  "geometry": [
+    { "lat": 21.0065266, "lon": 105.8180710 },
+    { "lat": 21.0063998, "lon": 105.8178416 },
+    { "lat": 21.0063469, "lon": 105.8177871 },
+    { "lat": 21.0062986, "lon": 105.8177083 },
+    { "lat": 21.0062144, "lon": 105.8175846 },
+    { "lat": 21.0061306, "lon": 105.8174329 },
+    { "lat": 21.0060697, "lon": 105.8173398 },
+    { "lat": 21.0060198, "lon": 105.8172515 },
+    { "lat": 21.0059802, "lon": 105.8171577 },
+    { "lat": 21.0057812, "lon": 105.8167957 },
+    { "lat": 21.0057527, "lon": 105.8167471 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 218 Đường Láng",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 683863925,
+  "bounds": {
+    "minlat": 21.0035181,
+    "minlon": 105.8191670,
+    "maxlat": 21.0037216,
+    "maxlon": 105.8192834
+  },
+  "geometry": [
+    { "lat": 21.0037216, "lon": 105.8192834 },
+    { "lat": 21.0035885, "lon": 105.8192004 },
+    { "lat": 21.0035181, "lon": 105.8191670 }
+  ],
+  "tags": {
+    "highway": "service",
+    "moped": "yes",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 58 Láng",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 684531322,
+  "bounds": {
+    "minlat": 21.0004298,
+    "minlon": 105.8186853,
+    "maxlat": 21.0008931,
+    "maxlon": 105.8206069
+  },
+  "geometry": [
+    { "lat": 21.0004633, "lon": 105.8186853 },
+    { "lat": 21.0004392, "lon": 105.8190149 },
+    { "lat": 21.0004298, "lon": 105.8191370 },
+    { "lat": 21.0004298, "lon": 105.8191451 },
+    { "lat": 21.0004302, "lon": 105.8191523 },
+    { "lat": 21.0004309, "lon": 105.8191600 },
+    { "lat": 21.0004326, "lon": 105.8191669 },
+    { "lat": 21.0004351, "lon": 105.8191722 },
+    { "lat": 21.0004396, "lon": 105.8191772 },
+    { "lat": 21.0004520, "lon": 105.8191877 },
+    { "lat": 21.0005359, "lon": 105.8192552 },
+    { "lat": 21.0006114, "lon": 105.8193964 },
+    { "lat": 21.0007024, "lon": 105.8195710 },
+    { "lat": 21.0007754, "lon": 105.8197100 },
+    { "lat": 21.0008512, "lon": 105.8198464 },
+    { "lat": 21.0008931, "lon": 105.8200038 },
+    { "lat": 21.0008633, "lon": 105.8201233 },
+    { "lat": 21.0008604, "lon": 105.8201320 },
+    { "lat": 21.0008568, "lon": 105.8201386 },
+    { "lat": 21.0008531, "lon": 105.8201430 },
+    { "lat": 21.0008469, "lon": 105.8201457 },
+    { "lat": 21.0008391, "lon": 105.8201480 },
+    { "lat": 21.0007754, "lon": 105.8201635 },
+    { "lat": 21.0007463, "lon": 105.8202896 },
+    { "lat": 21.0007274, "lon": 105.8203877 },
+    { "lat": 21.0006896, "lon": 105.8205122 },
+    { "lat": 21.0006417, "lon": 105.8205854 },
+    { "lat": 21.0006186, "lon": 105.8206069 }
+  ],
+  "tags": {
+    "highway": "service",
+    "moped": "yes",
+    "motorcar": "destination",
+    "name": "Ngõ 47 Phố Khương Trung",
+    "service": "alley",
+    "source": "grab_hanoi_2018_t5",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 684543152,
+  "bounds": {
+    "minlat": 21.0002188,
+    "minlon": 105.8172284,
+    "maxlat": 21.0007652,
+    "maxlon": 105.8176466
+  },
+  "geometry": [
+    { "lat": 21.0007652, "lon": 105.8172284 },
+    { "lat": 21.0007157, "lon": 105.8172870 },
+    { "lat": 21.0002188, "lon": 105.8176466 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "name": "Ngõ 127 Đường Nguyễn Trãi",
+    "service": "alley",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 684707942,
+  "bounds": {
+    "minlat": 21.0012525,
+    "minlon": 105.8170250,
+    "maxlat": 21.0024814,
+    "maxlon": 105.8173125
+  },
+  "geometry": [
+    { "lat": 21.0012525, "lon": 105.8173125 },
+    { "lat": 21.0012948, "lon": 105.8172749 },
+    { "lat": 21.0015095, "lon": 105.8172105 },
+    { "lat": 21.0024814, "lon": 105.8170250 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motor_vehicle": "yes",
+    "name": "Ngõ 72 Nguyễn Trãi",
+    "service": "alley",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 684707947,
+  "bounds": {
+    "minlat": 21.0061040,
+    "minlon": 105.8155360,
+    "maxlat": 21.0062095,
+    "maxlon": 105.8157181
+  },
+  "geometry": [
+    { "lat": 21.0062095, "lon": 105.8157181 },
+    { "lat": 21.0061770, "lon": 105.8156620 },
+    { "lat": 21.0061040, "lon": 105.8155360 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 211 Giáp Nhất",
+    "service": "alley",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 684715589,
+  "bounds": {
+    "minlat": 21.0017319,
+    "minlon": 105.8189954,
+    "maxlat": 21.0020177,
+    "maxlon": 105.8193308
+  },
+  "geometry": [
+    { "lat": 21.0020177, "lon": 105.8189954 },
+    { "lat": 21.0019220, "lon": 105.8190707 },
+    { "lat": 21.0017747, "lon": 105.8191868 },
+    { "lat": 21.0017463, "lon": 105.8191922 },
+    { "lat": 21.0017319, "lon": 105.8192425 },
+    { "lat": 21.0017751, "lon": 105.8192374 },
+    { "lat": 21.0018326, "lon": 105.8193308 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 61 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 684723661,
+  "bounds": {
+    "minlat": 21.0017300,
+    "minlon": 105.8201729,
+    "maxlat": 21.0020211,
+    "maxlon": 105.8205503
+  },
+  "geometry": [
+    { "lat": 21.0020211, "lon": 105.8205503 },
+    { "lat": 21.0017300, "lon": 105.8201729 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 703109533,
+  "bounds": {
+    "minlat": 21.0013726,
+    "minlon": 105.8180909,
+    "maxlat": 21.0015417,
+    "maxlon": 105.8183351
+  },
+  "geometry": [
+    { "lat": 21.0013726, "lon": 105.8180909 },
+    { "lat": 21.0015264, "lon": 105.8183130 },
+    { "lat": 21.0015417, "lon": 105.8183351 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "3",
+    "layer": "1",
+    "lit": "yes",
+    "maxspeed": "60",
+    "maxweight": "30",
+    "name": "Cầu Mới",
+    "name:en": "Moi Bridge",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 703109534,
+  "bounds": {
+    "minlat": 21.0011416,
+    "minlon": 105.8177049,
+    "maxlat": 21.0013002,
+    "maxlon": 105.8179713
+  },
+  "geometry": [
+    { "lat": 21.0011416, "lon": 105.8177049 },
+    { "lat": 21.0013002, "lon": 105.8179713 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 703110744,
+  "bounds": {
+    "minlat": 21.0011416,
+    "minlon": 105.8177049,
+    "maxlat": 21.0014447,
+    "maxlon": 105.8180175
+  },
+  "geometry": [
+    { "lat": 21.0011416, "lon": 105.8177049 },
+    { "lat": 21.0012528, "lon": 105.8177510 },
+    { "lat": 21.0014447, "lon": 105.8180175 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Cầu vượt Ngã Tư Sở",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 703495528,
+  "bounds": {
+    "minlat": 21.0005580,
+    "minlon": 105.8177054,
+    "maxlat": 21.0005605,
+    "maxlon": 105.8181693
+  },
+  "geometry": [
+    { "lat": 21.0005605, "lon": 105.8181693 },
+    { "lat": 21.0005603, "lon": 105.8181338 },
+    { "lat": 21.0005580, "lon": 105.8177054 }
+  ],
+  "tags": {
+    "highway": "service",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708649102,
+  "bounds": {
+    "minlat": 21.0027673,
+    "minlon": 105.8195185,
+    "maxlat": 21.0027980,
+    "maxlon": 105.8195644
+  },
+  "geometry": [
+    { "lat": 21.0027980, "lon": 105.8195644 },
+    { "lat": 21.0027673, "lon": 105.8195185 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708649103,
+  "bounds": {
+    "minlat": 21.0018862,
+    "minlon": 105.8182888,
+    "maxlat": 21.0027673,
+    "maxlon": 105.8195185
+  },
+  "geometry": [
+    { "lat": 21.0027673, "lon": 105.8195185 },
+    { "lat": 21.0025299, "lon": 105.8191784 },
+    { "lat": 21.0024813, "lon": 105.8191089 },
+    { "lat": 21.0023434, "lon": 105.8189189 },
+    { "lat": 21.0018862, "lon": 105.8182888 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708649104,
+  "bounds": {
+    "minlat": 21.0025823,
+    "minlon": 105.8197502,
+    "maxlat": 21.0026033,
+    "maxlon": 105.8197736
+  },
+  "geometry": [
+    { "lat": 21.0025823, "lon": 105.8197502 },
+    { "lat": 21.0026033, "lon": 105.8197736 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708649106,
+  "bounds": {
+    "minlat": 21.0013636,
+    "minlon": 105.8183746,
+    "maxlat": 21.0015669,
+    "maxlon": 105.8185051
+  },
+  "geometry": [
+    { "lat": 21.0015669, "lon": 105.8183746 },
+    { "lat": 21.0013636, "lon": 105.8185051 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "1",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Phố Khương Trung",
+    "name:en": "Khuong Trung Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708649107,
+  "bounds": {
+    "minlat": 21.0013636,
+    "minlon": 105.8184796,
+    "maxlat": 21.0016380,
+    "maxlon": 105.8185051
+  },
+  "geometry": [
+    { "lat": 21.0013636, "lon": 105.8185051 },
+    { "lat": 21.0016380, "lon": 105.8184796 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "1",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Phố Khương Trung",
+    "name:en": "Khuong Trung Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 708658348,
+  "bounds": {
+    "minlat": 21.0030929,
+    "minlon": 105.8199683,
+    "maxlat": 21.0031375,
+    "maxlon": 105.8200335
+  },
+  "geometry": [
+    { "lat": 21.0031375, "lon": 105.8200335 },
+    { "lat": 21.0030929, "lon": 105.8199683 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709356405,
+  "bounds": {
+    "minlat": 21.0034963,
+    "minlon": 105.8205414,
+    "maxlat": 21.0036036,
+    "maxlon": 105.8206802
+  },
+  "geometry": [
+    { "lat": 21.0036036, "lon": 105.8206802 },
+    { "lat": 21.0035530, "lon": 105.8206148 },
+    { "lat": 21.0034963, "lon": 105.8205414 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "name:en": "Tay Son Street",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709673457,
+  "bounds": {
+    "minlat": 21.0032992,
+    "minlon": 105.8193971,
+    "maxlat": 21.0034190,
+    "maxlon": 105.8198406
+  },
+  "geometry": [
+    { "lat": 21.0032992, "lon": 105.8198406 },
+    { "lat": 21.0034190, "lon": 105.8193971 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709673459,
+  "bounds": {
+    "minlat": 21.0030372,
+    "minlon": 105.8202308,
+    "maxlat": 21.0031848,
+    "maxlon": 105.8209319
+  },
+  "geometry": [
+    { "lat": 21.0030372, "lon": 105.8209319 },
+    { "lat": 21.0031275, "lon": 105.8205363 },
+    { "lat": 21.0031637, "lon": 105.8203673 },
+    { "lat": 21.0031848, "lon": 105.8202308 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxheight": "4.75",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709673460,
+  "bounds": {
+    "minlat": 21.0029746,
+    "minlon": 105.8199683,
+    "maxlat": 21.0030929,
+    "maxlon": 105.8203862
+  },
+  "geometry": [
+    { "lat": 21.0030929, "lon": 105.8199683 },
+    { "lat": 21.0029746, "lon": 105.8203862 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxheight": "4.75",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709673461,
+  "bounds": {
+    "minlat": 21.0025778,
+    "minlon": 105.8208163,
+    "maxlat": 21.0028548,
+    "maxlon": 105.8217973
+  },
+  "geometry": [
+    { "lat": 21.0028548, "lon": 105.8208163 },
+    { "lat": 21.0028053, "lon": 105.8210053 },
+    { "lat": 21.0027942, "lon": 105.8210446 },
+    { "lat": 21.0026777, "lon": 105.8214555 },
+    { "lat": 21.0026220, "lon": 105.8216492 },
+    { "lat": 21.0025977, "lon": 105.8217338 },
+    { "lat": 21.0025778, "lon": 105.8217973 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709678322,
+  "bounds": {
+    "minlat": 21.0048341,
+    "minlon": 105.8171357,
+    "maxlat": 21.0052039,
+    "maxlon": 105.8174062
+  },
+  "geometry": [
+    { "lat": 21.0048341, "lon": 105.8174062 },
+    { "lat": 21.0048982, "lon": 105.8173526 },
+    { "lat": 21.0051596, "lon": 105.8171649 },
+    { "lat": 21.0052039, "lon": 105.8171357 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709678323,
+  "bounds": {
+    "minlat": 21.0061894,
+    "minlon": 105.8163210,
+    "maxlat": 21.0062468,
+    "maxlon": 105.8164237
+  },
+  "geometry": [
+    { "lat": 21.0062468, "lon": 105.8164237 },
+    { "lat": 21.0061894, "lon": 105.8163210 }
+  ],
+  "tags": {
+    "highway": "primary_link",
+    "lanes": "2",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709678324,
+  "bounds": {
+    "minlat": 21.0044283,
+    "minlon": 105.8174062,
+    "maxlat": 21.0048341,
+    "maxlon": 105.8180310
+  },
+  "geometry": [
+    { "lat": 21.0044283, "lon": 105.8180310 },
+    { "lat": 21.0047512, "lon": 105.8175054 },
+    { "lat": 21.0047893, "lon": 105.8174531 },
+    { "lat": 21.0048341, "lon": 105.8174062 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 709684917,
+  "bounds": {
+    "minlat": 21.0077986,
+    "minlon": 105.8153637,
+    "maxlat": 21.0082109,
+    "maxlon": 105.8158095
+  },
+  "geometry": [
+    { "lat": 21.0077986, "lon": 105.8153637 },
+    { "lat": 21.0079972, "lon": 105.8155935 },
+    { "lat": 21.0080269, "lon": 105.8155769 },
+    { "lat": 21.0081117, "lon": 105.8157094 },
+    { "lat": 21.0082109, "lon": 105.8158095 }
+  ],
+  "tags": {
+    "highway": "service",
+    "moped": "yes",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 318 Đường Láng",
+    "service": "alley",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 711122630,
+  "bounds": {
+    "minlat": 21.0077986,
+    "minlon": 105.8152697,
+    "maxlat": 21.0098977,
+    "maxlon": 105.8156305
+  },
+  "geometry": [
+    { "lat": 21.0077986, "lon": 105.8153637 },
+    { "lat": 21.0079452, "lon": 105.8153259 },
+    { "lat": 21.0082530, "lon": 105.8152803 },
+    { "lat": 21.0084703, "lon": 105.8152697 },
+    { "lat": 21.0086125, "lon": 105.8152782 },
+    { "lat": 21.0087416, "lon": 105.8152840 },
+    { "lat": 21.0089663, "lon": 105.8153082 },
+    { "lat": 21.0091791, "lon": 105.8153571 },
+    { "lat": 21.0093745, "lon": 105.8154168 },
+    { "lat": 21.0095748, "lon": 105.8154879 },
+    { "lat": 21.0097181, "lon": 105.8155502 },
+    { "lat": 21.0097415, "lon": 105.8155607 },
+    { "lat": 21.0098977, "lon": 105.8156305 }
+  ],
+  "tags": {
+    "highway": "secondary_link",
+    "name": "Lối rẽ phải đi Yên Lãng",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711366276,
+  "bounds": {
+    "minlat": 21.0077222,
+    "minlon": 105.8149733,
+    "maxlat": 21.0081672,
+    "maxlon": 105.8153620
+  },
+  "geometry": [
+    { "lat": 21.0077222, "lon": 105.8153620 },
+    { "lat": 21.0077683, "lon": 105.8153226 },
+    { "lat": 21.0078249, "lon": 105.8152738 },
+    { "lat": 21.0081672, "lon": 105.8149733 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711366277,
+  "bounds": {
+    "minlat": 21.0076421,
+    "minlon": 105.8148725,
+    "maxlat": 21.0081011,
+    "maxlon": 105.8152619
+  },
+  "geometry": [
+    { "lat": 21.0081011, "lon": 105.8148725 },
+    { "lat": 21.0076421, "lon": 105.8152619 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711367345,
+  "bounds": {
+    "minlat": 21.0052150,
+    "minlon": 105.8167320,
+    "maxlat": 21.0055753,
+    "maxlon": 105.8169541
+  },
+  "geometry": [
+    { "lat": 21.0055753, "lon": 105.8167320 },
+    { "lat": 21.0052150, "lon": 105.8169541 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "turn:lanes": "slight_left|slight_left|slight_right|slight_right;right"
+  }
+},
+{
+  "type": "way",
+  "id": 711367570,
+  "bounds": {
+    "minlat": 20.9999687,
+    "minlon": 105.8160701,
+    "maxlat": 21.0011416,
+    "maxlon": 105.8177049
+  },
+  "geometry": [
+    { "lat": 20.9999687, "lon": 105.8160701 },
+    { "lat": 21.0003259, "lon": 105.8166032 },
+    { "lat": 21.0007652, "lon": 105.8172284 },
+    { "lat": 21.0010335, "lon": 105.8175973 },
+    { "lat": 21.0011416, "lon": 105.8177049 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "6",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711367572,
+  "bounds": {
+    "minlat": 21.0005568,
+    "minlon": 105.8162504,
+    "maxlat": 21.0012525,
+    "maxlon": 105.8173125
+  },
+  "geometry": [
+    { "lat": 21.0012525, "lon": 105.8173125 },
+    { "lat": 21.0011051, "lon": 105.8170215 },
+    { "lat": 21.0007756, "lon": 105.8165621 },
+    { "lat": 21.0005568, "lon": 105.8162504 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "50",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711387371,
+  "bounds": {
+    "minlat": 21.0041290,
+    "minlon": 105.8146634,
+    "maxlat": 21.0043286,
+    "maxlon": 105.8148902
+  },
+  "geometry": [
+    { "lat": 21.0043286, "lon": 105.8148902 },
+    { "lat": 21.0042537, "lon": 105.8148480 },
+    { "lat": 21.0042121, "lon": 105.8148041 },
+    { "lat": 21.0041290, "lon": 105.8146634 }
+  ],
+  "tags": {
+    "highway": "service",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711399550,
+  "bounds": {
+    "minlat": 21.0025372,
+    "minlon": 105.8168066,
+    "maxlat": 21.0028961,
+    "maxlon": 105.8168865
+  },
+  "geometry": [
+    { "lat": 21.0025372, "lon": 105.8168865 },
+    { "lat": 21.0026068, "lon": 105.8168722 },
+    { "lat": 21.0028961, "lon": 105.8168066 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "maxspeed": "20",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 711399551,
+  "bounds": {
+    "minlat": 21.0013010,
+    "minlon": 105.8168865,
+    "maxlat": 21.0025372,
+    "maxlon": 105.8171009
+  },
+  "geometry": [
+    { "lat": 21.0013010, "lon": 105.8171009 },
+    { "lat": 21.0014381, "lon": 105.8170790 },
+    { "lat": 21.0025372, "lon": 105.8168865 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "maxspeed": "20",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 764396131,
+  "bounds": {
+    "minlat": 21.0024814,
+    "minlon": 105.8159511,
+    "maxlat": 21.0047816,
+    "maxlon": 105.8170250
+  },
+  "geometry": [
+    { "lat": 21.0024814, "lon": 105.8170250 },
+    { "lat": 21.0027241, "lon": 105.8169639 },
+    { "lat": 21.0030287, "lon": 105.8169146 },
+    { "lat": 21.0031969, "lon": 105.8168534 },
+    { "lat": 21.0032270, "lon": 105.8168425 },
+    { "lat": 21.0035315, "lon": 105.8166870 },
+    { "lat": 21.0037121, "lon": 105.8165808 },
+    { "lat": 21.0039742, "lon": 105.8163987 },
+    { "lat": 21.0041793, "lon": 105.8162533 },
+    { "lat": 21.0044082, "lon": 105.8160909 },
+    { "lat": 21.0047816, "lon": 105.8159511 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 72 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 764396132,
+  "bounds": {
+    "minlat": 21.0024814,
+    "minlon": 105.8170250,
+    "maxlat": 21.0026213,
+    "maxlon": 105.8174369
+  },
+  "geometry": [
+    { "lat": 21.0024814, "lon": 105.8170250 },
+    { "lat": 21.0024885, "lon": 105.8170459 },
+    { "lat": 21.0026213, "lon": 105.8174369 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "name": "Ngách 50 Ngõ 72 Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 764396133,
+  "bounds": {
+    "minlat": 21.0047816,
+    "minlon": 105.8150546,
+    "maxlat": 21.0063274,
+    "maxlon": 105.8159511
+  },
+  "geometry": [
+    { "lat": 21.0047816, "lon": 105.8159511 },
+    { "lat": 21.0048973, "lon": 105.8158898 },
+    { "lat": 21.0049883, "lon": 105.8158416 },
+    { "lat": 21.0053090, "lon": 105.8156917 },
+    { "lat": 21.0055819, "lon": 105.8155642 },
+    { "lat": 21.0056646, "lon": 105.8155209 },
+    { "lat": 21.0058581, "lon": 105.8154125 },
+    { "lat": 21.0060056, "lon": 105.8153664 },
+    { "lat": 21.0060345, "lon": 105.8153472 },
+    { "lat": 21.0061459, "lon": 105.8152735 },
+    { "lat": 21.0062416, "lon": 105.8151716 },
+    { "lat": 21.0063274, "lon": 105.8150546 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 72 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 764396134,
+  "bounds": {
+    "minlat": 21.0047816,
+    "minlon": 105.8159511,
+    "maxlat": 21.0049643,
+    "maxlon": 105.8164429
+  },
+  "geometry": [
+    { "lat": 21.0047816, "lon": 105.8159511 },
+    { "lat": 21.0049643, "lon": 105.8164429 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "name": "Ngõ 153 Phố Giáp Nhất",
+    "service": "alley",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 764396135,
+  "bounds": {
+    "minlat": 21.0045589,
+    "minlon": 105.8143910,
+    "maxlat": 21.0049883,
+    "maxlon": 105.8158416
+  },
+  "geometry": [
+    { "lat": 21.0049883, "lon": 105.8158416 },
+    { "lat": 21.0049332, "lon": 105.8156958 },
+    { "lat": 21.0048522, "lon": 105.8154448 },
+    { "lat": 21.0048074, "lon": 105.8153028 },
+    { "lat": 21.0047806, "lon": 105.8152274 },
+    { "lat": 21.0047253, "lon": 105.8150344 },
+    { "lat": 21.0046851, "lon": 105.8149245 },
+    { "lat": 21.0046551, "lon": 105.8147504 },
+    { "lat": 21.0046012, "lon": 105.8145384 },
+    { "lat": 21.0045589, "lon": 105.8143988 },
+    { "lat": 21.0045789, "lon": 105.8143910 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 72/1 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 764396136,
+  "bounds": {
+    "minlat": 21.0045789,
+    "minlon": 105.8142395,
+    "maxlat": 21.0059875,
+    "maxlon": 105.8148234
+  },
+  "geometry": [
+    { "lat": 21.0045789, "lon": 105.8143910 },
+    { "lat": 21.0048668, "lon": 105.8143245 },
+    { "lat": 21.0051538, "lon": 105.8142539 },
+    { "lat": 21.0051962, "lon": 105.8142395 },
+    { "lat": 21.0052331, "lon": 105.8142604 },
+    { "lat": 21.0052851, "lon": 105.8143868 },
+    { "lat": 21.0053909, "lon": 105.8146474 },
+    { "lat": 21.0054450, "lon": 105.8148234 },
+    { "lat": 21.0057966, "lon": 105.8146426 },
+    { "lat": 21.0058479, "lon": 105.8146324 },
+    { "lat": 21.0059875, "lon": 105.8146047 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 213/29 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 803248824,
+  "bounds": {
+    "minlat": 21.0059406,
+    "minlon": 105.8137531,
+    "maxlat": 21.0065030,
+    "maxlon": 105.8146047
+  },
+  "geometry": [
+    { "lat": 21.0059875, "lon": 105.8146047 },
+    { "lat": 21.0059406, "lon": 105.8143514 },
+    { "lat": 21.0061561, "lon": 105.8142494 },
+    { "lat": 21.0064766, "lon": 105.8140402 },
+    { "lat": 21.0065030, "lon": 105.8139731 },
+    { "lat": 21.0064968, "lon": 105.8139139 },
+    { "lat": 21.0064063, "lon": 105.8137531 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 213 Phố Giáp Nhất"
+  }
+},
+{
+  "type": "way",
+  "id": 803248825,
+  "bounds": {
+    "minlat": 21.0050233,
+    "minlon": 105.8148234,
+    "maxlat": 21.0054450,
+    "maxlon": 105.8150923
+  },
+  "geometry": [
+    { "lat": 21.0050233, "lon": 105.8148582 },
+    { "lat": 21.0050559, "lon": 105.8149611 },
+    { "lat": 21.0050724, "lon": 105.8150155 },
+    { "lat": 21.0050962, "lon": 105.8150923 },
+    { "lat": 21.0052833, "lon": 105.8150206 },
+    { "lat": 21.0053152, "lon": 105.8148851 },
+    { "lat": 21.0054450, "lon": 105.8148234 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 213/29/17 Phố Giáp Nhất"
+  }
+},
+{
+  "type": "way",
+  "id": 803248829,
+  "bounds": {
+    "minlat": 21.0049048,
+    "minlon": 105.8132581,
+    "maxlat": 21.0056143,
+    "maxlon": 105.8135034
+  },
+  "geometry": [
+    { "lat": 21.0049048, "lon": 105.8134014 },
+    { "lat": 21.0050651, "lon": 105.8133800 },
+    { "lat": 21.0051202, "lon": 105.8135034 },
+    { "lat": 21.0052715, "lon": 105.8134283 },
+    { "lat": 21.0056143, "lon": 105.8132581 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination"
+  }
+},
+{
+  "type": "way",
+  "id": 803248830,
+  "bounds": {
+    "minlat": 21.0050450,
+    "minlon": 105.8120060,
+    "maxlat": 21.0061575,
+    "maxlon": 105.8134819
+  },
+  "geometry": [
+    { "lat": 21.0050450, "lon": 105.8120060 },
+    { "lat": 21.0052997, "lon": 105.8124106 },
+    { "lat": 21.0053356, "lon": 105.8124676 },
+    { "lat": 21.0054929, "lon": 105.8129236 },
+    { "lat": 21.0055027, "lon": 105.8129520 },
+    { "lat": 21.0055763, "lon": 105.8131655 },
+    { "lat": 21.0056143, "lon": 105.8132581 },
+    { "lat": 21.0056748, "lon": 105.8134050 },
+    { "lat": 21.0057064, "lon": 105.8134819 },
+    { "lat": 21.0061575, "lon": 105.8132915 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngõ 109 Quan Nhân"
+  }
+},
+{
+  "type": "way",
+  "id": 803248831,
+  "bounds": {
+    "minlat": 21.0047945,
+    "minlon": 105.8129184,
+    "maxlat": 21.0049048,
+    "maxlon": 105.8136215
+  },
+  "geometry": [
+    { "lat": 21.0047945, "lon": 105.8129184 },
+    { "lat": 21.0048847, "lon": 105.8132190 },
+    { "lat": 21.0049048, "lon": 105.8134014 },
+    { "lat": 21.0048947, "lon": 105.8135517 },
+    { "lat": 21.0048496, "lon": 105.8136215 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 845422351,
+  "bounds": {
+    "minlat": 21.0028035,
+    "minlon": 105.8209970,
+    "maxlat": 21.0054749,
+    "maxlon": 105.8227505
+  },
+  "geometry": [
+    { "lat": 21.0028035, "lon": 105.8221002 },
+    { "lat": 21.0029335, "lon": 105.8216014 },
+    { "lat": 21.0029398, "lon": 105.8215730 },
+    { "lat": 21.0030193, "lon": 105.8213082 },
+    { "lat": 21.0030568, "lon": 105.8211885 },
+    { "lat": 21.0030906, "lon": 105.8210616 },
+    { "lat": 21.0031408, "lon": 105.8210323 },
+    { "lat": 21.0031891, "lon": 105.8210222 },
+    { "lat": 21.0033097, "lon": 105.8209970 },
+    { "lat": 21.0034366, "lon": 105.8210020 },
+    { "lat": 21.0034783, "lon": 105.8210209 },
+    { "lat": 21.0036856, "lon": 105.8213302 },
+    { "lat": 21.0039160, "lon": 105.8216212 },
+    { "lat": 21.0039688, "lon": 105.8216879 },
+    { "lat": 21.0041387, "lon": 105.8218888 },
+    { "lat": 21.0044114, "lon": 105.8221344 },
+    { "lat": 21.0044514, "lon": 105.8221704 },
+    { "lat": 21.0047329, "lon": 105.8223823 },
+    { "lat": 21.0048853, "lon": 105.8224636 },
+    { "lat": 21.0049330, "lon": 105.8224890 },
+    { "lat": 21.0052072, "lon": 105.8226287 },
+    { "lat": 21.0054084, "lon": 105.8227257 },
+    { "lat": 21.0054445, "lon": 105.8227391 },
+    { "lat": 21.0054749, "lon": 105.8227505 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 848915395,
+  "bounds": {
+    "minlat": 21.0027599,
+    "minlon": 105.8209319,
+    "maxlat": 21.0030372,
+    "maxlon": 105.8219310
+  },
+  "geometry": [
+    { "lat": 21.0027599, "lon": 105.8219310 },
+    { "lat": 21.0028640, "lon": 105.8215609 },
+    { "lat": 21.0029422, "lon": 105.8212776 },
+    { "lat": 21.0029502, "lon": 105.8212484 },
+    { "lat": 21.0030372, "lon": 105.8209319 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 889148297,
+  "bounds": {
+    "minlat": 21.0042027,
+    "minlon": 105.8191191,
+    "maxlat": 21.0045922,
+    "maxlon": 105.8193986
+  },
+  "geometry": [
+    { "lat": 21.0045922, "lon": 105.8191191 },
+    { "lat": 21.0042027, "lon": 105.8193986 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148298,
+  "bounds": {
+    "minlat": 21.0042903,
+    "minlon": 105.8195059,
+    "maxlat": 21.0044743,
+    "maxlon": 105.8196095
+  },
+  "geometry": [
+    { "lat": 21.0042903, "lon": 105.8196095 },
+    { "lat": 21.0044743, "lon": 105.8195059 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148299,
+  "bounds": {
+    "minlat": 21.0041552,
+    "minlon": 105.8197533,
+    "maxlat": 21.0043804,
+    "maxlon": 105.8198210
+  },
+  "geometry": [
+    { "lat": 21.0043804, "lon": 105.8197533 },
+    { "lat": 21.0041552, "lon": 105.8198210 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148300,
+  "bounds": {
+    "minlat": 21.0040069,
+    "minlon": 105.8193986,
+    "maxlat": 21.0042027,
+    "maxlon": 105.8194472
+  },
+  "geometry": [
+    { "lat": 21.0042027, "lon": 105.8193986 },
+    { "lat": 21.0040069, "lon": 105.8194472 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148301,
+  "bounds": {
+    "minlat": 21.0042027,
+    "minlon": 105.8193986,
+    "maxlat": 21.0044195,
+    "maxlon": 105.8203990
+  },
+  "geometry": [
+    { "lat": 21.0044195, "lon": 105.8203990 },
+    { "lat": 21.0043863, "lon": 105.8202586 },
+    { "lat": 21.0043685, "lon": 105.8201246 },
+    { "lat": 21.0043701, "lon": 105.8198374 },
+    { "lat": 21.0043804, "lon": 105.8197533 },
+    { "lat": 21.0042903, "lon": 105.8196095 },
+    { "lat": 21.0042714, "lon": 105.8195717 },
+    { "lat": 21.0042287, "lon": 105.8194869 },
+    { "lat": 21.0042027, "lon": 105.8193986 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148315,
+  "bounds": {
+    "minlat": 21.0000502,
+    "minlon": 105.8189688,
+    "maxlat": 21.0002643,
+    "maxlon": 105.8190937
+  },
+  "geometry": [
+    { "lat": 21.0000502, "lon": 105.8190441 },
+    { "lat": 21.0002365, "lon": 105.8190937 },
+    { "lat": 21.0002643, "lon": 105.8189688 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148316,
+  "bounds": {
+    "minlat": 21.0000156,
+    "minlon": 105.8188916,
+    "maxlat": 21.0004392,
+    "maxlon": 105.8190149
+  },
+  "geometry": [
+    { "lat": 21.0004392, "lon": 105.8190149 },
+    { "lat": 21.0002643, "lon": 105.8189688 },
+    { "lat": 21.0001733, "lon": 105.8189449 },
+    { "lat": 21.0000156, "lon": 105.8188916 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148324,
+  "bounds": {
+    "minlat": 20.9999298,
+    "minlon": 105.8193652,
+    "maxlat": 21.0003413,
+    "maxlon": 105.8197111
+  },
+  "geometry": [
+    { "lat": 20.9999298, "lon": 105.8193652 },
+    { "lat": 21.0000378, "lon": 105.8194605 },
+    { "lat": 21.0002791, "lon": 105.8196736 },
+    { "lat": 21.0003010, "lon": 105.8196911 },
+    { "lat": 21.0003229, "lon": 105.8197018 },
+    { "lat": 21.0003413, "lon": 105.8197111 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148339,
+  "bounds": {
+    "minlat": 21.0006781,
+    "minlon": 105.8175973,
+    "maxlat": 21.0010335,
+    "maxlon": 105.8181556
+  },
+  "geometry": [
+    { "lat": 21.0010335, "lon": 105.8175973 },
+    { "lat": 21.0009902, "lon": 105.8176400 },
+    { "lat": 21.0007292, "lon": 105.8177608 },
+    { "lat": 21.0006829, "lon": 105.8177958 },
+    { "lat": 21.0006781, "lon": 105.8178956 },
+    { "lat": 21.0007233, "lon": 105.8180349 },
+    { "lat": 21.0007462, "lon": 105.8181055 },
+    { "lat": 21.0007579, "lon": 105.8181556 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "name": "Ngõ 105 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148408,
+  "bounds": {
+    "minlat": 21.0004606,
+    "minlon": 105.8192552,
+    "maxlat": 21.0005359,
+    "maxlon": 105.8199840
+  },
+  "geometry": [
+    { "lat": 21.0005359, "lon": 105.8192552 },
+    { "lat": 21.0004975, "lon": 105.8193164 },
+    { "lat": 21.0004606, "lon": 105.8195056 },
+    { "lat": 21.0004651, "lon": 105.8196412 },
+    { "lat": 21.0005034, "lon": 105.8197870 },
+    { "lat": 21.0005221, "lon": 105.8198903 },
+    { "lat": 21.0005001, "lon": 105.8199840 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148409,
+  "bounds": {
+    "minlat": 21.0002964,
+    "minlon": 105.8191669,
+    "maxlat": 21.0004326,
+    "maxlon": 105.8192751
+  },
+  "geometry": [
+    { "lat": 21.0004326, "lon": 105.8191669 },
+    { "lat": 21.0002964, "lon": 105.8192751 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148411,
+  "bounds": {
+    "minlat": 21.0012867,
+    "minlon": 105.8185302,
+    "maxlat": 21.0016750,
+    "maxlon": 105.8188275
+  },
+  "geometry": [
+    { "lat": 21.0016750, "lon": 105.8185302 },
+    { "lat": 21.0015727, "lon": 105.8186307 },
+    { "lat": 21.0014020, "lon": 105.8187984 },
+    { "lat": 21.0012867, "lon": 105.8188275 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 75 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148412,
+  "bounds": {
+    "minlat": 21.0012311,
+    "minlon": 105.8190277,
+    "maxlat": 21.0014660,
+    "maxlon": 105.8192995
+  },
+  "geometry": [
+    { "lat": 21.0014660, "lon": 105.8192995 },
+    { "lat": 21.0012311, "lon": 105.8190277 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148413,
+  "bounds": {
+    "minlat": 21.0010648,
+    "minlon": 105.8197170,
+    "maxlat": 21.0016987,
+    "maxlon": 105.8201153
+  },
+  "geometry": [
+    { "lat": 21.0016987, "lon": 105.8197170 },
+    { "lat": 21.0012600, "lon": 105.8201153 },
+    { "lat": 21.0010648, "lon": 105.8198458 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 889148414,
+  "bounds": {
+    "minlat": 21.0032841,
+    "minlon": 105.8183015,
+    "maxlat": 21.0036046,
+    "maxlon": 105.8186640
+  },
+  "geometry": [
+    { "lat": 21.0036046, "lon": 105.8186640 },
+    { "lat": 21.0035215, "lon": 105.8186086 },
+    { "lat": 21.0033925, "lon": 105.8185226 },
+    { "lat": 21.0032967, "lon": 105.8183906 },
+    { "lat": 21.0032841, "lon": 105.8183015 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148415,
+  "bounds": {
+    "minlat": 21.0039873,
+    "minlon": 105.8175883,
+    "maxlat": 21.0042281,
+    "maxlon": 105.8180009
+  },
+  "geometry": [
+    { "lat": 21.0042281, "lon": 105.8180009 },
+    { "lat": 21.0041636, "lon": 105.8179296 },
+    { "lat": 21.0040757, "lon": 105.8178324 },
+    { "lat": 21.0040410, "lon": 105.8177693 },
+    { "lat": 21.0039873, "lon": 105.8175883 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148416,
+  "bounds": {
+    "minlat": 21.0039568,
+    "minlon": 105.8173382,
+    "maxlat": 21.0040731,
+    "maxlon": 105.8176007
+  },
+  "geometry": [
+    { "lat": 21.0040193, "lon": 105.8173382 },
+    { "lat": 21.0040249, "lon": 105.8173826 },
+    { "lat": 21.0040273, "lon": 105.8174022 },
+    { "lat": 21.0039662, "lon": 105.8174203 },
+    { "lat": 21.0039747, "lon": 105.8174767 },
+    { "lat": 21.0039568, "lon": 105.8174834 },
+    { "lat": 21.0039873, "lon": 105.8175883 },
+    { "lat": 21.0040010, "lon": 105.8176007 },
+    { "lat": 21.0040731, "lon": 105.8175911 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148422,
+  "bounds": {
+    "minlat": 21.0056377,
+    "minlon": 105.8141802,
+    "maxlat": 21.0058479,
+    "maxlon": 105.8146324
+  },
+  "geometry": [
+    { "lat": 21.0058479, "lon": 105.8146324 },
+    { "lat": 21.0057253, "lon": 105.8144004 },
+    { "lat": 21.0056377, "lon": 105.8141802 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 889148427,
+  "bounds": {
+    "minlat": 21.0044082,
+    "minlon": 105.8160909,
+    "maxlat": 21.0045804,
+    "maxlon": 105.8166059
+  },
+  "geometry": [
+    { "lat": 21.0044082, "lon": 105.8160909 },
+    { "lat": 21.0045804, "lon": 105.8166059 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "service": "alley",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 889148428,
+  "bounds": {
+    "minlat": 21.0048522,
+    "minlon": 105.8152800,
+    "maxlat": 21.0052911,
+    "maxlon": 105.8154448
+  },
+  "geometry": [
+    { "lat": 21.0048522, "lon": 105.8154448 },
+    { "lat": 21.0052911, "lon": 105.8152800 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Hẻm 72/1/12 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 889148429,
+  "bounds": {
+    "minlat": 21.0048665,
+    "minlon": 105.8150155,
+    "maxlat": 21.0050724,
+    "maxlon": 105.8150886
+  },
+  "geometry": [
+    { "lat": 21.0048665, "lon": 105.8150886 },
+    { "lat": 21.0050724, "lon": 105.8150155 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 213/29/17 Phố Giáp Nhất"
+  }
+},
+{
+  "type": "way",
+  "id": 889148431,
+  "bounds": {
+    "minlat": 21.0050500,
+    "minlon": 105.8138123,
+    "maxlat": 21.0052890,
+    "maxlon": 105.8142539
+  },
+  "geometry": [
+    { "lat": 21.0051538, "lon": 105.8142539 },
+    { "lat": 21.0050500, "lon": 105.8138958 },
+    { "lat": 21.0050895, "lon": 105.8138820 },
+    { "lat": 21.0052890, "lon": 105.8138123 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 889148432,
+  "bounds": {
+    "minlat": 21.0054406,
+    "minlon": 105.8134050,
+    "maxlat": 21.0056748,
+    "maxlon": 105.8134831
+  },
+  "geometry": [
+    { "lat": 21.0056748, "lon": 105.8134050 },
+    { "lat": 21.0054406, "lon": 105.8134831 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 890078702,
+  "bounds": {
+    "minlat": 21.0064275,
+    "minlon": 105.8133912,
+    "maxlat": 21.0065672,
+    "maxlon": 105.8136166
+  },
+  "geometry": [
+    { "lat": 21.0065672, "lon": 105.8136166 },
+    { "lat": 21.0064930, "lon": 105.8135185 },
+    { "lat": 21.0064275, "lon": 105.8133912 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Hẻm 5 Ngách 78 Ngõ 213 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 890078703,
+  "bounds": {
+    "minlat": 21.0063936,
+    "minlon": 105.8135929,
+    "maxlat": 21.0068933,
+    "maxlon": 105.8139783
+  },
+  "geometry": [
+    { "lat": 21.0063936, "lon": 105.8137306 },
+    { "lat": 21.0065672, "lon": 105.8136166 },
+    { "lat": 21.0066203, "lon": 105.8135929 },
+    { "lat": 21.0067875, "lon": 105.8138916 },
+    { "lat": 21.0068288, "lon": 105.8138703 },
+    { "lat": 21.0068933, "lon": 105.8139783 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 78 Ngõ 213 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 890197305,
+  "bounds": {
+    "minlat": 21.0034630,
+    "minlon": 105.8204857,
+    "maxlat": 21.0034963,
+    "maxlon": 105.8205414
+  },
+  "geometry": [
+    { "lat": 21.0034963, "lon": 105.8205414 },
+    { "lat": 21.0034630, "lon": 105.8204857 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Phố Tây Sơn",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "turn:lanes": "left|left;through|through"
+  }
+},
+{
+  "type": "way",
+  "id": 890573937,
+  "bounds": {
+    "minlat": 21.0029422,
+    "minlon": 105.8212776,
+    "maxlat": 21.0040271,
+    "maxlon": 105.8222224
+  },
+  "geometry": [
+    { "lat": 21.0029422, "lon": 105.8212776 },
+    { "lat": 21.0030193, "lon": 105.8213082 },
+    { "lat": 21.0032312, "lon": 105.8214578 },
+    { "lat": 21.0032700, "lon": 105.8215418 },
+    { "lat": 21.0033272, "lon": 105.8216174 },
+    { "lat": 21.0033810, "lon": 105.8216752 },
+    { "lat": 21.0034970, "lon": 105.8218004 },
+    { "lat": 21.0035822, "lon": 105.8217340 },
+    { "lat": 21.0036989, "lon": 105.8218816 },
+    { "lat": 21.0038309, "lon": 105.8220270 },
+    { "lat": 21.0039283, "lon": 105.8221357 },
+    { "lat": 21.0040271, "lon": 105.8222224 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 953306409,
+  "bounds": {
+    "minlat": 21.0000743,
+    "minlon": 105.8202442,
+    "maxlat": 21.0009526,
+    "maxlon": 105.8208188
+  },
+  "geometry": [
+    { "lat": 21.0000743, "lon": 105.8202442 },
+    { "lat": 21.0003408, "lon": 105.8204099 },
+    { "lat": 21.0003709, "lon": 105.8204315 },
+    { "lat": 21.0004697, "lon": 105.8205024 },
+    { "lat": 21.0006186, "lon": 105.8206069 },
+    { "lat": 21.0006400, "lon": 105.8206218 },
+    { "lat": 21.0009526, "lon": 105.8208188 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 86/16 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 954882991,
+  "bounds": {
+    "minlat": 21.0015574,
+    "minlon": 105.8178494,
+    "maxlat": 21.0016110,
+    "maxlon": 105.8179422
+  },
+  "geometry": [
+    { "lat": 21.0016110, "lon": 105.8179422 },
+    { "lat": 21.0015574, "lon": 105.8178494 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 954991275,
+  "bounds": {
+    "minlat": 21.0015669,
+    "minlon": 105.8183746,
+    "maxlat": 21.0016380,
+    "maxlon": 105.8184796
+  },
+  "geometry": [
+    { "lat": 21.0015669, "lon": 105.8183746 },
+    { "lat": 21.0016380, "lon": 105.8184796 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 955201204,
+  "bounds": {
+    "minlat": 21.0015417,
+    "minlon": 105.8183351,
+    "maxlat": 21.0015669,
+    "maxlon": 105.8183746
+  },
+  "geometry": [
+    { "lat": 21.0015417, "lon": 105.8183351 },
+    { "lat": 21.0015669, "lon": 105.8183746 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 961861920,
+  "bounds": {
+    "minlat": 21.0030929,
+    "minlon": 105.8192561,
+    "maxlat": 21.0032768,
+    "maxlon": 105.8199683
+  },
+  "geometry": [
+    { "lat": 21.0032768, "lon": 105.8192561 },
+    { "lat": 21.0032162, "lon": 105.8195094 },
+    { "lat": 21.0031163, "lon": 105.8198703 },
+    { "lat": 21.0030929, "lon": 105.8199683 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 961861921,
+  "bounds": {
+    "minlat": 21.0027980,
+    "minlon": 105.8195644,
+    "maxlat": 21.0028361,
+    "maxlon": 105.8196100
+  },
+  "geometry": [
+    { "lat": 21.0028361, "lon": 105.8196100 },
+    { "lat": 21.0027980, "lon": 105.8195644 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 971527603,
+  "bounds": {
+    "minlat": 21.0029749,
+    "minlon": 105.8193792,
+    "maxlat": 21.0030047,
+    "maxlon": 105.8195663
+  },
+  "geometry": [
+    { "lat": 21.0029749, "lon": 105.8193792 },
+    { "lat": 21.0030047, "lon": 105.8195663 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "level": "-1",
+    "lit": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 971527604,
+  "bounds": {
+    "minlat": 21.0025399,
+    "minlon": 105.8198159,
+    "maxlat": 21.0025828,
+    "maxlon": 105.8200283
+  },
+  "geometry": [
+    { "lat": 21.0025399, "lon": 105.8198159 },
+    { "lat": 21.0025828, "lon": 105.8200283 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527606,
+  "bounds": {
+    "minlat": 21.0025828,
+    "minlon": 105.8200283,
+    "maxlat": 21.0026775,
+    "maxlon": 105.8201415
+  },
+  "geometry": [
+    { "lat": 21.0025828, "lon": 105.8200283 },
+    { "lat": 21.0026775, "lon": 105.8201415 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527607,
+  "bounds": {
+    "minlat": 21.0025792,
+    "minlon": 105.8202346,
+    "maxlat": 21.0026352,
+    "maxlon": 105.8202434
+  },
+  "geometry": [
+    { "lat": 21.0025792, "lon": 105.8202434 },
+    { "lat": 21.0026352, "lon": 105.8202346 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "surface": "paved",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 971527608,
+  "bounds": {
+    "minlat": 21.0033117,
+    "minlon": 105.8208077,
+    "maxlat": 21.0034353,
+    "maxlon": 105.8209593
+  },
+  "geometry": [
+    { "lat": 21.0033117, "lon": 105.8208077 },
+    { "lat": 21.0034353, "lon": 105.8209593 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "lit": "yes",
+    "oneway": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527610,
+  "bounds": {
+    "minlat": 21.0032265,
+    "minlon": 105.8207028,
+    "maxlat": 21.0033117,
+    "maxlon": 105.8208077
+  },
+  "geometry": [
+    { "lat": 21.0032265, "lon": 105.8207028 },
+    { "lat": 21.0033117, "lon": 105.8208077 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527611,
+  "bounds": {
+    "minlat": 21.0031643,
+    "minlon": 105.8208807,
+    "maxlat": 21.0031891,
+    "maxlon": 105.8210222
+  },
+  "geometry": [
+    { "lat": 21.0031891, "lon": 105.8210222 },
+    { "lat": 21.0031716, "lon": 105.8209225 },
+    { "lat": 21.0031643, "lon": 105.8208807 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "surface": "unpaved",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 971527612,
+  "bounds": {
+    "minlat": 21.0034353,
+    "minlon": 105.8209593,
+    "maxlat": 21.0034366,
+    "maxlon": 105.8210020
+  },
+  "geometry": [
+    { "lat": 21.0034353, "lon": 105.8209593 },
+    { "lat": 21.0034366, "lon": 105.8210020 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 971527614,
+  "bounds": {
+    "minlat": 21.0034062,
+    "minlon": 105.8200560,
+    "maxlat": 21.0035008,
+    "maxlon": 105.8200768
+  },
+  "geometry": [
+    { "lat": 21.0035008, "lon": 105.8200560 },
+    { "lat": 21.0034062, "lon": 105.8200768 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paved",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 971527616,
+  "bounds": {
+    "minlat": 21.0033080,
+    "minlon": 105.8200768,
+    "maxlat": 21.0034062,
+    "maxlon": 105.8200972
+  },
+  "geometry": [
+    { "lat": 21.0034062, "lon": 105.8200768 },
+    { "lat": 21.0033080, "lon": 105.8200972 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "layer": "-1",
+    "lit": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 971527617,
+  "bounds": {
+    "minlat": 21.0035091,
+    "minlon": 105.8203026,
+    "maxlat": 21.0035430,
+    "maxlon": 105.8204784
+  },
+  "geometry": [
+    { "lat": 21.0035430, "lon": 105.8204784 },
+    { "lat": 21.0035091, "lon": 105.8203026 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527618,
+  "bounds": {
+    "minlat": 21.0034230,
+    "minlon": 105.8197188,
+    "maxlat": 21.0034447,
+    "maxlon": 105.8198529
+  },
+  "geometry": [
+    { "lat": 21.0034447, "lon": 105.8198529 },
+    { "lat": 21.0034230, "lon": 105.8197188 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paving_stones",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971527620,
+  "bounds": {
+    "minlat": 21.0032751,
+    "minlon": 105.8198529,
+    "maxlat": 21.0034447,
+    "maxlon": 105.8200166
+  },
+  "geometry": [
+    { "lat": 21.0032751, "lon": 105.8200166 },
+    { "lat": 21.0033443, "lon": 105.8199719 },
+    { "lat": 21.0033905, "lon": 105.8199315 },
+    { "lat": 21.0034447, "lon": 105.8198529 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 971777995,
+  "bounds": {
+    "minlat": 20.9959306,
+    "minlon": 105.8149075,
+    "maxlat": 21.0011821,
+    "maxlon": 105.8181339
+  },
+  "geometry": [
+    { "lat": 21.0006027, "lon": 105.8171229 },
+    { "lat": 21.0007157, "lon": 105.8172870 },
+    { "lat": 21.0008774, "lon": 105.8174846 },
+    { "lat": 21.0009902, "lon": 105.8176400 },
+    { "lat": 21.0010773, "lon": 105.8177710 },
+    { "lat": 21.0011525, "lon": 105.8178895 },
+    { "lat": 21.0011821, "lon": 105.8179609 },
+    { "lat": 21.0011519, "lon": 105.8179902 },
+    { "lat": 21.0011133, "lon": 105.8180049 },
+    { "lat": 21.0010487, "lon": 105.8180330 },
+    { "lat": 21.0010460, "lon": 105.8180338 },
+    { "lat": 21.0009251, "lon": 105.8180688 },
+    { "lat": 21.0008166, "lon": 105.8180939 },
+    { "lat": 21.0007462, "lon": 105.8181055 },
+    { "lat": 21.0007020, "lon": 105.8181144 },
+    { "lat": 21.0006520, "lon": 105.8181237 },
+    { "lat": 21.0005744, "lon": 105.8181339 },
+    { "lat": 21.0005603, "lon": 105.8181338 },
+    { "lat": 21.0003101, "lon": 105.8181230 },
+    { "lat": 21.0001260, "lon": 105.8180870 },
+    { "lat": 21.0000213, "lon": 105.8180406 },
+    { "lat": 20.9998955, "lon": 105.8179532 },
+    { "lat": 20.9997479, "lon": 105.8178337 },
+    { "lat": 20.9996174, "lon": 105.8177390 },
+    { "lat": 20.9996000, "lon": 105.8177264 },
+    { "lat": 20.9992532, "lon": 105.8174746 },
+    { "lat": 20.9991006, "lon": 105.8173376 },
+    { "lat": 20.9987799, "lon": 105.8170717 },
+    { "lat": 20.9986374, "lon": 105.8169391 },
+    { "lat": 20.9985099, "lon": 105.8168340 },
+    { "lat": 20.9982582, "lon": 105.8166061 },
+    { "lat": 20.9982086, "lon": 105.8165617 },
+    { "lat": 20.9979187, "lon": 105.8163367 },
+    { "lat": 20.9975361, "lon": 105.8160582 },
+    { "lat": 20.9970635, "lon": 105.8157218 },
+    { "lat": 20.9970387, "lon": 105.8157042 },
+    { "lat": 20.9966853, "lon": 105.8154527 },
+    { "lat": 20.9965039, "lon": 105.8153207 },
+    { "lat": 20.9963593, "lon": 105.8152014 },
+    { "lat": 20.9962246, "lon": 105.8150999 },
+    { "lat": 20.9959306, "lon": 105.8149075 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 971778000,
+  "bounds": {
+    "minlat": 21.0010460,
+    "minlon": 105.8180338,
+    "maxlat": 21.0010809,
+    "maxlon": 105.8181420
+  },
+  "geometry": [
+    { "lat": 21.0010460, "lon": 105.8180338 },
+    { "lat": 21.0010623, "lon": 105.8180853 },
+    { "lat": 21.0010809, "lon": 105.8181420 }
+  ],
+  "tags": {
+    "crossing": "zebra",
+    "crossing:island": "no",
+    "footway": "crossing",
+    "highway": "footway",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 971778001,
+  "bounds": {
+    "minlat": 21.0007020,
+    "minlon": 105.8181144,
+    "maxlat": 21.0007180,
+    "maxlon": 105.8181907
+  },
+  "geometry": [
+    { "lat": 21.0007020, "lon": 105.8181144 },
+    { "lat": 21.0007115, "lon": 105.8181607 },
+    { "lat": 21.0007180, "lon": 105.8181907 }
+  ],
+  "tags": {
+    "crossing": "zebra",
+    "crossing:island": "no",
+    "footway": "crossing",
+    "highway": "footway",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 972053633,
+  "bounds": {
+    "minlat": 21.0026700,
+    "minlon": 105.8205081,
+    "maxlat": 21.0027082,
+    "maxlon": 105.8206934
+  },
+  "geometry": [
+    { "lat": 21.0026700, "lon": 105.8205081 },
+    { "lat": 21.0027082, "lon": 105.8206934 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972053634,
+  "bounds": {
+    "minlat": 21.0029537,
+    "minlon": 105.8192485,
+    "maxlat": 21.0029749,
+    "maxlon": 105.8193792
+  },
+  "geometry": [
+    { "lat": 21.0029537, "lon": 105.8192485 },
+    { "lat": 21.0029749, "lon": 105.8193792 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "surface": "paved",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 972053635,
+  "bounds": {
+    "minlat": 21.0030565,
+    "minlon": 105.8193447,
+    "maxlat": 21.0031553,
+    "maxlon": 105.8195112
+  },
+  "geometry": [
+    { "lat": 21.0031553, "lon": 105.8193447 },
+    { "lat": 21.0030565, "lon": 105.8195112 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972053636,
+  "bounds": {
+    "minlat": 21.0033581,
+    "minlon": 105.8202060,
+    "maxlat": 21.0035091,
+    "maxlon": 105.8203026
+  },
+  "geometry": [
+    { "lat": 21.0035091, "lon": 105.8203026 },
+    { "lat": 21.0034838, "lon": 105.8202294 },
+    { "lat": 21.0034444, "lon": 105.8202060 },
+    { "lat": 21.0033581, "lon": 105.8202251 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "ramp:stroller": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972053637,
+  "bounds": {
+    "minlat": 21.0031461,
+    "minlon": 105.8207926,
+    "maxlat": 21.0031643,
+    "maxlon": 105.8208807
+  },
+  "geometry": [
+    { "lat": 21.0031643, "lon": 105.8208807 },
+    { "lat": 21.0031461, "lon": 105.8207926 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "level": "-1",
+    "lit": "yes",
+    "surface": "unpaved",
+    "tactile_paving": "no",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 972053638,
+  "bounds": {
+    "minlat": 21.0026352,
+    "minlon": 105.8202233,
+    "maxlat": 21.0026975,
+    "maxlon": 105.8202346
+  },
+  "geometry": [
+    { "lat": 21.0026352, "lon": 105.8202346 },
+    { "lat": 21.0026975, "lon": 105.8202233 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "no",
+    "entrance": "yes",
+    "exit": "yes",
+    "foot": "yes",
+    "handrail": "yes",
+    "highway": "steps",
+    "incline": "down",
+    "level": "-1",
+    "lit": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 972053639,
+  "bounds": {
+    "minlat": 21.0027728,
+    "minlon": 105.8194112,
+    "maxlat": 21.0029375,
+    "maxlon": 105.8196399
+  },
+  "geometry": [
+    { "lat": 21.0029375, "lon": 105.8196399 },
+    { "lat": 21.0027728, "lon": 105.8194112 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "no",
+    "exit": "yes",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "up",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972325114,
+  "bounds": {
+    "minlat": 21.0030425,
+    "minlon": 105.8210223,
+    "maxlat": 21.0030711,
+    "maxlon": 105.8211325
+  },
+  "geometry": [
+    { "lat": 21.0030425, "lon": 105.8211325 },
+    { "lat": 21.0030711, "lon": 105.8210223 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972325115,
+  "bounds": {
+    "minlat": 21.0030711,
+    "minlon": 105.8208585,
+    "maxlat": 21.0030887,
+    "maxlon": 105.8210223
+  },
+  "geometry": [
+    { "lat": 21.0030711, "lon": 105.8210223 },
+    { "lat": 21.0030887, "lon": 105.8208585 }
+  ],
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "entrance": "yes",
+    "exit": "no",
+    "foot": "no",
+    "handrail": "no",
+    "highway": "steps",
+    "incline": "down",
+    "layer": "-1",
+    "lit": "yes",
+    "oneway": "yes",
+    "ramp": "yes",
+    "surface": "paved",
+    "tactile_paving": "no",
+    "tunnel": "yes",
+    "width": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 972325116,
+  "bounds": {
+    "minlat": 21.0030425,
+    "minlon": 105.8211325,
+    "maxlat": 21.0030568,
+    "maxlon": 105.8211885
+  },
+  "geometry": [
+    { "lat": 21.0030568, "lon": 105.8211885 },
+    { "lat": 21.0030425, "lon": 105.8211325 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329359,
+  "bounds": {
+    "minlat": 21.0034503,
+    "minlon": 105.8194147,
+    "maxlat": 21.0041430,
+    "maxlon": 105.8213109
+  },
+  "geometry": [
+    { "lat": 21.0041430, "lon": 105.8213109 },
+    { "lat": 21.0040325, "lon": 105.8211640 },
+    { "lat": 21.0039493, "lon": 105.8210528 },
+    { "lat": 21.0038514, "lon": 105.8209215 },
+    { "lat": 21.0037448, "lon": 105.8207688 },
+    { "lat": 21.0036558, "lon": 105.8206525 },
+    { "lat": 21.0036166, "lon": 105.8206003 },
+    { "lat": 21.0035927, "lon": 105.8205641 },
+    { "lat": 21.0035673, "lon": 105.8204011 },
+    { "lat": 21.0035402, "lon": 105.8202829 },
+    { "lat": 21.0035008, "lon": 105.8200560 },
+    { "lat": 21.0034657, "lon": 105.8198001 },
+    { "lat": 21.0034503, "lon": 105.8196826 },
+    { "lat": 21.0034513, "lon": 105.8196159 },
+    { "lat": 21.0034677, "lon": 105.8195548 },
+    { "lat": 21.0034951, "lon": 105.8194147 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329360,
+  "bounds": {
+    "minlat": 21.0034951,
+    "minlon": 105.8146407,
+    "maxlat": 21.0087991,
+    "maxlon": 105.8194147
+  },
+  "geometry": [
+    { "lat": 21.0034951, "lon": 105.8194147 },
+    { "lat": 21.0035885, "lon": 105.8192004 },
+    { "lat": 21.0037236, "lon": 105.8189981 },
+    { "lat": 21.0038619, "lon": 105.8187960 },
+    { "lat": 21.0040094, "lon": 105.8186109 },
+    { "lat": 21.0043195, "lon": 105.8182994 },
+    { "lat": 21.0044429, "lon": 105.8181681 },
+    { "lat": 21.0044762, "lon": 105.8181111 },
+    { "lat": 21.0046430, "lon": 105.8178255 },
+    { "lat": 21.0047818, "lon": 105.8175753 },
+    { "lat": 21.0048337, "lon": 105.8174868 },
+    { "lat": 21.0048737, "lon": 105.8174419 },
+    { "lat": 21.0051689, "lon": 105.8172191 },
+    { "lat": 21.0051847, "lon": 105.8172081 },
+    { "lat": 21.0057647, "lon": 105.8168067 },
+    { "lat": 21.0057812, "lon": 105.8167957 },
+    { "lat": 21.0058320, "lon": 105.8167619 },
+    { "lat": 21.0058481, "lon": 105.8167512 },
+    { "lat": 21.0058937, "lon": 105.8167209 },
+    { "lat": 21.0059511, "lon": 105.8166827 },
+    { "lat": 21.0060996, "lon": 105.8165839 },
+    { "lat": 21.0064931, "lon": 105.8163220 },
+    { "lat": 21.0065891, "lon": 105.8162620 },
+    { "lat": 21.0069844, "lon": 105.8159691 },
+    { "lat": 21.0073406, "lon": 105.8157227 },
+    { "lat": 21.0074972, "lon": 105.8156143 },
+    { "lat": 21.0077237, "lon": 105.8154267 },
+    { "lat": 21.0077986, "lon": 105.8153637 },
+    { "lat": 21.0079337, "lon": 105.8152505 },
+    { "lat": 21.0082082, "lon": 105.8150205 },
+    { "lat": 21.0084084, "lon": 105.8148525 },
+    { "lat": 21.0084203, "lon": 105.8148426 },
+    { "lat": 21.0086469, "lon": 105.8146525 },
+    { "lat": 21.0086681, "lon": 105.8146422 },
+    { "lat": 21.0086857, "lon": 105.8146407 },
+    { "lat": 21.0087054, "lon": 105.8146498 },
+    { "lat": 21.0087370, "lon": 105.8146824 },
+    { "lat": 21.0087991, "lon": 105.8147361 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "lit": "yes",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 972329361,
+  "bounds": {
+    "minlat": 21.0035430,
+    "minlon": 105.8204784,
+    "maxlat": 21.0035927,
+    "maxlon": 105.8205641
+  },
+  "geometry": [
+    { "lat": 21.0035927, "lon": 105.8205641 },
+    { "lat": 21.0035430, "lon": 105.8204784 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329364,
+  "bounds": {
+    "minlat": 21.0034230,
+    "minlon": 105.8196826,
+    "maxlat": 21.0034503,
+    "maxlon": 105.8197188
+  },
+  "geometry": [
+    { "lat": 21.0034230, "lon": 105.8197188 },
+    { "lat": 21.0034503, "lon": 105.8196826 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 972329365,
+  "bounds": {
+    "minlat": 21.0020312,
+    "minlon": 105.8171730,
+    "maxlat": 21.0045924,
+    "maxlon": 105.8190812
+  },
+  "geometry": [
+    { "lat": 21.0025749, "lon": 105.8190812 },
+    { "lat": 21.0024304, "lon": 105.8188906 },
+    { "lat": 21.0022427, "lon": 105.8186428 },
+    { "lat": 21.0020496, "lon": 105.8183505 },
+    { "lat": 21.0020405, "lon": 105.8183230 },
+    { "lat": 21.0020312, "lon": 105.8182859 },
+    { "lat": 21.0020411, "lon": 105.8182691 },
+    { "lat": 21.0021396, "lon": 105.8181976 },
+    { "lat": 21.0024490, "lon": 105.8180564 },
+    { "lat": 21.0029059, "lon": 105.8178489 },
+    { "lat": 21.0033667, "lon": 105.8176290 },
+    { "lat": 21.0034578, "lon": 105.8175963 },
+    { "lat": 21.0037773, "lon": 105.8174814 },
+    { "lat": 21.0040014, "lon": 105.8173916 },
+    { "lat": 21.0040249, "lon": 105.8173826 },
+    { "lat": 21.0042787, "lon": 105.8172853 },
+    { "lat": 21.0043583, "lon": 105.8172548 },
+    { "lat": 21.0045924, "lon": 105.8171730 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329366,
+  "bounds": {
+    "minlat": 21.0025749,
+    "minlon": 105.8190812,
+    "maxlat": 21.0028596,
+    "maxlon": 105.8192100
+  },
+  "geometry": [
+    { "lat": 21.0028596, "lon": 105.8191768 },
+    { "lat": 21.0026898, "lon": 105.8192100 },
+    { "lat": 21.0025749, "lon": 105.8190812 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329367,
+  "bounds": {
+    "minlat": 21.0029778,
+    "minlon": 105.8173992,
+    "maxlat": 21.0046249,
+    "maxlon": 105.8190977
+  },
+  "geometry": [
+    { "lat": 21.0046249, "lon": 105.8173992 },
+    { "lat": 21.0044896, "lon": 105.8175818 },
+    { "lat": 21.0044761, "lon": 105.8176001 },
+    { "lat": 21.0042703, "lon": 105.8178357 },
+    { "lat": 21.0041636, "lon": 105.8179296 },
+    { "lat": 21.0039501, "lon": 105.8181174 },
+    { "lat": 21.0037141, "lon": 105.8183564 },
+    { "lat": 21.0036851, "lon": 105.8183943 },
+    { "lat": 21.0035215, "lon": 105.8186086 },
+    { "lat": 21.0034729, "lon": 105.8186724 },
+    { "lat": 21.0033879, "lon": 105.8188053 },
+    { "lat": 21.0032256, "lon": 105.8190593 },
+    { "lat": 21.0031804, "lon": 105.8190383 },
+    { "lat": 21.0030757, "lon": 105.8190440 },
+    { "lat": 21.0030046, "lon": 105.8190620 },
+    { "lat": 21.0029778, "lon": 105.8190977 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329368,
+  "bounds": {
+    "minlat": 21.0028582,
+    "minlon": 105.8190838,
+    "maxlat": 21.0030140,
+    "maxlon": 105.8192517
+  },
+  "geometry": [
+    { "lat": 21.0029862, "lon": 105.8192328 },
+    { "lat": 21.0030039, "lon": 105.8192107 },
+    { "lat": 21.0030136, "lon": 105.8191835 },
+    { "lat": 21.0030140, "lon": 105.8191544 },
+    { "lat": 21.0030051, "lon": 105.8191269 },
+    { "lat": 21.0029880, "lon": 105.8191043 },
+    { "lat": 21.0029778, "lon": 105.8190977 },
+    { "lat": 21.0029647, "lon": 105.8190893 },
+    { "lat": 21.0029406, "lon": 105.8190838 },
+    { "lat": 21.0029162, "lon": 105.8190866 },
+    { "lat": 21.0028937, "lon": 105.8190973 },
+    { "lat": 21.0028754, "lon": 105.8191150 },
+    { "lat": 21.0028632, "lon": 105.8191379 },
+    { "lat": 21.0028582, "lon": 105.8191637 },
+    { "lat": 21.0028596, "lon": 105.8191768 },
+    { "lat": 21.0028609, "lon": 105.8191899 },
+    { "lat": 21.0028710, "lon": 105.8192139 },
+    { "lat": 21.0028876, "lon": 105.8192334 },
+    { "lat": 21.0029090, "lon": 105.8192464 },
+    { "lat": 21.0029357, "lon": 105.8192517 },
+    { "lat": 21.0029537, "lon": 105.8192485 },
+    { "lat": 21.0029625, "lon": 105.8192470 },
+    { "lat": 21.0029862, "lon": 105.8192328 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 972329369,
+  "bounds": {
+    "minlat": 21.0032256,
+    "minlon": 105.8190593,
+    "maxlat": 21.0032424,
+    "maxlon": 105.8191348
+  },
+  "geometry": [
+    { "lat": 21.0032256, "lon": 105.8190593 },
+    { "lat": 21.0032424, "lon": 105.8191348 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329370,
+  "bounds": {
+    "minlat": 21.0026764,
+    "minlon": 105.8192100,
+    "maxlat": 21.0026898,
+    "maxlon": 105.8192700
+  },
+  "geometry": [
+    { "lat": 21.0026898, "lon": 105.8192100 },
+    { "lat": 21.0026764, "lon": 105.8192700 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329371,
+  "bounds": {
+    "minlat": 21.0017867,
+    "minlon": 105.8189027,
+    "maxlat": 21.0024838,
+    "maxlon": 105.8197680
+  },
+  "geometry": [
+    { "lat": 21.0024838, "lon": 105.8197680 },
+    { "lat": 21.0019220, "lon": 105.8190707 },
+    { "lat": 21.0017867, "lon": 105.8189027 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329372,
+  "bounds": {
+    "minlat": 21.0024838,
+    "minlon": 105.8197680,
+    "maxlat": 21.0025792,
+    "maxlon": 105.8202434
+  },
+  "geometry": [
+    { "lat": 21.0024838, "lon": 105.8197680 },
+    { "lat": 21.0025096, "lon": 105.8198331 },
+    { "lat": 21.0025714, "lon": 105.8201779 },
+    { "lat": 21.0025792, "lon": 105.8202434 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329373,
+  "bounds": {
+    "minlat": 21.0007134,
+    "minlon": 105.8202434,
+    "maxlat": 21.0027221,
+    "maxlon": 105.8281858
+  },
+  "geometry": [
+    { "lat": 21.0025792, "lon": 105.8202434 },
+    { "lat": 21.0026782, "lon": 105.8207236 },
+    { "lat": 21.0027221, "lon": 105.8209425 },
+    { "lat": 21.0025610, "lon": 105.8213978 },
+    { "lat": 21.0025001, "lon": 105.8215999 },
+    { "lat": 21.0024981, "lon": 105.8216049 },
+    { "lat": 21.0024709, "lon": 105.8216883 },
+    { "lat": 21.0024151, "lon": 105.8219331 },
+    { "lat": 21.0022997, "lon": 105.8223614 },
+    { "lat": 21.0021988, "lon": 105.8227422 },
+    { "lat": 21.0021742, "lon": 105.8228360 },
+    { "lat": 21.0020590, "lon": 105.8232841 },
+    { "lat": 21.0019581, "lon": 105.8237089 },
+    { "lat": 21.0018513, "lon": 105.8241411 },
+    { "lat": 21.0015813, "lon": 105.8252540 },
+    { "lat": 21.0013336, "lon": 105.8261953 },
+    { "lat": 21.0011229, "lon": 105.8270668 },
+    { "lat": 21.0011011, "lon": 105.8271127 },
+    { "lat": 21.0010652, "lon": 105.8271882 },
+    { "lat": 21.0010347, "lon": 105.8273913 },
+    { "lat": 21.0008708, "lon": 105.8279012 },
+    { "lat": 21.0007866, "lon": 105.8281062 },
+    { "lat": 21.0007134, "lon": 105.8281858 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 972329374,
+  "bounds": {
+    "minlat": 21.0026782,
+    "minlon": 105.8206934,
+    "maxlat": 21.0027082,
+    "maxlon": 105.8207236
+  },
+  "geometry": [
+    { "lat": 21.0027082, "lon": 105.8206934 },
+    { "lat": 21.0026782, "lon": 105.8207236 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 972329376,
+  "bounds": {
+    "minlat": 21.0024838,
+    "minlon": 105.8197680,
+    "maxlat": 21.0025399,
+    "maxlon": 105.8198159
+  },
+  "geometry": [
+    { "lat": 21.0025399, "lon": 105.8198159 },
+    { "lat": 21.0024838, "lon": 105.8197680 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 982186947,
+  "bounds": {
+    "minlat": 21.0009784,
+    "minlon": 105.8180846,
+    "maxlat": 21.0013065,
+    "maxlon": 105.8181757
+  },
+  "geometry": [
+    { "lat": 21.0009784, "lon": 105.8181757 },
+    { "lat": 21.0010809, "lon": 105.8181420 },
+    { "lat": 21.0012104, "lon": 105.8180994 },
+    { "lat": 21.0012406, "lon": 105.8180900 },
+    { "lat": 21.0012675, "lon": 105.8180846 },
+    { "lat": 21.0012860, "lon": 105.8180884 },
+    { "lat": 21.0012962, "lon": 105.8180941 },
+    { "lat": 21.0013065, "lon": 105.8181051 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 982186948,
+  "bounds": {
+    "minlat": 21.0010452,
+    "minlon": 105.8183532,
+    "maxlat": 21.0014921,
+    "maxlon": 105.8185684
+  },
+  "geometry": [
+    { "lat": 21.0014836, "lon": 105.8183532 },
+    { "lat": 21.0014921, "lon": 105.8183714 },
+    { "lat": 21.0014906, "lon": 105.8183843 },
+    { "lat": 21.0014783, "lon": 105.8183930 },
+    { "lat": 21.0012645, "lon": 105.8184963 },
+    { "lat": 21.0010452, "lon": 105.8185684 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 982186949,
+  "bounds": {
+    "minlat": 21.0010452,
+    "minlon": 105.8185684,
+    "maxlat": 21.0010769,
+    "maxlon": 105.8186472
+  },
+  "geometry": [
+    { "lat": 21.0010452, "lon": 105.8185684 },
+    { "lat": 21.0010582, "lon": 105.8186006 },
+    { "lat": 21.0010769, "lon": 105.8186472 }
+  ],
+  "tags": {
+    "crossing": "marked",
+    "crossing:island": "no",
+    "crossing:markings": "yes",
+    "footway": "crossing",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 982186950,
+  "bounds": {
+    "minlat": 21.0010769,
+    "minlon": 105.8185261,
+    "maxlat": 21.0015727,
+    "maxlon": 105.8186472
+  },
+  "geometry": [
+    { "lat": 21.0010769, "lon": 105.8186472 },
+    { "lat": 21.0012915, "lon": 105.8185906 },
+    { "lat": 21.0013785, "lon": 105.8185576 },
+    { "lat": 21.0014455, "lon": 105.8185303 },
+    { "lat": 21.0014612, "lon": 105.8185261 },
+    { "lat": 21.0014762, "lon": 105.8185295 },
+    { "lat": 21.0014942, "lon": 105.8185447 },
+    { "lat": 21.0015727, "lon": 105.8186307 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1001324537,
+  "bounds": {
+    "minlat": 21.0058388,
+    "minlon": 105.8164220,
+    "maxlat": 21.0061247,
+    "maxlon": 105.8168862
+  },
+  "geometry": [
+    { "lat": 21.0061041, "lon": 105.8164220 },
+    { "lat": 21.0061247, "lon": 105.8164554 },
+    { "lat": 21.0058388, "lon": 105.8166301 },
+    { "lat": 21.0059485, "lon": 105.8168192 },
+    { "lat": 21.0059874, "lon": 105.8168862 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "2",
+    "level": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1001324538,
+  "bounds": {
+    "minlat": 21.0056879,
+    "minlon": 105.8162965,
+    "maxlat": 21.0058950,
+    "maxlon": 105.8164375
+  },
+  "geometry": [
+    { "lat": 21.0056879, "lon": 105.8164375 },
+    { "lat": 21.0058950, "lon": 105.8162965 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "conveying": "yes",
+    "highway": "steps",
+    "layer": "1",
+    "level": "0;1"
+  }
+},
+{
+  "type": "way",
+  "id": 1001324540,
+  "bounds": {
+    "minlat": 21.0056879,
+    "minlon": 105.8164375,
+    "maxlat": 21.0057303,
+    "maxlon": 105.8165106
+  },
+  "geometry": [
+    { "lat": 21.0056879, "lon": 105.8164375 },
+    { "lat": 21.0057303, "lon": 105.8165106 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1012665675,
+  "bounds": {
+    "minlat": 21.0043221,
+    "minlon": 105.8179006,
+    "maxlat": 21.0044283,
+    "maxlon": 105.8180310
+  },
+  "geometry": [
+    { "lat": 21.0044283, "lon": 105.8180310 },
+    { "lat": 21.0043221, "lon": 105.8179006 }
+  ],
+  "tags": {
+    "highway": "primary_link",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1012665676,
+  "bounds": {
+    "minlat": 21.0043221,
+    "minlon": 105.8169541,
+    "maxlat": 21.0052150,
+    "maxlon": 105.8179006
+  },
+  "geometry": [
+    { "lat": 21.0052150, "lon": 105.8169541 },
+    { "lat": 21.0047998, "lon": 105.8172896 },
+    { "lat": 21.0047074, "lon": 105.8173805 },
+    { "lat": 21.0045494, "lon": 105.8175887 },
+    { "lat": 21.0045216, "lon": 105.8176268 },
+    { "lat": 21.0043221, "lon": 105.8179006 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1014224393,
+  "bounds": {
+    "minlat": 21.0026033,
+    "minlon": 105.8197736,
+    "maxlat": 21.0026723,
+    "maxlon": 105.8198871
+  },
+  "geometry": [
+    { "lat": 21.0026033, "lon": 105.8197736 },
+    { "lat": 21.0026378, "lon": 105.8198304 },
+    { "lat": 21.0026723, "lon": 105.8198871 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1014224394,
+  "bounds": {
+    "minlat": 21.0028548,
+    "minlon": 105.8203862,
+    "maxlat": 21.0029746,
+    "maxlon": 105.8208163
+  },
+  "geometry": [
+    { "lat": 21.0029746, "lon": 105.8203862 },
+    { "lat": 21.0028548, "lon": 105.8208163 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1034359440,
+  "bounds": {
+    "minlat": 21.0073042,
+    "minlon": 105.8156665,
+    "maxlat": 21.0079171,
+    "maxlon": 105.8168891
+  },
+  "geometry": [
+    { "lat": 21.0073042, "lon": 105.8156665 },
+    { "lat": 21.0073406, "lon": 105.8157227 },
+    { "lat": 21.0074601, "lon": 105.8158985 },
+    { "lat": 21.0074685, "lon": 105.8159103 },
+    { "lat": 21.0074708, "lon": 105.8159151 },
+    { "lat": 21.0074716, "lon": 105.8159170 },
+    { "lat": 21.0074719, "lon": 105.8159194 },
+    { "lat": 21.0074713, "lon": 105.8159218 },
+    { "lat": 21.0074702, "lon": 105.8159238 },
+    { "lat": 21.0074674, "lon": 105.8159271 },
+    { "lat": 21.0074285, "lon": 105.8159567 },
+    { "lat": 21.0076050, "lon": 105.8162061 },
+    { "lat": 21.0076856, "lon": 105.8161494 },
+    { "lat": 21.0077353, "lon": 105.8162272 },
+    { "lat": 21.0078992, "lon": 105.8165696 },
+    { "lat": 21.0079171, "lon": 105.8166627 },
+    { "lat": 21.0079074, "lon": 105.8167413 },
+    { "lat": 21.0078959, "lon": 105.8168039 },
+    { "lat": 21.0078995, "lon": 105.8168891 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 302 Đường Láng",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1040138618,
+  "bounds": {
+    "minlat": 21.0075626,
+    "minlon": 105.8142907,
+    "maxlat": 21.0077363,
+    "maxlon": 105.8144834
+  },
+  "geometry": [
+    { "lat": 21.0077363, "lon": 105.8144834 },
+    { "lat": 21.0075626, "lon": 105.8142907 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1040179813,
+  "bounds": {
+    "minlat": 21.0061561,
+    "minlon": 105.8142494,
+    "maxlat": 21.0063237,
+    "maxlon": 105.8144686
+  },
+  "geometry": [
+    { "lat": 21.0061561, "lon": 105.8142494 },
+    { "lat": 21.0062440, "lon": 105.8144559 },
+    { "lat": 21.0062486, "lon": 105.8144686 },
+    { "lat": 21.0063237, "lon": 105.8144307 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 44 Ngõ 213 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1044308160,
+  "bounds": {
+    "minlat": 20.9981587,
+    "minlon": 105.8134174,
+    "maxlat": 21.0006027,
+    "maxlon": 105.8171229
+  },
+  "geometry": [
+    { "lat": 20.9981587, "lon": 105.8134174 },
+    { "lat": 20.9984916, "lon": 105.8139019 },
+    { "lat": 20.9985592, "lon": 105.8140002 },
+    { "lat": 20.9987513, "lon": 105.8142777 },
+    { "lat": 20.9989529, "lon": 105.8145991 },
+    { "lat": 20.9992697, "lon": 105.8151000 },
+    { "lat": 20.9993891, "lon": 105.8152847 },
+    { "lat": 20.9997354, "lon": 105.8157990 },
+    { "lat": 20.9999303, "lon": 105.8161024 },
+    { "lat": 21.0003505, "lon": 105.8167465 },
+    { "lat": 21.0006027, "lon": 105.8171229 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1077606132,
+  "bounds": {
+    "minlat": 21.0044283,
+    "minlon": 105.8180310,
+    "maxlat": 21.0048713,
+    "maxlon": 105.8184135
+  },
+  "geometry": [
+    { "lat": 21.0048713, "lon": 105.8182754 },
+    { "lat": 21.0046570, "lon": 105.8184135 },
+    { "lat": 21.0044762, "lon": 105.8181111 },
+    { "lat": 21.0044283, "lon": 105.8180310 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 122 Đường Láng",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1088223317,
+  "bounds": {
+    "minlat": 21.0051596,
+    "minlon": 105.8171649,
+    "maxlat": 21.0056013,
+    "maxlon": 105.8179259
+  },
+  "geometry": [
+    { "lat": 21.0051596, "lon": 105.8171649 },
+    { "lat": 21.0051847, "lon": 105.8172081 },
+    { "lat": 21.0056013, "lon": 105.8179259 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1088223322,
+  "bounds": {
+    "minlat": 21.0016844,
+    "minlon": 105.8214008,
+    "maxlat": 21.0026220,
+    "maxlon": 105.8216492
+  },
+  "geometry": [
+    { "lat": 21.0026220, "lon": 105.8216492 },
+    { "lat": 21.0024981, "lon": 105.8216049 },
+    { "lat": 21.0024062, "lon": 105.8215957 },
+    { "lat": 21.0019048, "lon": 105.8214445 },
+    { "lat": 21.0017501, "lon": 105.8214008 },
+    { "lat": 21.0016844, "lon": 105.8215989 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1098232954,
+  "bounds": {
+    "minlat": 21.0065408,
+    "minlon": 105.8143273,
+    "maxlat": 21.0068031,
+    "maxlon": 105.8148118
+  },
+  "geometry": [
+    { "lat": 21.0068031, "lon": 105.8148118 },
+    { "lat": 21.0065408, "lon": 105.8143273 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 1/74 Phố Quan Nhân",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1098246223,
+  "bounds": {
+    "minlat": 21.0061575,
+    "minlon": 105.8132915,
+    "maxlat": 21.0064063,
+    "maxlon": 105.8137531
+  },
+  "geometry": [
+    { "lat": 21.0064063, "lon": 105.8137531 },
+    { "lat": 21.0063936, "lon": 105.8137306 },
+    { "lat": 21.0061575, "lon": 105.8132915 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 213 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1098246224,
+  "bounds": {
+    "minlat": 21.0059875,
+    "minlon": 105.8146047,
+    "maxlat": 21.0065048,
+    "maxlon": 105.8150115
+  },
+  "geometry": [
+    { "lat": 21.0059875, "lon": 105.8146047 },
+    { "lat": 21.0060865, "lon": 105.8147714 },
+    { "lat": 21.0062138, "lon": 105.8148925 },
+    { "lat": 21.0063304, "lon": 105.8149910 },
+    { "lat": 21.0064006, "lon": 105.8150115 },
+    { "lat": 21.0065048, "lon": 105.8150111 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngõ 213 Phố Giáp Nhất",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1098246225,
+  "bounds": {
+    "minlat": 21.0060828,
+    "minlon": 105.8129696,
+    "maxlat": 21.0061787,
+    "maxlon": 105.8132915
+  },
+  "geometry": [
+    { "lat": 21.0061575, "lon": 105.8132915 },
+    { "lat": 21.0061787, "lon": 105.8131656 },
+    { "lat": 21.0060828, "lon": 105.8129696 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1107305083,
+  "bounds": {
+    "minlat": 21.0057303,
+    "minlon": 105.8165106,
+    "maxlat": 21.0057774,
+    "maxlon": 105.8165951
+  },
+  "geometry": [
+    { "lat": 21.0057303, "lon": 105.8165106 },
+    { "lat": 21.0057774, "lon": 105.8165951 }
+  ],
+  "tags": {
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112713096,
+  "bounds": {
+    "minlat": 21.0051722,
+    "minlon": 105.8141988,
+    "maxlat": 21.0087265,
+    "maxlon": 105.8168697
+  },
+  "geometry": [
+    { "lat": 21.0087265, "lon": 105.8141988 },
+    { "lat": 21.0083241, "lon": 105.8145940 },
+    { "lat": 21.0080549, "lon": 105.8148377 },
+    { "lat": 21.0077786, "lon": 105.8150673 },
+    { "lat": 21.0072426, "lon": 105.8154845 },
+    { "lat": 21.0071223, "lon": 105.8155675 },
+    { "lat": 21.0069174, "lon": 105.8157014 },
+    { "lat": 21.0063502, "lon": 105.8160881 },
+    { "lat": 21.0057303, "lon": 105.8165106 },
+    { "lat": 21.0054967, "lon": 105.8166557 },
+    { "lat": 21.0051722, "lon": 105.8168697 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "lit": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821641,
+  "bounds": {
+    "minlat": 21.0008487,
+    "minlon": 105.8165864,
+    "maxlat": 21.0011363,
+    "maxlon": 105.8170142
+  },
+  "geometry": [
+    { "lat": 21.0008487, "lon": 105.8165864 },
+    { "lat": 21.0011363, "lon": 105.8170142 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821642,
+  "bounds": {
+    "minlat": 21.0011363,
+    "minlon": 105.8170142,
+    "maxlat": 21.0013190,
+    "maxlon": 105.8173147
+  },
+  "geometry": [
+    { "lat": 21.0011363, "lon": 105.8170142 },
+    { "lat": 21.0012155, "lon": 105.8171427 },
+    { "lat": 21.0012948, "lon": 105.8172749 },
+    { "lat": 21.0013190, "lon": 105.8173147 }
+  ],
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "footway": "crossing",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821643,
+  "bounds": {
+    "minlat": 21.0013190,
+    "minlon": 105.8173147,
+    "maxlat": 21.0016108,
+    "maxlon": 105.8177501
+  },
+  "geometry": [
+    { "lat": 21.0013190, "lon": 105.8173147 },
+    { "lat": 21.0016108, "lon": 105.8177501 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821644,
+  "bounds": {
+    "minlat": 21.0016108,
+    "minlon": 105.8177501,
+    "maxlat": 21.0016987,
+    "maxlon": 105.8178871
+  },
+  "geometry": [
+    { "lat": 21.0016108, "lon": 105.8177501 },
+    { "lat": 21.0016539, "lon": 105.8178138 },
+    { "lat": 21.0016987, "lon": 105.8178871 }
+  ],
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "footway": "crossing",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821645,
+  "bounds": {
+    "minlat": 21.0016987,
+    "minlon": 105.8178871,
+    "maxlat": 21.0018713,
+    "maxlon": 105.8181479
+  },
+  "geometry": [
+    { "lat": 21.0016987, "lon": 105.8178871 },
+    { "lat": 21.0018713, "lon": 105.8181479 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821646,
+  "bounds": {
+    "minlat": 21.0018713,
+    "minlon": 105.8181479,
+    "maxlat": 21.0019711,
+    "maxlon": 105.8181752
+  },
+  "geometry": [
+    { "lat": 21.0018713, "lon": 105.8181479 },
+    { "lat": 21.0018937, "lon": 105.8181698 },
+    { "lat": 21.0019290, "lon": 105.8181752 },
+    { "lat": 21.0019711, "lon": 105.8181680 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821647,
+  "bounds": {
+    "minlat": 21.0019711,
+    "minlon": 105.8181680,
+    "maxlat": 21.0020312,
+    "maxlon": 105.8182859
+  },
+  "geometry": [
+    { "lat": 21.0019711, "lon": 105.8181680 },
+    { "lat": 21.0020049, "lon": 105.8182342 },
+    { "lat": 21.0020312, "lon": 105.8182859 }
+  ],
+  "tags": {
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "footway": "crossing",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1112821648,
+  "bounds": {
+    "minlat": 21.0013065,
+    "minlon": 105.8181051,
+    "maxlat": 21.0014836,
+    "maxlon": 105.8183532
+  },
+  "geometry": [
+    { "lat": 21.0013065, "lon": 105.8181051 },
+    { "lat": 21.0014836, "lon": 105.8183532 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1123561348,
+  "bounds": {
+    "minlat": 21.0005568,
+    "minlon": 105.8162504,
+    "maxlat": 21.0012525,
+    "maxlon": 105.8173125
+  },
+  "geometry": [
+    { "lat": 21.0012525, "lon": 105.8173125 },
+    { "lat": 21.0009960, "lon": 105.8170954 },
+    { "lat": 21.0005876, "lon": 105.8165259 },
+    { "lat": 21.0005568, "lon": 105.8162504 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1123561349,
+  "bounds": {
+    "minlat": 21.0012525,
+    "minlon": 105.8173125,
+    "maxlat": 21.0015574,
+    "maxlon": 105.8178494
+  },
+  "geometry": [
+    { "lat": 21.0015574, "lon": 105.8178494 },
+    { "lat": 21.0012525, "lon": 105.8173125 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "4",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1155250057,
+  "bounds": {
+    "minlat": 21.0015727,
+    "minlon": 105.8186307,
+    "maxlat": 21.0017867,
+    "maxlon": 105.8189027
+  },
+  "geometry": [
+    { "lat": 21.0015727, "lon": 105.8186307 },
+    { "lat": 21.0017867, "lon": 105.8189027 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1165334486,
+  "bounds": {
+    "minlat": 21.0051453,
+    "minlon": 105.8130943,
+    "maxlat": 21.0052715,
+    "maxlon": 105.8134283
+  },
+  "geometry": [
+    { "lat": 21.0051671, "lon": 105.8130943 },
+    { "lat": 21.0051453, "lon": 105.8131068 },
+    { "lat": 21.0052715, "lon": 105.8134283 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 30 Ngõ 109 Phố Quan Nhân",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1176087578,
+  "bounds": {
+    "minlat": 21.0014034,
+    "minlon": 105.8192910,
+    "maxlat": 21.0032742,
+    "maxlon": 105.8267156
+  },
+  "geometry": [
+    { "lat": 21.0032742, "lon": 105.8192910 },
+    { "lat": 21.0032149, "lon": 105.8194945 },
+    { "lat": 21.0028438, "lon": 105.8210411 },
+    { "lat": 21.0017721, "lon": 105.8252307 },
+    { "lat": 21.0014034, "lon": 105.8267156 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "proposed",
+    "lanes": "2",
+    "layer": "2",
+    "name": "Đường Vành đai 2",
+    "oneway": "yes",
+    "proposed": "trunk"
+  }
+},
+{
+  "type": "way",
+  "id": 1178123701,
+  "bounds": {
+    "minlat": 21.0014980,
+    "minlon": 105.8193388,
+    "maxlat": 21.0034286,
+    "maxlon": 105.8267372
+  },
+  "geometry": [
+    { "lat": 21.0014980, "lon": 105.8267372 },
+    { "lat": 21.0018820, "lon": 105.8252693 },
+    { "lat": 21.0027243, "lon": 105.8219223 },
+    { "lat": 21.0029775, "lon": 105.8210554 },
+    { "lat": 21.0033737, "lon": 105.8195407 },
+    { "lat": 21.0034286, "lon": 105.8193388 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "proposed",
+    "lanes": "2",
+    "layer": "2",
+    "name": "Đường Vành đai 2",
+    "oneway": "yes",
+    "proposed": "trunk"
+  }
+},
+{
+  "type": "way",
+  "id": 1185923380,
+  "bounds": {
+    "minlat": 21.0026213,
+    "minlon": 105.8164429,
+    "maxlat": 21.0049643,
+    "maxlon": 105.8174369
+  },
+  "geometry": [
+    { "lat": 21.0026213, "lon": 105.8174369 },
+    { "lat": 21.0041187, "lon": 105.8167800 },
+    { "lat": 21.0042611, "lon": 105.8167214 },
+    { "lat": 21.0043539, "lon": 105.8166878 },
+    { "lat": 21.0045804, "lon": 105.8166059 },
+    { "lat": 21.0049643, "lon": 105.8164429 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxheight:signed": "no",
+    "maxspeed": "50",
+    "name": "Phố Giáp Nhất",
+    "name:en": "Giap Nhat Street",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350852,
+  "bounds": {
+    "minlat": 21.0023375,
+    "minlon": 105.8151753,
+    "maxlat": 21.0029112,
+    "maxlon": 105.8157907
+  },
+  "geometry": [
+    { "lat": 21.0026263, "lon": 105.8157907 },
+    { "lat": 21.0027224, "lon": 105.8157721 },
+    { "lat": 21.0028071, "lon": 105.8157203 },
+    { "lat": 21.0028682, "lon": 105.8156458 },
+    { "lat": 21.0029041, "lon": 105.8155545 },
+    { "lat": 21.0029112, "lon": 105.8154557 },
+    { "lat": 21.0028887, "lon": 105.8153596 },
+    { "lat": 21.0028525, "lon": 105.8152990 },
+    { "lat": 21.0028389, "lon": 105.8152760 },
+    { "lat": 21.0027670, "lon": 105.8152137 },
+    { "lat": 21.0026804, "lon": 105.8151789 },
+    { "lat": 21.0025879, "lon": 105.8151753 },
+    { "lat": 21.0024992, "lon": 105.8152032 },
+    { "lat": 21.0024232, "lon": 105.8152598 },
+    { "lat": 21.0023656, "lon": 105.8153442 },
+    { "lat": 21.0023375, "lon": 105.8154444 },
+    { "lat": 21.0023396, "lon": 105.8154895 },
+    { "lat": 21.0023423, "lon": 105.8155489 },
+    { "lat": 21.0023793, "lon": 105.8156456 },
+    { "lat": 21.0024443, "lon": 105.8157236 },
+    { "lat": 21.0025179, "lon": 105.8157668 },
+    { "lat": 21.0025299, "lon": 105.8157739 },
+    { "lat": 21.0026263, "lon": 105.8157907 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350854,
+  "bounds": {
+    "minlat": 21.0012214,
+    "minlon": 105.8154895,
+    "maxlat": 21.0023396,
+    "maxlon": 105.8164505
+  },
+  "geometry": [
+    { "lat": 21.0023396, "lon": 105.8154895 },
+    { "lat": 21.0019535, "lon": 105.8157963 },
+    { "lat": 21.0014064, "lon": 105.8162311 },
+    { "lat": 21.0013844, "lon": 105.8162768 },
+    { "lat": 21.0013525, "lon": 105.8163443 },
+    { "lat": 21.0013221, "lon": 105.8163777 },
+    { "lat": 21.0012214, "lon": 105.8164505 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350855,
+  "bounds": {
+    "minlat": 21.0013629,
+    "minlon": 105.8157668,
+    "maxlat": 21.0025179,
+    "maxlon": 105.8166578
+  },
+  "geometry": [
+    { "lat": 21.0025179, "lon": 105.8157668 },
+    { "lat": 21.0021371, "lon": 105.8160732 },
+    { "lat": 21.0015953, "lon": 105.8165091 },
+    { "lat": 21.0015373, "lon": 105.8165362 },
+    { "lat": 21.0014956, "lon": 105.8165540 },
+    { "lat": 21.0014603, "lon": 105.8165809 },
+    { "lat": 21.0014504, "lon": 105.8165885 },
+    { "lat": 21.0013629, "lon": 105.8166578 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350856,
+  "bounds": {
+    "minlat": 21.0009746,
+    "minlon": 105.8164995,
+    "maxlat": 21.0011553,
+    "maxlon": 105.8166344
+  },
+  "geometry": [
+    { "lat": 21.0011553, "lon": 105.8164995 },
+    { "lat": 21.0010352, "lon": 105.8165898 },
+    { "lat": 21.0010121, "lon": 105.8166062 },
+    { "lat": 21.0009746, "lon": 105.8166344 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350857,
+  "bounds": {
+    "minlat": 21.0011553,
+    "minlon": 105.8164505,
+    "maxlat": 21.0012214,
+    "maxlon": 105.8164995
+  },
+  "geometry": [
+    { "lat": 21.0012214, "lon": 105.8164505 },
+    { "lat": 21.0011553, "lon": 105.8164995 }
+  ],
+  "tags": {
+    "highway": "pedestrian",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350858,
+  "bounds": {
+    "minlat": 21.0011202,
+    "minlon": 105.8167143,
+    "maxlat": 21.0012893,
+    "maxlon": 105.8168475
+  },
+  "geometry": [
+    { "lat": 21.0012893, "lon": 105.8167143 },
+    { "lat": 21.0011770, "lon": 105.8168035 },
+    { "lat": 21.0011572, "lon": 105.8168193 },
+    { "lat": 21.0011202, "lon": 105.8168475 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350859,
+  "bounds": {
+    "minlat": 21.0012893,
+    "minlon": 105.8166578,
+    "maxlat": 21.0013629,
+    "maxlon": 105.8167143
+  },
+  "geometry": [
+    { "lat": 21.0013629, "lon": 105.8166578 },
+    { "lat": 21.0012893, "lon": 105.8167143 }
+  ],
+  "tags": {
+    "highway": "pedestrian",
+    "tunnel": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350860,
+  "bounds": {
+    "minlat": 21.0013221,
+    "minlon": 105.8163777,
+    "maxlat": 21.0014603,
+    "maxlon": 105.8165809
+  },
+  "geometry": [
+    { "lat": 21.0013221, "lon": 105.8163777 },
+    { "lat": 21.0014603, "lon": 105.8165809 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350861,
+  "bounds": {
+    "minlat": 21.0019535,
+    "minlon": 105.8157963,
+    "maxlat": 21.0021371,
+    "maxlon": 105.8160732
+  },
+  "geometry": [
+    { "lat": 21.0019535, "lon": 105.8157963 },
+    { "lat": 21.0021371, "lon": 105.8160732 }
+  ],
+  "tags": {
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350862,
+  "bounds": {
+    "minlat": 21.0005836,
+    "minlon": 105.8159356,
+    "maxlat": 21.0013607,
+    "maxlon": 105.8170237
+  },
+  "geometry": [
+    { "lat": 21.0005836, "lon": 105.8159356 },
+    { "lat": 21.0008294, "lon": 105.8163092 },
+    { "lat": 21.0008479, "lon": 105.8163129 },
+    { "lat": 21.0008749, "lon": 105.8163220 },
+    { "lat": 21.0008895, "lon": 105.8163355 },
+    { "lat": 21.0009869, "lon": 105.8164823 },
+    { "lat": 21.0009932, "lon": 105.8165005 },
+    { "lat": 21.0009968, "lon": 105.8165160 },
+    { "lat": 21.0010010, "lon": 105.8165380 },
+    { "lat": 21.0010352, "lon": 105.8165898 },
+    { "lat": 21.0011770, "lon": 105.8168035 },
+    { "lat": 21.0012454, "lon": 105.8169065 },
+    { "lat": 21.0012899, "lon": 105.8169777 },
+    { "lat": 21.0013084, "lon": 105.8169975 },
+    { "lat": 21.0013312, "lon": 105.8170111 },
+    { "lat": 21.0013607, "lon": 105.8170237 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1189350864,
+  "bounds": {
+    "minlat": 21.0013607,
+    "minlon": 105.8160013,
+    "maxlat": 21.0028813,
+    "maxlon": 105.8170327
+  },
+  "geometry": [
+    { "lat": 21.0013607, "lon": 105.8170237 },
+    { "lat": 21.0013994, "lon": 105.8170327 },
+    { "lat": 21.0014390, "lon": 105.8170327 },
+    { "lat": 21.0019844, "lon": 105.8169267 },
+    { "lat": 21.0023912, "lon": 105.8168500 },
+    { "lat": 21.0028510, "lon": 105.8167634 },
+    { "lat": 21.0028658, "lon": 105.8167544 },
+    { "lat": 21.0028808, "lon": 105.8167373 },
+    { "lat": 21.0028813, "lon": 105.8167180 },
+    { "lat": 21.0028689, "lon": 105.8166867 },
+    { "lat": 21.0028494, "lon": 105.8166566 },
+    { "lat": 21.0024207, "lon": 105.8160013 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1189684406,
+  "bounds": {
+    "minlat": 21.0009492,
+    "minlon": 105.8164774,
+    "maxlat": 21.0013051,
+    "maxlon": 105.8169234
+  },
+  "geometry": [
+    { "lat": 21.0011426, "lon": 105.8164802 },
+    { "lat": 21.0011265, "lon": 105.8164891 },
+    { "lat": 21.0010833, "lon": 105.8164967 },
+    { "lat": 21.0010444, "lon": 105.8164936 },
+    { "lat": 21.0009930, "lon": 105.8164774 },
+    { "lat": 21.0009869, "lon": 105.8164823 },
+    { "lat": 21.0009492, "lon": 105.8165128 },
+    { "lat": 21.0010121, "lon": 105.8166062 },
+    { "lat": 21.0011572, "lon": 105.8168193 },
+    { "lat": 21.0012258, "lon": 105.8169234 },
+    { "lat": 21.0012454, "lon": 105.8169065 },
+    { "lat": 21.0012625, "lon": 105.8168919 },
+    { "lat": 21.0012646, "lon": 105.8168403 },
+    { "lat": 21.0012717, "lon": 105.8167887 },
+    { "lat": 21.0012923, "lon": 105.8167546 },
+    { "lat": 21.0013051, "lon": 105.8167384 },
+    { "lat": 21.0012893, "lon": 105.8167143 },
+    { "lat": 21.0012738, "lon": 105.8166907 },
+    { "lat": 21.0012602, "lon": 105.8167009 },
+    { "lat": 21.0011522, "lon": 105.8165363 },
+    { "lat": 21.0011704, "lon": 105.8165226 },
+    { "lat": 21.0011553, "lon": 105.8164995 },
+    { "lat": 21.0011426, "lon": 105.8164802 }
+  ],
+  "tags": {
+    "area": "yes",
+    "highway": "pedestrian"
+  }
+},
+{
+  "type": "way",
+  "id": 1192799478,
+  "bounds": {
+    "minlat": 21.0067492,
+    "minlon": 105.8164603,
+    "maxlat": 21.0068682,
+    "maxlon": 105.8165378
+  },
+  "geometry": [
+    { "lat": 21.0067492, "lon": 105.8165378 },
+    { "lat": 21.0068682, "lon": 105.8164603 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1193170604,
+  "bounds": {
+    "minlat": 21.0034471,
+    "minlon": 105.8163561,
+    "maxlat": 21.0037265,
+    "maxlon": 105.8166054
+  },
+  "geometry": [
+    { "lat": 21.0037265, "lon": 105.8163561 },
+    { "lat": 21.0035523, "lon": 105.8164805 },
+    { "lat": 21.0034898, "lon": 105.8165376 },
+    { "lat": 21.0034471, "lon": 105.8166054 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1193170605,
+  "bounds": {
+    "minlat": 21.0028961,
+    "minlon": 105.8167167,
+    "maxlat": 21.0032161,
+    "maxlon": 105.8168094
+  },
+  "geometry": [
+    { "lat": 21.0028961, "lon": 105.8168066 },
+    { "lat": 21.0029510, "lon": 105.8168094 },
+    { "lat": 21.0030118, "lon": 105.8168059 },
+    { "lat": 21.0031125, "lon": 105.8167855 },
+    { "lat": 21.0031678, "lon": 105.8167498 },
+    { "lat": 21.0032161, "lon": 105.8167167 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1193170606,
+  "bounds": {
+    "minlat": 21.0028961,
+    "minlon": 105.8166930,
+    "maxlat": 21.0032161,
+    "maxlon": 105.8168066
+  },
+  "geometry": [
+    { "lat": 21.0032161, "lon": 105.8167167 },
+    { "lat": 21.0031176, "lon": 105.8166930 },
+    { "lat": 21.0030735, "lon": 105.8166981 },
+    { "lat": 21.0030211, "lon": 105.8167083 },
+    { "lat": 21.0029782, "lon": 105.8167313 },
+    { "lat": 21.0028961, "lon": 105.8168066 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324198,
+  "bounds": {
+    "minlat": 21.0059644,
+    "minlon": 105.8167064,
+    "maxlat": 21.0060618,
+    "maxlon": 105.8169045
+  },
+  "geometry": [
+    { "lat": 21.0059644, "lon": 105.8167064 },
+    { "lat": 21.0060618, "lon": 105.8168879 },
+    { "lat": 21.0060362, "lon": 105.8169045 },
+    { "lat": 21.0059874, "lon": 105.8168190 }
+  ],
+  "tags": {
+    "highway": "steps"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324199,
+  "bounds": {
+    "minlat": 21.0058589,
+    "minlon": 105.8167672,
+    "maxlat": 21.0059689,
+    "maxlon": 105.8169542
+  },
+  "geometry": [
+    { "lat": 21.0058589, "lon": 105.8167672 },
+    { "lat": 21.0059689, "lon": 105.8169542 }
+  ],
+  "tags": {
+    "conveying": "yes",
+    "highway": "steps",
+    "level": "0;0.5"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324200,
+  "bounds": {
+    "minlat": 21.0058937,
+    "minlon": 105.8167209,
+    "maxlat": 21.0059874,
+    "maxlon": 105.8168862
+  },
+  "geometry": [
+    { "lat": 21.0059874, "lon": 105.8168862 },
+    { "lat": 21.0058937, "lon": 105.8167209 }
+  ],
+  "tags": {
+    "highway": "footway",
+    "level": "0"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324201,
+  "bounds": {
+    "minlat": 21.0059439,
+    "minlon": 105.8168592,
+    "maxlat": 21.0059892,
+    "maxlon": 105.8169402
+  },
+  "geometry": [
+    { "lat": 21.0059892, "lon": 105.8169402 },
+    { "lat": 21.0059439, "lon": 105.8168592 }
+  ],
+  "tags": {
+    "conveying": "yes",
+    "highway": "steps",
+    "level": "0.5;1"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324202,
+  "bounds": {
+    "minlat": 21.0059689,
+    "minlon": 105.8169402,
+    "maxlat": 21.0059892,
+    "maxlon": 105.8169542
+  },
+  "geometry": [
+    { "lat": 21.0059689, "lon": 105.8169542 },
+    { "lat": 21.0059892, "lon": 105.8169402 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1",
+    "level": "0.5"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324203,
+  "bounds": {
+    "minlat": 21.0059485,
+    "minlon": 105.8167992,
+    "maxlat": 21.0059874,
+    "maxlon": 105.8168192
+  },
+  "geometry": [
+    { "lat": 21.0059874, "lon": 105.8168190 },
+    { "lat": 21.0059754, "lon": 105.8167992 },
+    { "lat": 21.0059485, "lon": 105.8168192 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1",
+    "level": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324204,
+  "bounds": {
+    "minlat": 21.0059282,
+    "minlon": 105.8168192,
+    "maxlat": 21.0059485,
+    "maxlon": 105.8168592
+  },
+  "geometry": [
+    { "lat": 21.0059485, "lon": 105.8168192 },
+    { "lat": 21.0059282, "lon": 105.8168333 },
+    { "lat": 21.0059439, "lon": 105.8168592 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1",
+    "level": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324205,
+  "bounds": {
+    "minlat": 21.0059511,
+    "minlon": 105.8166827,
+    "maxlat": 21.0059644,
+    "maxlon": 105.8167064
+  },
+  "geometry": [
+    { "lat": 21.0059644, "lon": 105.8167064 },
+    { "lat": 21.0059511, "lon": 105.8166827 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1198324206,
+  "bounds": {
+    "minlat": 21.0058481,
+    "minlon": 105.8167512,
+    "maxlat": 21.0058589,
+    "maxlon": 105.8167672
+  },
+  "geometry": [
+    { "lat": 21.0058589, "lon": 105.8167672 },
+    { "lat": 21.0058481, "lon": 105.8167512 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1201834310,
+  "bounds": {
+    "minlat": 21.0042574,
+    "minlon": 105.8172555,
+    "maxlat": 21.0045216,
+    "maxlon": 105.8176268
+  },
+  "geometry": [
+    { "lat": 21.0045216, "lon": 105.8176268 },
+    { "lat": 21.0044896, "lon": 105.8175818 },
+    { "lat": 21.0042787, "lon": 105.8172853 },
+    { "lat": 21.0042574, "lon": 105.8172555 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1222432203,
+  "bounds": {
+    "minlat": 21.0042652,
+    "minlon": 105.8143057,
+    "maxlat": 21.0046012,
+    "maxlon": 105.8146230
+  },
+  "geometry": [
+    { "lat": 21.0046012, "lon": 105.8145384 },
+    { "lat": 21.0044824, "lon": 105.8146230 },
+    { "lat": 21.0043800, "lon": 105.8144671 },
+    { "lat": 21.0042652, "lon": 105.8143057 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Hẻm 72/1/77 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1222432204,
+  "bounds": {
+    "minlat": 21.0043958,
+    "minlon": 105.8138078,
+    "maxlat": 21.0045789,
+    "maxlon": 105.8143910
+  },
+  "geometry": [
+    { "lat": 21.0045789, "lon": 105.8143910 },
+    { "lat": 21.0044687, "lon": 105.8140626 },
+    { "lat": 21.0043958, "lon": 105.8138448 },
+    { "lat": 21.0044877, "lon": 105.8138078 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 64 Ngách 1 Ngõ 72 Nguyễn Trãi",
+    "service": "alley",
+    "source": "https://www.streetview.vn/?picId=952684a2-707e-463f-b4f7-de38762b0f77&lat=21.004369614&lng=105.813825298&yaw=153&pitch=-4"
+  }
+},
+{
+  "type": "way",
+  "id": 1222432206,
+  "bounds": {
+    "minlat": 21.0041559,
+    "minlon": 105.8142224,
+    "maxlat": 21.0043799,
+    "maxlon": 105.8146549
+  },
+  "geometry": [
+    { "lat": 21.0043160, "lon": 105.8146549 },
+    { "lat": 21.0041559, "lon": 105.8143851 },
+    { "lat": 21.0042652, "lon": 105.8143057 },
+    { "lat": 21.0043799, "lon": 105.8142224 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 72/1/101 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1233979451,
+  "bounds": {
+    "minlat": 21.0031473,
+    "minlon": 105.8198406,
+    "maxlat": 21.0033107,
+    "maxlon": 105.8207341
+  },
+  "geometry": [
+    { "lat": 21.0031473, "lon": 105.8207341 },
+    { "lat": 21.0032054, "lon": 105.8206422 },
+    { "lat": 21.0032545, "lon": 105.8205392 },
+    { "lat": 21.0032986, "lon": 105.8203675 },
+    { "lat": 21.0033096, "lon": 105.8202463 },
+    { "lat": 21.0033107, "lon": 105.8201336 },
+    { "lat": 21.0032948, "lon": 105.8199620 },
+    { "lat": 21.0032992, "lon": 105.8198406 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxheight": "4.75",
+    "maxspeed": "60",
+    "name": "Đường Láng",
+    "name:en": "Lang Road",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1233979452,
+  "bounds": {
+    "minlat": 21.0030372,
+    "minlon": 105.8207341,
+    "maxlat": 21.0031473,
+    "maxlon": 105.8209319
+  },
+  "geometry": [
+    { "lat": 21.0030372, "lon": 105.8209319 },
+    { "lat": 21.0031473, "lon": 105.8207341 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Trường Chinh",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q545539",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1234236090,
+  "bounds": {
+    "minlat": 21.0020638,
+    "minlon": 105.8197693,
+    "maxlat": 21.0025714,
+    "maxlon": 105.8203054
+  },
+  "geometry": [
+    { "lat": 21.0025714, "lon": 105.8201779 },
+    { "lat": 21.0025145, "lon": 105.8201874 },
+    { "lat": 21.0024656, "lon": 105.8202196 },
+    { "lat": 21.0023943, "lon": 105.8202867 },
+    { "lat": 21.0023680, "lon": 105.8203054 },
+    { "lat": 21.0023467, "lon": 105.8203054 },
+    { "lat": 21.0023141, "lon": 105.8202853 },
+    { "lat": 21.0021983, "lon": 105.8201154 },
+    { "lat": 21.0022708, "lon": 105.8200441 },
+    { "lat": 21.0020638, "lon": 105.8197693 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813096,
+  "bounds": {
+    "minlat": 21.0029502,
+    "minlon": 105.8211325,
+    "maxlat": 21.0030425,
+    "maxlon": 105.8212484
+  },
+  "geometry": [
+    { "lat": 21.0029502, "lon": 105.8212484 },
+    { "lat": 21.0030425, "lon": 105.8211325 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813097,
+  "bounds": {
+    "minlat": 21.0034353,
+    "minlon": 105.8209593,
+    "maxlat": 21.0035553,
+    "maxlon": 105.8210059
+  },
+  "geometry": [
+    { "lat": 21.0034353, "lon": 105.8209593 },
+    { "lat": 21.0035553, "lon": 105.8210059 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813098,
+  "bounds": {
+    "minlat": 21.0035430,
+    "minlon": 105.8204784,
+    "maxlat": 21.0035530,
+    "maxlon": 105.8206148
+  },
+  "geometry": [
+    { "lat": 21.0035530, "lon": 105.8206148 },
+    { "lat": 21.0035430, "lon": 105.8204784 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813099,
+  "bounds": {
+    "minlat": 21.0034134,
+    "minlon": 105.8195974,
+    "maxlat": 21.0034230,
+    "maxlon": 105.8197188
+  },
+  "geometry": [
+    { "lat": 21.0034230, "lon": 105.8197188 },
+    { "lat": 21.0034134, "lon": 105.8195974 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813100,
+  "bounds": {
+    "minlat": 21.0032424,
+    "minlon": 105.8190292,
+    "maxlat": 21.0033772,
+    "maxlon": 105.8191348
+  },
+  "geometry": [
+    { "lat": 21.0033772, "lon": 105.8190292 },
+    { "lat": 21.0032424, "lon": 105.8191348 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813101,
+  "bounds": {
+    "minlat": 21.0025299,
+    "minlon": 105.8191784,
+    "maxlat": 21.0026764,
+    "maxlon": 105.8192700
+  },
+  "geometry": [
+    { "lat": 21.0026764, "lon": 105.8192700 },
+    { "lat": 21.0025299, "lon": 105.8191784 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813102,
+  "bounds": {
+    "minlat": 21.0027082,
+    "minlon": 105.8206934,
+    "maxlat": 21.0027942,
+    "maxlon": 105.8210446
+  },
+  "geometry": [
+    { "lat": 21.0027082, "lon": 105.8206934 },
+    { "lat": 21.0027411, "lon": 105.8208371 },
+    { "lat": 21.0027801, "lon": 105.8209868 },
+    { "lat": 21.0027942, "lon": 105.8210446 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234813103,
+  "bounds": {
+    "minlat": 21.0024759,
+    "minlon": 105.8196075,
+    "maxlat": 21.0025399,
+    "maxlon": 105.8198159
+  },
+  "geometry": [
+    { "lat": 21.0024759, "lon": 105.8196075 },
+    { "lat": 21.0025399, "lon": 105.8198159 }
+  ],
+  "tags": {
+    "highway": "cycleway",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1243070839,
+  "bounds": {
+    "minlat": 21.0034427,
+    "minlon": 105.8175642,
+    "maxlat": 21.0037492,
+    "maxlon": 105.8184915
+  },
+  "geometry": [
+    { "lat": 21.0034427, "lon": 105.8175642 },
+    { "lat": 21.0034578, "lon": 105.8175963 },
+    { "lat": 21.0034925, "lon": 105.8176703 },
+    { "lat": 21.0035004, "lon": 105.8177123 },
+    { "lat": 21.0035022, "lon": 105.8177342 },
+    { "lat": 21.0035039, "lon": 105.8177549 },
+    { "lat": 21.0035153, "lon": 105.8178132 },
+    { "lat": 21.0035302, "lon": 105.8178303 },
+    { "lat": 21.0035530, "lon": 105.8178806 },
+    { "lat": 21.0035630, "lon": 105.8179275 },
+    { "lat": 21.0036126, "lon": 105.8181198 },
+    { "lat": 21.0036226, "lon": 105.8181808 },
+    { "lat": 21.0036277, "lon": 105.8182731 },
+    { "lat": 21.0036524, "lon": 105.8183447 },
+    { "lat": 21.0036851, "lon": 105.8183943 },
+    { "lat": 21.0037492, "lon": 105.8184915 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "motorcar": "destination",
+    "name": "Ngõ 47 Đường Láng"
+  }
+},
+{
+  "type": "way",
+  "id": 1243070840,
+  "bounds": {
+    "minlat": 21.0035022,
+    "minlon": 105.8176624,
+    "maxlat": 21.0037199,
+    "maxlon": 105.8177342
+  },
+  "geometry": [
+    { "lat": 21.0035022, "lon": 105.8177342 },
+    { "lat": 21.0037199, "lon": 105.8176624 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 22 Ngõ 47 Đường Láng",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1243070841,
+  "bounds": {
+    "minlat": 21.0033040,
+    "minlon": 105.8178132,
+    "maxlat": 21.0035153,
+    "maxlon": 105.8178495
+  },
+  "geometry": [
+    { "lat": 21.0035153, "lon": 105.8178132 },
+    { "lat": 21.0033040, "lon": 105.8178495 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 47/33 Đường Láng",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1243235551,
+  "bounds": {
+    "minlat": 21.0040255,
+    "minlon": 105.8144477,
+    "maxlat": 21.0045865,
+    "maxlon": 105.8156388
+  },
+  "geometry": [
+    { "lat": 21.0045865, "lon": 105.8156388 },
+    { "lat": 21.0045763, "lon": 105.8155065 },
+    { "lat": 21.0045491, "lon": 105.8154136 },
+    { "lat": 21.0044019, "lon": 105.8150715 },
+    { "lat": 21.0043286, "lon": 105.8148902 },
+    { "lat": 21.0041534, "lon": 105.8146041 },
+    { "lat": 21.0040949, "lon": 105.8145337 },
+    { "lat": 21.0040255, "lon": 105.8144477 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1243235552,
+  "bounds": {
+    "minlat": 21.0012155,
+    "minlon": 105.8171009,
+    "maxlat": 21.0013010,
+    "maxlon": 105.8173125
+  },
+  "geometry": [
+    { "lat": 21.0012525, "lon": 105.8173125 },
+    { "lat": 21.0012155, "lon": 105.8171427 },
+    { "lat": 21.0013010, "lon": 105.8171009 }
+  ],
+  "tags": {
+    "highway": "residential",
+    "maxspeed": "20",
+    "name": "Royal City",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1246781486,
+  "bounds": {
+    "minlat": 21.0056646,
+    "minlon": 105.8155209,
+    "maxlat": 21.0061040,
+    "maxlon": 105.8156824
+  },
+  "geometry": [
+    { "lat": 21.0056646, "lon": 105.8155209 },
+    { "lat": 21.0056836, "lon": 105.8156175 },
+    { "lat": 21.0057420, "lon": 105.8156824 },
+    { "lat": 21.0058672, "lon": 105.8156287 },
+    { "lat": 21.0059775, "lon": 105.8155811 },
+    { "lat": 21.0061040, "lon": 105.8155360 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1246781487,
+  "bounds": {
+    "minlat": 21.0055883,
+    "minlon": 105.8150763,
+    "maxlat": 21.0057187,
+    "maxlon": 105.8155209
+  },
+  "geometry": [
+    { "lat": 21.0056646, "lon": 105.8155209 },
+    { "lat": 21.0056393, "lon": 105.8154256 },
+    { "lat": 21.0055931, "lon": 105.8152304 },
+    { "lat": 21.0055883, "lon": 105.8151622 },
+    { "lat": 21.0055936, "lon": 105.8151337 },
+    { "lat": 21.0057187, "lon": 105.8150763 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 17/35 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855697,
+  "bounds": {
+    "minlat": 21.0010429,
+    "minlon": 105.8210609,
+    "maxlat": 21.0013446,
+    "maxlon": 105.8213991
+  },
+  "geometry": [
+    { "lat": 21.0010429, "lon": 105.8210609 },
+    { "lat": 21.0013446, "lon": 105.8211490 },
+    { "lat": 21.0013104, "lon": 105.8213991 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 40/28 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855698,
+  "bounds": {
+    "minlat": 21.0008489,
+    "minlon": 105.8210168,
+    "maxlat": 21.0010429,
+    "maxlon": 105.8210609
+  },
+  "geometry": [
+    { "lat": 21.0010429, "lon": 105.8210609 },
+    { "lat": 21.0008489, "lon": 105.8210168 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 40/31 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855699,
+  "bounds": {
+    "minlat": 21.0010680,
+    "minlon": 105.8209464,
+    "maxlat": 21.0013490,
+    "maxlon": 105.8210275
+  },
+  "geometry": [
+    { "lat": 21.0010680, "lon": 105.8209464 },
+    { "lat": 21.0013490, "lon": 105.8210275 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 40/30 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855700,
+  "bounds": {
+    "minlat": 21.0008877,
+    "minlon": 105.8205817,
+    "maxlat": 21.0011404,
+    "maxlon": 105.8207628
+  },
+  "geometry": [
+    { "lat": 21.0008877, "lon": 105.8205817 },
+    { "lat": 21.0011404, "lon": 105.8207628 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 40/41 Phố Tô Vĩnh Diện"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855701,
+  "bounds": {
+    "minlat": 21.0011404,
+    "minlon": 105.8206252,
+    "maxlat": 21.0012267,
+    "maxlon": 105.8207628
+  },
+  "geometry": [
+    { "lat": 21.0011404, "lon": 105.8207628 },
+    { "lat": 21.0011441, "lon": 105.8207361 },
+    { "lat": 21.0012267, "lon": 105.8206252 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855702,
+  "bounds": {
+    "minlat": 21.0011404,
+    "minlon": 105.8207325,
+    "maxlat": 21.0013666,
+    "maxlon": 105.8207673
+  },
+  "geometry": [
+    { "lat": 21.0011404, "lon": 105.8207628 },
+    { "lat": 21.0012213, "lon": 105.8207673 },
+    { "lat": 21.0013170, "lon": 105.8207597 },
+    { "lat": 21.0013666, "lon": 105.8207325 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1253855703,
+  "bounds": {
+    "minlat": 21.0011404,
+    "minlon": 105.8207628,
+    "maxlat": 21.0013677,
+    "maxlon": 105.8208729
+  },
+  "geometry": [
+    { "lat": 21.0011404, "lon": 105.8207628 },
+    { "lat": 21.0011496, "lon": 105.8207903 },
+    { "lat": 21.0013677, "lon": 105.8208729 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1267367251,
+  "bounds": {
+    "minlat": 21.0008786,
+    "minlon": 105.8193746,
+    "maxlat": 21.0014586,
+    "maxlon": 105.8197629
+  },
+  "geometry": [
+    { "lat": 21.0014586, "lon": 105.8193746 },
+    { "lat": 21.0013533, "lon": 105.8194291 },
+    { "lat": 21.0010149, "lon": 105.8197629 },
+    { "lat": 21.0008786, "lon": 105.8195975 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 73/26A Đường Nguyễn Trãi"
+  }
+},
+{
+  "type": "way",
+  "id": 1267367252,
+  "bounds": {
+    "minlat": 21.0009095,
+    "minlon": 105.8190127,
+    "maxlat": 21.0013533,
+    "maxlon": 105.8194291
+  },
+  "geometry": [
+    { "lat": 21.0013533, "lon": 105.8194291 },
+    { "lat": 21.0012614, "lon": 105.8193466 },
+    { "lat": 21.0011533, "lon": 105.8192269 },
+    { "lat": 21.0011241, "lon": 105.8192536 },
+    { "lat": 21.0009095, "lon": 105.8190127 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 73/26B Đường Nguyễn Trãi"
+  }
+},
+{
+  "type": "way",
+  "id": 1267367253,
+  "bounds": {
+    "minlat": 21.0006777,
+    "minlon": 105.8190127,
+    "maxlat": 21.0009095,
+    "maxlon": 105.8191985
+  },
+  "geometry": [
+    { "lat": 21.0006777, "lon": 105.8191985 },
+    { "lat": 21.0009095, "lon": 105.8190127 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 73/26B/32 Đường Nguyễn Trãi"
+  }
+},
+{
+  "type": "way",
+  "id": 1267367254,
+  "bounds": {
+    "minlat": 21.0010491,
+    "minlon": 105.8193466,
+    "maxlat": 21.0012614,
+    "maxlon": 105.8195651
+  },
+  "geometry": [
+    { "lat": 21.0012614, "lon": 105.8193466 },
+    { "lat": 21.0011110, "lon": 105.8195014 },
+    { "lat": 21.0010491, "lon": 105.8195651 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Hẻm 73/26B/3 Đường Nguyễn Trãi"
+  }
+},
+{
+  "type": "way",
+  "id": 1296262608,
+  "bounds": {
+    "minlat": 21.0009095,
+    "minlon": 105.8189329,
+    "maxlat": 21.0010035,
+    "maxlon": 105.8190127
+  },
+  "geometry": [
+    { "lat": 21.0009095, "lon": 105.8190127 },
+    { "lat": 21.0010035, "lon": 105.8189329 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Hẻm 73/26B/32 Đường Nguyễn Trãi"
+  }
+},
+{
+  "type": "way",
+  "id": 1296262609,
+  "bounds": {
+    "minlat": 21.0008493,
+    "minlon": 105.8192536,
+    "maxlat": 21.0011241,
+    "maxlon": 105.8195045
+  },
+  "geometry": [
+    { "lat": 21.0011241, "lon": 105.8192536 },
+    { "lat": 21.0010316, "lon": 105.8193381 },
+    { "lat": 21.0008493, "lon": 105.8195045 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1300662040,
+  "bounds": {
+    "minlat": 21.0030885,
+    "minlon": 105.8158061,
+    "maxlat": 21.0034240,
+    "maxlon": 105.8161396
+  },
+  "geometry": [
+    { "lat": 21.0034240, "lon": 105.8158061 },
+    { "lat": 21.0033203, "lon": 105.8161109 },
+    { "lat": 21.0032382, "lon": 105.8161396 },
+    { "lat": 21.0030885, "lon": 105.8161164 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1310034537,
+  "bounds": {
+    "minlat": 21.0021329,
+    "minlon": 105.8209962,
+    "maxlat": 21.0023170,
+    "maxlon": 105.8210677
+  },
+  "geometry": [
+    { "lat": 21.0023170, "lon": 105.8210677 },
+    { "lat": 21.0021329, "lon": 105.8209962 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngõ 369 Đường Trường Chinh",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992667,
+  "bounds": {
+    "minlat": 21.0041793,
+    "minlon": 105.8162533,
+    "maxlat": 21.0043539,
+    "maxlon": 105.8166878
+  },
+  "geometry": [
+    { "lat": 21.0041793, "lon": 105.8162533 },
+    { "lat": 21.0043539, "lon": 105.8166878 }
+  ],
+  "tags": {
+    "alt_name": "Ngõ 133 Phố Giáp Nhất",
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 72/136 Đường Nguyễn Trãi",
+    "service": "alley",
+    "source": "https://www.streetview.vn/?picId=182cc1fd-2e58-439b-9ddb-9d8719ca5086&lat=21.004144487&lng=105.816326841&yaw=325&pitch=2"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992668,
+  "bounds": {
+    "minlat": 21.0055860,
+    "minlon": 105.8140676,
+    "maxlat": 21.0056377,
+    "maxlon": 105.8141802
+  },
+  "geometry": [
+    { "lat": 21.0056377, "lon": 105.8141802 },
+    { "lat": 21.0055860, "lon": 105.8140676 }
+  ],
+  "tags": {
+    "highway": "service",
+    "source": "https://www.streetview.vn/?picId=60235986-0df3-4e08-8e37-dae6dbacc4bc&lat=21.005619102&lng=105.814014924&yaw=56&pitch=0"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992669,
+  "bounds": {
+    "minlat": 21.0059929,
+    "minlon": 105.8139081,
+    "maxlat": 21.0061561,
+    "maxlon": 105.8142494
+  },
+  "geometry": [
+    { "lat": 21.0060924, "lon": 105.8139081 },
+    { "lat": 21.0059929, "lon": 105.8139523 },
+    { "lat": 21.0060004, "lon": 105.8140174 },
+    { "lat": 21.0060593, "lon": 105.8141488 },
+    { "lat": 21.0061156, "lon": 105.8141957 },
+    { "lat": 21.0061561, "lon": 105.8142494 }
+  ],
+  "tags": {
+    "highway": "service",
+    "source": "https://www.streetview.vn/?picId=f3a18aa4-fbe4-4834-b693-080184cd2276&lat=21.006072648&lng=105.813900505&yaw=163&pitch=1"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992670,
+  "bounds": {
+    "minlat": 21.0053250,
+    "minlon": 105.8159740,
+    "maxlat": 21.0054082,
+    "maxlon": 105.8160102
+  },
+  "geometry": [
+    { "lat": 21.0054082, "lon": 105.8159740 },
+    { "lat": 21.0053250, "lon": 105.8160102 }
+  ],
+  "tags": {
+    "highway": "service",
+    "source": "https://www.streetview.vn/?picId=7743ec50-55f9-42ee-8202-8cfe6918ab8a&lat=21.005477582&lng=105.815794283&yaw=279&pitch=-2"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992671,
+  "bounds": {
+    "minlat": 21.0053090,
+    "minlon": 105.8156917,
+    "maxlat": 21.0055854,
+    "maxlon": 105.8159740
+  },
+  "geometry": [
+    { "lat": 21.0053090, "lon": 105.8156917 },
+    { "lat": 21.0054082, "lon": 105.8159740 },
+    { "lat": 21.0055854, "lon": 105.8159137 }
+  ],
+  "tags": {
+    "highway": "service",
+    "source": "https://www.streetview.vn/?picId=7743ec50-55f9-42ee-8202-8cfe6918ab8a&lat=21.005477582&lng=105.815794283&yaw=221&pitch=-9"
+  }
+},
+{
+  "type": "way",
+  "id": 1311992674,
+  "bounds": {
+    "minlat": 21.0050148,
+    "minlon": 105.8136646,
+    "maxlat": 21.0050895,
+    "maxlon": 105.8138820
+  },
+  "geometry": [
+    { "lat": 21.0050895, "lon": 105.8138820 },
+    { "lat": 21.0050148, "lon": 105.8136646 }
+  ],
+  "tags": {
+    "highway": "service",
+    "source": "https://www.streetview.vn/?picId=38cc31cb-c9cd-4c99-bf66-29dc1059ce54&lat=21.005038767&lng=105.813657008&yaw=52&pitch=-3"
+  }
+},
+{
+  "type": "way",
+  "id": 1352442369,
+  "bounds": {
+    "minlat": 21.0076719,
+    "minlon": 105.8153637,
+    "maxlat": 21.0077986,
+    "maxlon": 105.8153995
+  },
+  "geometry": [
+    { "lat": 21.0076719, "lon": 105.8153995 },
+    { "lat": 21.0077986, "lon": 105.8153637 }
+  ],
+  "tags": {
+    "highway": "secondary_link",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1393164065,
+  "bounds": {
+    "minlat": 21.0017879,
+    "minlon": 105.8182251,
+    "maxlat": 21.0018862,
+    "maxlon": 105.8182888
+  },
+  "geometry": [
+    { "lat": 21.0018862, "lon": 105.8182888 },
+    { "lat": 21.0017879, "lon": 105.8182251 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1394473415,
+  "bounds": {
+    "minlat": 21.0023434,
+    "minlon": 105.8186859,
+    "maxlat": 21.0034740,
+    "maxlon": 105.8189189
+  },
+  "geometry": [
+    { "lat": 21.0034740, "lon": 105.8188540 },
+    { "lat": 21.0033879, "lon": 105.8188053 },
+    { "lat": 21.0032423, "lon": 105.8187224 },
+    { "lat": 21.0031481, "lon": 105.8188109 },
+    { "lat": 21.0030830, "lon": 105.8187722 },
+    { "lat": 21.0029336, "lon": 105.8186859 },
+    { "lat": 21.0027449, "lon": 105.8187884 },
+    { "lat": 21.0024304, "lon": 105.8188906 },
+    { "lat": 21.0023434, "lon": 105.8189189 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motor_vehicle": "no",
+    "motorcycle": "yes",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1414817300,
+  "bounds": {
+    "minlat": 21.0015574,
+    "minlon": 105.8174369,
+    "maxlat": 21.0026213,
+    "maxlon": 105.8178494
+  },
+  "geometry": [
+    { "lat": 21.0015574, "lon": 105.8178494 },
+    { "lat": 21.0016539, "lon": 105.8178138 },
+    { "lat": 21.0026213, "lon": 105.8174369 }
+  ],
+  "tags": {
+    "highway": "secondary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxheight:signed": "no",
+    "maxspeed": "50",
+    "name": "Phố Giáp Nhất",
+    "name:en": "Giap Nhat Street",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1416765422,
+  "bounds": {
+    "minlat": 21.0008531,
+    "minlon": 105.8200925,
+    "maxlat": 21.0009908,
+    "maxlon": 105.8201430
+  },
+  "geometry": [
+    { "lat": 21.0008531, "lon": 105.8201430 },
+    { "lat": 21.0009120, "lon": 105.8201390 },
+    { "lat": 21.0009908, "lon": 105.8200925 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 47/41 Phố Khương Trung",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1416768552,
+  "bounds": {
+    "minlat": 21.0073351,
+    "minlon": 105.8162061,
+    "maxlat": 21.0076050,
+    "maxlon": 105.8163960
+  },
+  "geometry": [
+    { "lat": 21.0076050, "lon": 105.8162061 },
+    { "lat": 21.0073351, "lon": 105.8163960 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1447195328,
+  "bounds": {
+    "minlat": 21.0031375,
+    "minlon": 105.8200335,
+    "maxlat": 21.0031848,
+    "maxlon": 105.8202308
+  },
+  "geometry": [
+    { "lat": 21.0031848, "lon": 105.8202308 },
+    { "lat": 21.0031839, "lon": 105.8201560 },
+    { "lat": 21.0031681, "lon": 105.8200878 },
+    { "lat": 21.0031375, "lon": 105.8200335 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "3",
+    "lit": "yes",
+    "maxheight": "4.75",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Truong Chinh Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1449282034,
+  "bounds": {
+    "minlat": 21.0012600,
+    "minlon": 105.8201153,
+    "maxlat": 21.0013378,
+    "maxlon": 105.8202249
+  },
+  "geometry": [
+    { "lat": 21.0012600, "lon": 105.8201153 },
+    { "lat": 21.0013378, "lon": 105.8202249 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1454086076,
+  "bounds": {
+    "minlat": 21.0037476,
+    "minlon": 105.8198933,
+    "maxlat": 21.0040575,
+    "maxlon": 105.8205518
+  },
+  "geometry": [
+    { "lat": 21.0040575, "lon": 105.8198933 },
+    { "lat": 21.0039776, "lon": 105.8199141 },
+    { "lat": 21.0039075, "lon": 105.8199359 },
+    { "lat": 21.0038493, "lon": 105.8199635 },
+    { "lat": 21.0037476, "lon": 105.8200014 },
+    { "lat": 21.0038205, "lon": 105.8202828 },
+    { "lat": 21.0038285, "lon": 105.8203600 },
+    { "lat": 21.0038486, "lon": 105.8205518 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 17 Ngõ Thịnh Quang",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1454086077,
+  "bounds": {
+    "minlat": 21.0038285,
+    "minlon": 105.8200895,
+    "maxlat": 21.0040010,
+    "maxlon": 105.8203600
+  },
+  "geometry": [
+    { "lat": 21.0038285, "lon": 105.8203600 },
+    { "lat": 21.0038924, "lon": 105.8203445 },
+    { "lat": 21.0039326, "lon": 105.8203337 },
+    { "lat": 21.0039686, "lon": 105.8203075 },
+    { "lat": 21.0039916, "lon": 105.8202744 },
+    { "lat": 21.0040010, "lon": 105.8202282 },
+    { "lat": 21.0039887, "lon": 105.8200895 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Hẻm 17/2 Ngõ Thịnh Quang",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1454086078,
+  "bounds": {
+    "minlat": 21.0039544,
+    "minlon": 105.8196487,
+    "maxlat": 21.0040070,
+    "maxlon": 105.8199141
+  },
+  "geometry": [
+    { "lat": 21.0039832, "lon": 105.8196487 },
+    { "lat": 21.0040070, "lon": 105.8197627 },
+    { "lat": 21.0039544, "lon": 105.8197788 },
+    { "lat": 21.0039776, "lon": 105.8199141 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1465786043,
+  "bounds": {
+    "minlat": 21.0043799,
+    "minlon": 105.8142224,
+    "maxlat": 21.0045589,
+    "maxlon": 105.8143988
+  },
+  "geometry": [
+    { "lat": 21.0043799, "lon": 105.8142224 },
+    { "lat": 21.0043873, "lon": 105.8142331 },
+    { "lat": 21.0044680, "lon": 105.8143496 },
+    { "lat": 21.0045104, "lon": 105.8143789 },
+    { "lat": 21.0045589, "lon": 105.8143988 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngách 72/1 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1465786044,
+  "bounds": {
+    "minlat": 21.0040313,
+    "minlon": 105.8137294,
+    "maxlat": 21.0044446,
+    "maxlon": 105.8142331
+  },
+  "geometry": [
+    { "lat": 21.0043873, "lon": 105.8142331 },
+    { "lat": 21.0044446, "lon": 105.8141908 },
+    { "lat": 21.0043929, "lon": 105.8140891 },
+    { "lat": 21.0043345, "lon": 105.8139961 },
+    { "lat": 21.0042746, "lon": 105.8139235 },
+    { "lat": 21.0041498, "lon": 105.8137761 },
+    { "lat": 21.0041026, "lon": 105.8138025 },
+    { "lat": 21.0040313, "lon": 105.8137294 }
+  ],
+  "tags": {
+    "highway": "service",
+    "name": "Ngách 72/1 Đường Nguyễn Trãi",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1465786045,
+  "bounds": {
+    "minlat": 21.0044824,
+    "minlon": 105.8146230,
+    "maxlat": 21.0045126,
+    "maxlon": 105.8146826
+  },
+  "geometry": [
+    { "lat": 21.0044824, "lon": 105.8146230 },
+    { "lat": 21.0044864, "lon": 105.8146308 },
+    { "lat": 21.0045126, "lon": 105.8146826 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1465786046,
+  "bounds": {
+    "minlat": 21.0043666,
+    "minlon": 105.8146308,
+    "maxlat": 21.0044864,
+    "maxlon": 105.8148111
+  },
+  "geometry": [
+    { "lat": 21.0044864, "lon": 105.8146308 },
+    { "lat": 21.0043666, "lon": 105.8147357 },
+    { "lat": 21.0044158, "lon": 105.8148111 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1507377225,
+  "bounds": {
+    "minlat": 21.0013002,
+    "minlon": 105.8179713,
+    "maxlat": 21.0013726,
+    "maxlon": 105.8180909
+  },
+  "geometry": [
+    { "lat": 21.0013002, "lon": 105.8179713 },
+    { "lat": 21.0013726, "lon": 105.8180909 }
+  ],
+  "tags": {
+    "highway": "primary",
+    "lanes": "2",
+    "lit": "yes",
+    "maxspeed": "60",
+    "name": "Đường Nguyễn Trãi",
+    "name:en": "Nguyen Trai Road",
+    "name:etymology:wikidata": "Q1347181",
+    "oneway": "yes",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1512352491,
+  "bounds": {
+    "minlat": 21.0031969,
+    "minlon": 105.8168534,
+    "maxlat": 21.0034350,
+    "maxlon": 105.8170047
+  },
+  "geometry": [
+    { "lat": 21.0031969, "lon": 105.8168534 },
+    { "lat": 21.0032468, "lon": 105.8170047 },
+    { "lat": 21.0034350, "lon": 105.8169173 }
+  ],
+  "tags": {
+    "highway": "service",
+    "service": "alley"
+  }
+},
+{
+  "type": "way",
+  "id": 1552761341,
+  "bounds": {
+    "minlat": 21.0010316,
+    "minlon": 105.8193381,
+    "maxlat": 21.0011123,
+    "maxlon": 105.8195014
+  },
+  "geometry": [
+    { "lat": 21.0010316, "lon": 105.8193381 },
+    { "lat": 21.0011123, "lon": 105.8194438 },
+    { "lat": 21.0010844, "lon": 105.8194730 },
+    { "lat": 21.0011110, "lon": 105.8195014 }
+  ],
+  "tags": {
+    "highway": "service"
+  }
+},
+{
+  "type": "way",
+  "id": 1567885008,
+  "bounds": {
+    "minlat": 21.0036036,
+    "minlon": 105.8203990,
+    "maxlat": 21.0044195,
+    "maxlon": 105.8206802
+  },
+  "geometry": [
+    { "lat": 21.0044195, "lon": 105.8203990 },
+    { "lat": 21.0042596, "lon": 105.8204323 },
+    { "lat": 21.0041397, "lon": 105.8204573 },
+    { "lat": 21.0038933, "lon": 105.8205284 },
+    { "lat": 21.0038486, "lon": 105.8205518 },
+    { "lat": 21.0036558, "lon": 105.8206525 },
+    { "lat": 21.0036036, "lon": 105.8206802 }
+  ],
+  "tags": {
+    "highway": "service",
+    "motorcar": "destination",
+    "name": "Ngõ Thịnh Quang",
+    "name:en": "Thinh Quang Alley",
+    "old_name": "Ngõ 438 Tây Sơn",
+    "service": "alley",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1576944861,
+  "bounds": {
+    "minlat": 21.0033454,
+    "minlon": 105.8205606,
+    "maxlat": 21.0035530,
+    "maxlon": 105.8207826
+  },
+  "geometry": [
+    { "lat": 21.0035530, "lon": 105.8206148 },
+    { "lat": 21.0034909, "lon": 105.8205689 },
+    { "lat": 21.0034318, "lon": 105.8205606 },
+    { "lat": 21.0033864, "lon": 105.8205916 },
+    { "lat": 21.0033454, "lon": 105.8206598 },
+    { "lat": 21.0033485, "lon": 105.8207258 },
+    { "lat": 21.0033732, "lon": 105.8207826 }
+  ],
+  "tags": {
+    "highway": "primary_link",
+    "name": "Tây Sơn",
+    "oneway": "yes"
+  }
+}
+
+  ]
+}

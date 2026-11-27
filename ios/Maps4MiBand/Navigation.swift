@@ -3,7 +3,9 @@ import Navigator
 import Observation
 
 /// plan → first GPS fix → Vietmap route from there, shown as `preview`; Bắt đầu → Navigator on that same route
-/// → band, until arrival or Dừng. Off the route it asks Vietmap again.
+/// → band, until arrival or Dừng. Off the route it asks Vietmap again. Each route also fetches the streets around
+/// it from OpenStreetMap in the background, drawn grey on the band once they are in; without them it navigates all
+/// the same.
 // shortcut: GPS only while the app is open, background navigation is #10.
 @Observable
 final class Navigation: NSObject {
@@ -24,14 +26,20 @@ final class Navigation: NSObject {
     @ObservationIgnored private var vietmapKey = ""
     @ObservationIgnored private var navigator: Navigator?
     @ObservationIgnored private var routing: Task<Void, Never>?
+    /// Streets around `preview`, the old route's until the new one's are in.
+    @ObservationIgnored private var streets: [[Point]] = []
+    @ObservationIgnored private var fetchingStreets: Task<Void, Never>?
     /// A buzz sent while the quick app was still opening, so the screen after it would replace it unbuzzed.
     /// Dropped once the app opens: it showed that screen, buzz and all.
     @ObservationIgnored private var owedBuzz = false
     @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
+    @ObservationIgnored private let fetchStreets: ([Point]) async throws -> [[Point]]
 
-    init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route) {
+    init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route,
+         fetchStreets: @escaping ([Point]) async throws -> [[Point]] = Overpass.streets) {
         self.band = band
         self.fetchRoute = fetchRoute
+        self.fetchStreets = fetchStreets
         super.init()
         gps.delegate = self
         gps.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -61,8 +69,10 @@ final class Navigation: NSObject {
         guard !running else { return }
         routing?.cancel()
         routing = nil
+        fetchingStreets?.cancel()
+        fetchingStreets = nil
         if planning { gps.stopUpdatingLocation() }
-        (preview, planning, status) = (nil, false, "")
+        (preview, planning, status, streets) = (nil, false, "", [])
     }
 
     /// Follows `preview` as it is; the first fix shows where it goes, or asks for a new one if far from its start.
@@ -79,6 +89,7 @@ final class Navigation: NSObject {
         logSent(first.json)
         (running, shown, owedBuzz) = (true, first, false)
         navigator = Navigator(route: preview)
+        navigator?.streets = streets
         status = "Đang chờ GPS…"
         gps.startUpdatingLocation()
     }
@@ -133,6 +144,7 @@ final class Navigation: NSObject {
                 // While navigating, preview is the route on the map.
                 navigator?.rerouted(route)
                 (preview, planning, status) = (route, false, "")
+                loadStreets(along: route)
             case .failure(let error):
                 let why = Vietmap.Failure.message(for: error)
                 // Off the route the Navigator asks again shortly; for the preview there is nothing to fall back on.
@@ -141,6 +153,30 @@ final class Navigation: NSObject {
                 show(BandMessage(i: "Lỗi: " + why))
                 status = "Lỗi: \(why). Sẽ thử lại."
                 band.log.add(.nav, status)
+            }
+        }
+    }
+
+    private func loadStreets(along route: Route) {
+        fetchingStreets?.cancel()
+        fetchingStreets = Task { @MainActor [weak self, fetchStreets] in
+            let result: Result<[[Point]], Error>
+            do {
+                result = .success(try await fetchStreets(route.points))
+            } catch {
+                result = .failure(error)
+            }
+            guard let self, !Task.isCancelled else { return }
+            fetchingStreets = nil
+            switch result {
+            case .success(let streets):
+                band.log.add(.nav, "Đường xung quanh: \(streets.count) đường từ OpenStreetMap")
+                self.streets = streets
+                navigator?.streets = streets
+            case .failure(let error):
+                // Not "Lỗi": the ride goes on as before, only without grey streets, so no badge on Nhật ký.
+                band.log.add(.nav,
+                    "Không tải được đường xung quanh, đi tiếp không có đường xám: \(error)")
             }
         }
     }

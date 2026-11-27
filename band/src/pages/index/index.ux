@@ -2,6 +2,8 @@
   <!-- Later children draw on top: the map fills the page, the panel covers its top MAP_TOP px. -->
   <stack class="page">
     <div class="map">
+      <div for="{{streets}}" class="street"
+           style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
@@ -40,6 +42,14 @@
   background-color: #2f8cff;
   /* px only: the band reads 50% as 50px */
   transform-origin: 4px 4px;
+}
+.street {
+  position: absolute;
+  /* STREET in render.js */
+  height: 4px;
+  border-radius: 2px;
+  background-color: #4a4a4a;
+  transform-origin: 2px 2px;
 }
 .mark {
   position: absolute;
@@ -122,10 +132,11 @@
 import interconnect from '@system.interconnect'
 import brightness from '@system.brightness'
 import vibrator from '@system.vibrator'
-import { segments, rotate, label } from '../../common/render.js'
+import { segments, streets, rotate, label } from '../../common/render.js'
 
 export default {
   private: {
+    streets: [],
     segs: [],
     marks: [],
     hasLabel: false,
@@ -160,10 +171,12 @@ export default {
     brightness.setKeepScreenOn({ keepScreenOn: false })
   },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
-  // (flat x,y), n = street at the first mark, a = turn angle (deg, null = no arrow), d = distance to the turn,
+  // (flat x,y), g = grey streets around it (flat x1,y1,x2,y2), n = street at the first mark, a = turn angle (deg,
+  // null = no arrow), d = distance to the turn,
   // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     const p = m.p || []
+    this.streets = streets(m.g || [])
     this.segs = segments(p)
     const t = m.t || []
     const marks = []

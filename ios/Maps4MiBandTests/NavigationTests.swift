@@ -29,7 +29,7 @@ final class NavigationTests: XCTestCase {
         let nav = Navigation(band: band) { from, to, key in
             asked.append((from, to, key))
             return straight
-        }
+        } fetchStreets: { _ in [] }
         nav.plan(to: destination, vietmapKey: "vm-key")
         fix(nav, straight.points[0])
         try await settle(nav)
@@ -58,7 +58,7 @@ final class NavigationTests: XCTestCase {
     /// Planned and started on `straight`; the band in tests never opens the quick app, so every screen waits.
     private func started() async throws -> (Navigation, BandConnection) {
         let band = BandConnection()
-        let nav = Navigation(band: band) { _, _, _ in straight }
+        let nav = Navigation(band: band) { _, _, _ in straight } fetchStreets: { _ in [] }
         nav.plan(to: destination, vietmapKey: "vm-key")
         fix(nav, straight.points[0])
         try await settle(nav)
@@ -96,7 +96,7 @@ final class NavigationTests: XCTestCase {
     }
 
     func testAFailedPreviewSaysWhyAndCannotStart() async throws {
-        let nav = Navigation(band: BandConnection()) { _, _, _ in throw Vietmap.Failure.offline }
+        let nav = Navigation(band: BandConnection()) { _, _, _ in throw Vietmap.Failure.offline } fetchStreets: { _ in [] }
         nav.plan(to: destination, vietmapKey: "vm-key")
         fix(nav, straight.points[0])
         try await settle(nav)
@@ -104,5 +104,62 @@ final class NavigationTests: XCTestCase {
         XCTAssertEqual(nav.status, "Lỗi: Mất mạng, không gọi được Vietmap")
         nav.start(authKey: String(repeating: "0", count: 32))
         XCTAssertFalse(nav.running)
+    }
+
+    /// Waits for the log line saying how the streets request went.
+    private func streetsIn(_ band: BandConnection) async throws -> Log.Line? {
+        for _ in 0..<100 {
+            if let line = band.log.lines.first(where: { $0.text.contains("đường xung quanh") || $0.text.hasPrefix("Đường xung quanh") }) {
+                return line
+            }
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        return nil
+    }
+
+    /// Crosses `straight` at its turn, 100 m each way.
+    private let crossing = [[Point(lat: 21.002, lon: 105.799), Point(lat: 21.002, lon: 105.801)]]
+
+    func testStreetsLoadInTheBackgroundWithoutHoldingUpThePreviewOrStart() async throws {
+        let band = BandConnection()
+        let (gate, open) = AsyncStream<Void>.makeStream()
+        var askedAlong: [Point] = []
+        let nav = Navigation(band: band) { _, _, _ in straight } fetchStreets: { along in
+            askedAlong = along
+            for await _ in gate { break }
+            return self.crossing
+        }
+        nav.plan(to: destination, vietmapKey: "vm-key")
+        fix(nav, straight.points[0])
+        try await settle(nav)
+        XCTAssertNotNil(nav.preview, "the route shows while Overpass is still answering")
+        XCTAssertEqual(askedAlong, straight.points)
+
+        open.yield()
+        let line = try await streetsIn(band)
+        XCTAssertEqual(line?.text, "Đường xung quanh: 1 đường từ OpenStreetMap")
+        // Right after: the band in tests gives up within a second.
+        nav.start(authKey: String(repeating: "0", count: 32))
+        fix(nav, straight.points[0])
+        XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
+        XCTAssertNotNil(nav.shown?.g)
+        nav.stop()
+    }
+
+    func testWithoutStreetsItStillNavigatesAndLogsOneLineButNoError() async throws {
+        let band = BandConnection()
+        let nav = Navigation(band: band) { _, _, _ in straight } fetchStreets: { _ in throw URLError(.notConnectedToInternet) }
+        nav.plan(to: destination, vietmapKey: "vm-key")
+        fix(nav, straight.points[0])
+        try await settle(nav)
+        let logged = try await streetsIn(band)
+        let line = try XCTUnwrap(logged)
+        XCTAssertFalse(line.error, "no badge on Nhật ký: \(line.text)")
+        nav.start(authKey: String(repeating: "0", count: 32))
+        fix(nav, straight.points[0])
+        XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
+        XCTAssertNil(nav.shown?.g)
+        XCTAssertEqual(band.log.lines.filter { $0.text.contains("đường xung quanh") }.count, 1)
+        nav.stop()
     }
 }

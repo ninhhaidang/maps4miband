@@ -57,6 +57,17 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.n, "Láng Hạ")
     }
 
+    func testSendsTheStreetsAroundTheRouteInGreyOnceTheyAreIn() throws {
+        let nav = Navigator(route: street)
+        guard case .send(let before) = nav.update(street.points[0], at: t0).first else { return XCTFail() }
+        XCTAssertNil(before.g)
+        // A side street 100 m ahead, 50 m each side of the route.
+        let o = street.points[0], m = 1 / (111_320 * cos(o.lat * .pi / 180))
+        nav.streets = [[Point(lat: o.lat + 50 / 111_320.0, lon: o.lon + 100 * m), Point(lat: o.lat - 50 / 111_320.0, lon: o.lon + 100 * m)]]
+        guard case .send(let after) = nav.update(street.points[0], at: t0 + 1).first else { return XCTFail() }
+        XCTAssertEqual(after.g, [81, 410, 131, 410])
+    }
+
     func testDrawsAtMost100SegmentsTheMostTheBandRedrawsEverySecond() throws {
         // 800 m due north, a point every 6.5 m (3.25 px, just over the 3 px step): ~108 points in the 700 m ahead.
         let o = Point(lat: 21, lon: 105.8)
