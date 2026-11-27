@@ -39,9 +39,9 @@ final class NavigatorTests: XCTestCase {
     }()
 
     /// Rides `route` in 5 m steps, 0.1 s apart (faster than frames go out), and returns everything sent.
-    func ride(_ nav: Navigator, _ route: Route) -> [Navigator.Effect] {
+    func ride(_ nav: Navigator, _ route: Route, from start: Date? = nil) -> [Navigator.Effect] {
         var out: [Navigator.Effect] = []
-        var t = t0
+        var t = start ?? t0
         for (a, b) in zip(route.points, route.points.dropFirst()) {
             let steps = Int((dist(a, b) / 5).rounded())
             for s in 0..<steps {
@@ -71,6 +71,74 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.v, 1)
         XCTAssertEqual(effects.filter { if case .arrived = $0 { true } else { false } }.count, 1)
         XCTAssertEqual(nav.update(street.points.last!, at: t0 + 1000), [])
+    }
+
+    /// `metres` north of `street`'s first leg, `east` metres along it.
+    func off(_ metres: Double, east: Double = 100) -> Point {
+        let o = street.points[0]
+        return Point(lat: o.lat + metres / 111_320, lon: o.lon + east / (111_320 * cos(o.lat * .pi / 180)))
+    }
+
+    func reroutes(_ effects: [Navigator.Effect]) -> [Point] {
+        effects.compactMap { if case .reroute(let p) = $0 { p } else { nil } }
+    }
+
+    func testAsksForANewRouteAfterThreeFixesInARowOffTheRoute() {
+        let nav = Navigator(route: street)
+        _ = nav.update(off(0), at: t0)
+        XCTAssertEqual(reroutes(nav.update(off(60), at: t0 + 1) + nav.update(off(60), at: t0 + 2)), [])
+        _ = nav.update(off(5), at: t0 + 3) // back near the route: start counting again
+        XCTAssertEqual(reroutes(nav.update(off(60), at: t0 + 4) + nav.update(off(60), at: t0 + 5)), [])
+
+        let third = nav.update(off(60, east: 120), at: t0 + 6)
+        XCTAssertEqual(third, [.send(BandMessage(i: "Đang tìm đường lại…")), .reroute(from: off(60, east: 120))])
+    }
+
+    /// Rides 60 m off `street` from `start`, one fix a second, and returns when it asked for a new route.
+    func offRideReroutes(_ nav: Navigator, from start: Double, to end: Double) -> [Double] {
+        stride(from: start, through: end, by: 1).filter { !reroutes(nav.update(off(60), at: t0 + $0)).isEmpty }
+    }
+
+    func testWaitsForTheRouteItAskedForInsteadOfAskingAgain() {
+        let nav = Navigator(route: street)
+        XCTAssertEqual(offRideReroutes(nav, from: 0, to: 60), [2])
+    }
+
+    func testAfterAFailedRerouteTriesAgainEveryTenSeconds() {
+        let nav = Navigator(route: street)
+        XCTAssertEqual(offRideReroutes(nav, from: 0, to: 4), [2])
+        nav.rerouteFailed()
+        XCTAssertEqual(offRideReroutes(nav, from: 5, to: 12), [12])
+        nav.rerouteFailed()
+        XCTAssertEqual(offRideReroutes(nav, from: 13, to: 25), [22])
+    }
+
+    func testFollowsTheNewRouteFromItsStartAndBuzzesForItsTurns() {
+        let nav = Navigator(route: street)
+        // Both buzzes for the turn, then off the route: the new route's first turn is the same point index.
+        for (k, east) in stride(from: 0.0, through: 470, by: 10).enumerated() {
+            _ = nav.update(off(0, east: east), at: t0 + Double(k) / 10)
+        }
+        XCTAssertEqual(offRideReroutes(nav, from: 10, to: 12), [12])
+
+        nav.rerouted(street)
+        let effects = ride(nav, street, from: t0 + 13)
+        guard case .send(let first) = effects.first else { return XCTFail("\(effects)") }
+        XCTAssertEqual(first.i, "Rẽ phải")
+        XCTAssertEqual(first.d, "500 m")
+        let buzzes = effects.compactMap { e -> String? in
+            guard case .send(let m) = e, m.v == 1 else { return nil }
+            return "\(m.d!) \(m.i)"
+        }
+        XCTAssertEqual(buzzes, ["200 m Rẽ phải", "40 m Rẽ phải", "200 m Đến nơi", "40 m Đến nơi"])
+    }
+
+    func testDoesNotArriveFromBesideTheDestination() {
+        let nav = Navigator(route: street)
+        let end = street.points.last!
+        let beside = Point(lat: end.lat, lon: end.lon + 60 / (111_320 * cos(end.lat * .pi / 180)))
+        let effects = (0..<3).flatMap { nav.update(beside, at: t0 + Double($0)) }
+        XCTAssertEqual(reroutes(effects), [beside])
     }
 
     func testMessagesGoOutAsTheQuickAppsJson() throws {

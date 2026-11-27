@@ -17,6 +17,11 @@ public enum Tuning {
     /// Buzz once at each of these distances before a turn.
     static let buzzAtM = [200.0, 40.0]
     static let arrivedM = 20.0
+    /// This far from the route for this many fixes in a row → ask for a new route.
+    static let offRouteM = 40.0
+    static let offRouteFixes = 3
+    /// At most one new-route request per this many seconds, failed ones included.
+    static let rerouteEvery: TimeInterval = 10
 }
 
 /// Where the rider is on the route, and the heading-up screen polyline. `seg` is the segment snapped to;

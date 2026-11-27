@@ -24,27 +24,54 @@ public final class Navigator {
         case send(BandMessage)
         /// Last message; navigation is over.
         case arrived(BandMessage)
+        /// Off the route: fetch a new one from here, then call `rerouted` or `rerouteFailed`.
+        case reroute(from: Point)
     }
 
-    private let route: Route
+    private var route: Route
     private var seg = 0
     private var lastSend: Date?
     private var done = false
     /// Turn we last buzzed for, and how many of `Tuning.buzzAtM` it has had.
     private var buzzTurn: Int?
     private var buzzes = 0
+    /// Fixes in a row further than `Tuning.offRouteM` from the route.
+    private var offFixes = 0
+    private var rerouting = false
+    private var lastReroute: Date?
 
     public init(route: Route) {
         self.route = route
     }
 
+    /// Follows `route` from its start, with fresh buzzes, and sends its first frame on the next fix.
+    public func rerouted(_ route: Route) {
+        self.route = route
+        (seg, lastSend, buzzTurn, buzzes, offFixes, rerouting) = (0, nil, nil, 0, 0, false)
+    }
+
+    /// The new route could not be fetched; asks again no sooner than `Tuning.rerouteEvery` after the last ask.
+    public func rerouteFailed() {
+        rerouting = false
+    }
+
     public func update(_ here: Point, at time: Date) -> [Effect] {
         guard !done else { return [] }
         let f = frame(route, here: here, hint: seg)
-        seg = f.seg
-        if f.remaining < Tuning.arrivedM {
+        let onRoute = f.offRoute <= Tuning.offRouteM
+        // Off the route the snap is a guess; keep the last good one so rejoining where we left counts as back.
+        if onRoute { seg = f.seg }
+        if onRoute && f.remaining < Tuning.arrivedM {
             done = true
             return [.arrived(BandMessage(p: f.poly, d: "", i: "Đã đến nơi", v: 1))]
+        }
+        offFixes = onRoute ? 0 : offFixes + 1
+        if offFixes >= Tuning.offRouteFixes {
+            // Off the route the old frame is wrong: leave "Đang tìm đường lại…" or the error on the band.
+            if rerouting { return [] }
+            if let lastReroute, time.timeIntervalSince(lastReroute) < Tuning.rerouteEvery { return [] }
+            (rerouting, lastReroute) = (true, time)
+            return [.send(BandMessage(i: "Đang tìm đường lại…")), .reroute(from: here)]
         }
         if buzzTurn != f.turn.at { (buzzTurn, buzzes) = (f.turn.at, 0) }
         let due = Tuning.buzzAtM.filter { f.toTurn < $0 }.count

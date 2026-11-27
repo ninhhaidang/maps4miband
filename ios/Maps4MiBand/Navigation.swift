@@ -4,7 +4,6 @@ import Observation
 
 /// Bắt đầu → first GPS fix → Vietmap route from there → Navigator → band, until arrival or Dừng.
 // shortcut: GPS only while the app is open, background navigation is #10.
-// shortcut: no new route when the rider leaves this one, rerouting is #7.
 @Observable
 final class Navigation: NSObject {
     private(set) var running = false
@@ -64,14 +63,27 @@ final class Navigation: NSObject {
 
     private func route(from here: Point) {
         guard routing == nil else { return }
-        status = "Đang tìm đường…"
+        status = navigator == nil ? "Đang tìm đường…" : "Đang tìm đường lại…"
         routing = Task { @MainActor [weak self, destination, vietmapKey] in
+            let result: Result<Route, Error>
             do {
-                let route = try await Vietmap.route(from: here, to: destination, apiKey: vietmapKey)
-                guard let self, running else { return }
-                navigator = Navigator(route: route)
+                result = .success(try await Vietmap.route(from: here, to: destination, apiKey: vietmapKey))
             } catch {
-                self?.fail((error as? Vietmap.Failure)?.message ?? error.localizedDescription)
+                result = .failure(error)
+            }
+            // A request cut off by Dừng must not touch the next trip.
+            guard let self, !Task.isCancelled, running else { return }
+            routing = nil
+            switch result {
+            case .success(let route):
+                if let navigator { navigator.rerouted(route) } else { navigator = Navigator(route: route) }
+            case .failure(let error):
+                let why = (error as? Vietmap.Failure)?.message ?? error.localizedDescription
+                // Off the route the Navigator asks again shortly; at the start there is nothing to fall back on.
+                guard let navigator else { return fail(why) }
+                navigator.rerouteFailed()
+                band.send(BandMessage(i: "Lỗi: " + why).json)
+                status = "Lỗi: \(why). Sẽ thử lại."
             }
         }
     }
@@ -100,6 +112,8 @@ extension Navigation: CLLocationManagerDelegate {
                 status = [m.d, m.i, m.r].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · ")
             case .arrived(let m):
                 finish(m, "Đã đến nơi.")
+            case .reroute(let from):
+                route(from: from)
             }
         }
     }
