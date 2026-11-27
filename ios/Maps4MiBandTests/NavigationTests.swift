@@ -25,7 +25,8 @@ final class NavigationTests: XCTestCase {
 
     func testStartFollowsThePreviewedRouteWithoutAskingVietmapAgain() async throws {
         var asked: [(Point, Point, String)] = []
-        let nav = Navigation(band: BandConnection()) { from, to, key in
+        let band = BandConnection()
+        let nav = Navigation(band: band) { from, to, key in
             asked.append((from, to, key))
             return straight
         }
@@ -47,6 +48,9 @@ final class NavigationTests: XCTestCase {
         // The card on the phone shows the very message the band got.
         XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
         XCTAssertEqual(nav.shown?.a, 90)
+        // The log keeps the exact JSON the band got.
+        let sent = try XCTUnwrap(nav.shown.map { String(decoding: $0.json, as: UTF8.self) })
+        XCTAssertTrue(band.log.lines.contains { $0.source == .nav && $0.text == sent }, sent)
         nav.stop()
         XCTAssertNil(nav.shown)
     }

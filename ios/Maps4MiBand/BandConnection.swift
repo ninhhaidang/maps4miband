@@ -12,7 +12,7 @@ final class BandConnection: NSObject {
     private static let rxUUID = CBUUID(string: "005E")
     private static let txUUID = CBUUID(string: "005F")
 
-    private(set) var log: [String] = []
+    let log = Log()
     private(set) var busy = false
     /// Install progress 0...1 while an install runs, nil otherwise.
     private(set) var progress: Double?
@@ -40,14 +40,17 @@ final class BandConnection: NSObject {
     func stream(authKey: String, first: Data) {
         guard !busy else { return }
         // If `finish` came first, its message already waits in the link; `first` must not replace it.
-        begin(authKey: authKey, installing: false) { [weak self] in self?.streaming == true ? $0.send(first) : [] }
+        begin(authKey: authKey, installing: false) { [weak self] link in
+            guard let self, streaming else { return [] }
+            return noteSize(first, link.send(first))
+        }
         streaming = busy
     }
 
     /// Replaces the band's screen while streaming. Before the quick app is open only the newest one waits.
     func send(_ payload: Data) {
         guard streaming, let link else { return }
-        run(link.send(payload))
+        run(noteSize(payload, link.send(payload)))
     }
 
     /// Shows `payload` as the last screen, then releases the band.
@@ -55,7 +58,15 @@ final class BandConnection: NSObject {
         guard busy, let link else { return }
         streaming = false
         armTimeout()
-        run(link.send(payload))
+        run(noteSize(payload, link.send(payload)))
+    }
+
+    /// Notes how big a screen is on the way to the band, then passes its writes on.
+    private func noteSize(_ payload: Data, _ effects: [Effect]) -> [Effect] {
+        let writes = effects.compactMap { if case .write(let bytes) = $0 { bytes.count } else { nil } }
+        note(writes.isEmpty ? "Khung \(payload.count) B, chờ app trên vòng mở"
+                            : "Khung \(payload.count) B → \(writes.count) gói BLE, \(writes.reduce(0, +)) B")
+        return effects
     }
 
     /// Connects, authenticates, installs `rpk` as the quick app, then releases the band.
@@ -190,7 +201,7 @@ final class BandConnection: NSObject {
     }
 
     private func note(_ line: String) {
-        log.append("\(Date().formatted(date: .omitted, time: .standard))  \(line)")
+        log.add(.band, line)
     }
 }
 
@@ -244,6 +255,7 @@ extension BandConnection: CBPeripheralDelegate {
         }
         note("Đang xác thực…")
         link.maxWriteLength = peripheral.maximumWriteValueLength(for: writeType)
+        note("Gói BLE tối đa \(link.maxWriteLength) B, ghi \(writeType == .withoutResponse ? "không chờ" : "chờ") phản hồi.")
         run(link.start())
         run(job(link))
     }

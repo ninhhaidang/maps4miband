@@ -38,6 +38,9 @@ public enum Vietmap {
         }
     }
 
+    /// Told of every request: URL with the key hidden, HTTP status (0 = no answer) and seconds taken. For the app's log.
+    public static var onRequest: ((_ url: String, _ status: Int, _ seconds: TimeInterval) -> Void)?
+
     /// Places matching `text`, nearest to `near` first.
     public static func search(_ text: String, near: Point?, apiKey: String) async throws -> [Place] {
         var query = [URLQueryItem(name: "text", value: text), URLQueryItem(name: "display_type", value: "1")]
@@ -76,14 +79,20 @@ public enum Vietmap {
 
     private static func get(_ path: String, _ query: [URLQueryItem], apiKey: String) async throws -> (Data, Int) {
         var url = URLComponents(string: "https://maps.vietmap.vn/api/" + path)!
-        url.queryItems = [URLQueryItem(name: "apikey", value: apiKey)] + query
+        url.queryItems = [URLQueryItem(name: "apikey", value: "***")] + query
+        let shown = url.string ?? path
+        url.queryItems![0].value = apiKey
+        let start = Date()
         let data: Data, response: URLResponse
         do {
             (data, response) = try await URLSession.shared.data(from: url.url!)
         } catch let error as URLError where error.code != .cancelled {
+            onRequest?(shown, 0, Date().timeIntervalSince(start))
             throw Failure.offline
         }
-        return (data, (response as? HTTPURLResponse)?.statusCode ?? 0)
+        let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+        onRequest?(shown, status, Date().timeIntervalSince(start))
+        return (data, status)
     }
 
     private static func check(_ status: Int) throws {

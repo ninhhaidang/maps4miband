@@ -47,6 +47,7 @@ final class Navigation: NSObject {
         self.destination = destination
         self.vietmapKey = vietmapKey
         planning = true
+        band.log.add(.nav, "Lên kế hoạch tới \(destination.text)")
         status = "Đang chờ GPS…"
         gps.requestWhenInUseAuthorization()
         gps.startUpdatingLocation()
@@ -67,9 +68,12 @@ final class Navigation: NSObject {
         let first = BandMessage(i: "Đang chờ GPS…")
         band.stream(authKey: authKey, first: first.json)
         guard band.busy else {
+            band.log.add(.nav, "Lỗi: không kết nối được vòng")
             status = "Không kết nối được vòng, xem nhật ký."
             return
         }
+        band.log.add(.nav, "Bắt đầu dẫn đường, tuyến \(formatDistance(preview.length))")
+        logSent(first.json)
         (running, shown) = (true, first)
         navigator = Navigator(route: preview)
         status = "Đang chờ GPS…"
@@ -85,6 +89,7 @@ final class Navigation: NSObject {
             planning = false
             gps.stopUpdatingLocation()
             status = "Lỗi: " + why
+            band.log.add(.nav, status)
             return
         }
         finish(BandMessage(i: "Lỗi: " + why), "Lỗi: " + why)
@@ -94,13 +99,16 @@ final class Navigation: NSObject {
     private func finish(_ last: BandMessage, _ why: String) {
         guard running else { return }
         running = false
-        band.finish(last.json)
+        let json = last.json
+        band.finish(json)
+        logSent(json)
         gps.stopUpdatingLocation()
         routing?.cancel()
         routing = nil
         navigator = nil
         shown = nil
         status = why
+        band.log.add(.nav, why)
     }
 
     private func route(from here: Point) {
@@ -118,6 +126,7 @@ final class Navigation: NSObject {
             routing = nil
             switch result {
             case .success(let route):
+                band.log.add(.nav, "Tuyến mới: \(formatDistance(route.length)), \(route.maneuvers.count) chỉ dẫn")
                 // While navigating, preview is the route on the map.
                 navigator?.rerouted(route)
                 (preview, planning, status) = (route, false, "")
@@ -128,13 +137,20 @@ final class Navigation: NSObject {
                 navigator.rerouteFailed()
                 show(BandMessage(i: "Lỗi: " + why))
                 status = "Lỗi: \(why). Sẽ thử lại."
+                band.log.add(.nav, status)
             }
         }
     }
 
     private func show(_ m: BandMessage) {
-        band.send(m.json)
+        let json = m.json
+        band.send(json)
         shown = m
+        logSent(json)
+    }
+
+    private func logSent(_ json: Data) {
+        band.log.add(.nav, String(decoding: json, as: UTF8.self))
     }
 }
 
@@ -146,8 +162,11 @@ extension Navigation: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let fix = locations.last else { return }
+        let age = -fix.timestamp.timeIntervalSinceNow
+        guard fix.horizontalAccuracy >= 0 else { return band.log.add(.gps, "Bỏ bản tin GPS không hợp lệ") }
         // A cached fix from minutes ago would start the route somewhere else.
-        guard let fix = locations.last, fix.horizontalAccuracy >= 0, fix.timestamp.timeIntervalSinceNow > -10 else { return }
+        guard age < 10 else { return band.log.add(.gps, String(format: "Bỏ bản tin GPS cũ %.0f s", age)) }
         let here = Point(lat: fix.coordinate.latitude, lon: fix.coordinate.longitude)
         if planning, routing == nil {
             gps.stopUpdatingLocation()
@@ -162,10 +181,12 @@ extension Navigation: CLLocationManagerDelegate {
         for effect in navigator.update(here, at: fix.timestamp) {
             switch effect {
             case .send(let m):
+                band.log.add(.gps, String(format: "%@ ±%.0f m, cách đây %.1f s", here.text, fix.horizontalAccuracy, age))
                 show(m)
             case .arrived(let m):
                 finish(m, "Đã đến nơi.")
             case .reroute(let from):
+                band.log.add(.nav, "Lệch tuyến tại \(from.text), tìm đường lại")
                 route(from: from)
             }
         }
@@ -175,4 +196,9 @@ extension Navigation: CLLocationManagerDelegate {
         // kCLErrorLocationUnknown is transient; CoreLocation keeps trying.
         if (error as? CLError)?.code == .denied { fail(Self.noLocation) }
     }
+}
+
+extension Point {
+    /// "21.000000,105.800000" for the log.
+    var text: String { String(format: "%.6f,%.6f", lat, lon) }
 }

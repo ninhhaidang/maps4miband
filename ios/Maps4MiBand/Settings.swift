@@ -1,7 +1,7 @@
 import BandLink
 import SwiftUI
 
-/// One-time setup: keys, installing the quick app, a test frame, the diagnostic log.
+/// One-time setup: keys, installing the quick app, a test frame. Says what is missing while a key is.
 struct SettingsView: View {
     let band: BandConnection
     @Binding var saved: Bool
@@ -9,7 +9,6 @@ struct SettingsView: View {
     @State private var authKey = Keychain.load(Keychain.authKey) ?? ""
     @State private var vietmapKey = Keychain.load(Keychain.vietmapKey) ?? ""
     @State private var invalid = false
-    @Environment(\.dismiss) private var dismiss
 
     private var missing: [String] {
         (saved ? [] : ["AuthKey của vòng (để gửi chỉ dẫn lên vòng)"])
@@ -62,24 +61,22 @@ struct SettingsView: View {
                         ProgressView(value: progress)
                         Button("Huỷ", role: .destructive) { band.cancel() }
                     }
-                } footer: {
-                    Text(bundledRpk.map { "Cài bản quick app đóng gói trong app (\($0.count / 1024) KB). Đóng hẳn Mi Fitness trước." }
-                         ?? "Chưa có .rpk trong app: chạy npx aiot build trong band/ rồi Run lại từ Xcode.")
-                }
-
-                Section {
                     Button(band.busy && band.progress == nil ? "Đang gửi…" : "Gửi thử lên vòng") {
                         band.sendOnce(authKey: Keychain.load(Keychain.authKey) ?? "", payload: sampleFrame)
                     }
                     .disabled(band.busy || !saved)
-                } footer: {
-                    Text("Đóng hẳn Mi Fitness trước khi thử: vòng chỉ giữ một phiên xác thực.")
-                }
-
-                Section("Nhật ký chẩn đoán") {
-                    ForEach(Array(band.log.enumerated().reversed()), id: \.offset) { _, line in
-                        Text(line).font(.footnote.monospaced())
+                    // How the last try went, without leaving for the Nhật ký tab.
+                    if let last = band.log.lines.last(where: { $0.source == .band }) {
+                        Text(last.text)
+                            .font(.footnote)
+                            .foregroundStyle(last.error ? .red : .secondary)
                     }
+                } header: {
+                    Text("Vòng")
+                } footer: {
+                    Text((bundledRpk.map { "Cài bản quick app đóng gói trong app (\($0.count / 1024) KB)." }
+                          ?? "Chưa có .rpk trong app: chạy npx aiot build trong band/ rồi Run lại từ Xcode.")
+                         + " Đóng hẳn Mi Fitness trước: vòng chỉ giữ một phiên xác thực. Chi tiết ở tab Nhật ký.")
                 }
 
                 Section {
@@ -87,7 +84,6 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Cài đặt")
-            .toolbar { Button("Xong") { dismiss() } }
         }
     }
 }

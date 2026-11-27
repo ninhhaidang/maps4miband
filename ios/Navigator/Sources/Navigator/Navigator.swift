@@ -19,7 +19,12 @@ public struct BandMessage: Encodable, Equatable {
         (self.p, self.t, self.n, self.a, self.d, self.i, self.r, self.v) = (p, t, n, a, d, i, r, v)
     }
 
-    public var json: Data { try! JSONEncoder().encode(self) }
+    /// Keys sorted so the same screen is always the same bytes, in the log too.
+    public var json: Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try! encoder.encode(self)
+    }
 }
 
 /// Follows timed GPS fixes along a route and decides what the band shows and when.
