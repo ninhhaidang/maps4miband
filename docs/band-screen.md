@@ -8,7 +8,7 @@ Số đo cho bố cục dẫn đường (#13). Ô **?** là chưa đo trên vòn
 | Góc bo cắt vào bao nhiêu hàng trên/dưới (px) | ? | `SAFE.corner = 40` |
 | Số đoạn vẽ mượt, cập nhật mỗi giây | ? | tuyến 700 m thường ~30–80 đoạn |
 | Pin tụt sau 10 phút ở 50 / 100 / 200 đoạn | ? / ? / ? | |
-| Tin nhắn interconnect lớn nhất nhận đủ | ? KB | tin dẫn đường hiện ~0.5 KB |
+| Tin nhắn interconnect lớn nhất nhận đủ | 16 KB (32 KB không tới) | tin dẫn đường hiện ~0.5 KB; 16 KB ≈ 2000 điểm, nên giới hạn đoạn là do vẽ chứ không do tin nhắn |
 | Mẫu bố cục đã chọn (A / B / C) | ? | A |
 
 ## Cách đo
