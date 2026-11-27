@@ -2,12 +2,12 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { segments, rotate, LINE } from '../src/common/render.js'
 
-test('one segment per point pair, centred on its midpoint and rotated in screen degrees', () => {
+test('one segment per point pair, placed at its start point and rotated in screen degrees', () => {
   // right, then down (screen y grows downwards)
   const s = segments([0, 0, 10, 0, 10, 20])
   assert.deepEqual(s, [
-    { l: 5 - (10 + LINE) / 2, t: -LINE / 2, w: 10 + LINE, r: '{"rotate":"0deg"}' },
-    { l: 10 - (20 + LINE) / 2, t: 10 - LINE / 2, w: 20 + LINE, r: '{"rotate":"90deg"}' }
+    { l: -LINE / 2, t: -LINE / 2, w: 10 + LINE, r: '{"rotate":"0deg"}' },
+    { l: 10 - LINE / 2, t: -LINE / 2, w: 20 + LINE, r: '{"rotate":"90deg"}' }
   ])
 })
 

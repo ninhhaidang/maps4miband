@@ -32,7 +32,8 @@
   height: 8px;
   border-radius: 4px;
   background-color: #2f8cff;
-  transform-origin: 50% 50%;
+  /* px only: the band reads 50% as 50px */
+  transform-origin: 4px 4px;
 }
 .me {
   position: absolute;
@@ -62,6 +63,7 @@
   width: 48px;
   height: 48px;
   margin-right: 8px;
+  transform-origin: 24px 24px;
 }
 .dist {
   font-size: 34px;

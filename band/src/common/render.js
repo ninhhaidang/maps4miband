@@ -6,9 +6,8 @@ export function rotate(deg) {
   return JSON.stringify({ rotate: Math.round(deg) + 'deg' })
 }
 
-// Vela JS has no <canvas>: each polyline segment becomes an absolutely placed div centred on the segment's
-// midpoint and rotated about its centre (the default origin). It runs LINE/2 past both ends so rounded caps
-// hide the joints.
+// Vela JS has no <canvas>: each polyline segment becomes an absolutely placed div rotated around its start
+// point (transform-origin 4px 4px in index.ux). It runs LINE/2 past both ends so rounded caps hide the joints.
 export function segments(p) {
   const out = []
   for (let i = 0; i + 3 < p.length; i += 2) {
@@ -16,11 +15,10 @@ export function segments(p) {
     const dy = p[i + 3] - p[i + 1]
     const len = Math.sqrt(dx * dx + dy * dy)
     if (len < 1) continue
-    const w = Math.round(len + LINE)
     out.push({
-      l: Math.round(p[i] + dx / 2 - w / 2),
-      t: Math.round(p[i + 1] + dy / 2 - LINE / 2),
-      w,
+      l: p[i] - LINE / 2,
+      t: p[i + 1] - LINE / 2,
+      w: Math.round(len + LINE),
       r: rotate((Math.atan2(dy, dx) * 180) / Math.PI)
     })
   }
