@@ -2,11 +2,16 @@ import CoreLocation
 import Navigator
 import Observation
 
-/// Bắt đầu → first GPS fix → Vietmap route from there → Navigator → band, until arrival or Dừng.
+/// plan → first GPS fix → Vietmap route from there, shown as `preview`; Bắt đầu → Navigator on that same route
+/// → band, until arrival or Dừng. Off the route it asks Vietmap again.
 // shortcut: GPS only while the app is open, background navigation is #10.
 @Observable
 final class Navigation: NSObject {
     private(set) var running = false
+    /// Waiting for GPS or Vietmap to show the route before Bắt đầu.
+    private(set) var planning = false
+    /// The route Bắt đầu will follow.
+    private(set) var preview: Route?
     /// What the band shows, or why navigation ended.
     private(set) var status = ""
     private static let noLocation = "App chưa được cấp quyền vị trí. Bật trong Cài đặt → Dẫn đường."
@@ -17,27 +22,54 @@ final class Navigation: NSObject {
     @ObservationIgnored private var vietmapKey = ""
     @ObservationIgnored private var navigator: Navigator?
     @ObservationIgnored private var routing: Task<Void, Never>?
+    @ObservationIgnored private let fetchRoute: (Point, Point, String) async throws -> Route
 
-    init(band: BandConnection) {
+    init(band: BandConnection, fetchRoute: @escaping (Point, Point, String) async throws -> Route = Vietmap.route) {
         self.band = band
+        self.fetchRoute = fetchRoute
         super.init()
         gps.delegate = self
         gps.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         gps.activityType = .otherNavigation
     }
 
-    func start(to destination: Point, authKey: String, vietmapKey: String) {
-        guard !running, !band.busy else { return }
+    /// Last known position, for ranking search results; nil before the first fix.
+    var here: Point? {
+        gps.location.map { Point(lat: $0.coordinate.latitude, lon: $0.coordinate.longitude) }
+    }
+
+    /// Routes from the next GPS fix to `destination` into `preview`.
+    func plan(to destination: Point, vietmapKey: String) {
+        guard !running else { return }
+        cancelPlan()
         self.destination = destination
         self.vietmapKey = vietmapKey
-        band.stream(authKey: authKey, first: BandMessage(i: "Đang tìm đường…").json)
+        planning = true
+        status = "Đang chờ GPS…"
+        gps.requestWhenInUseAuthorization()
+        gps.startUpdatingLocation()
+    }
+
+    /// Drops the preview and any plan in flight, e.g. once the user looks for another destination.
+    func cancelPlan() {
+        guard !running else { return }
+        routing?.cancel()
+        routing = nil
+        if planning { gps.stopUpdatingLocation() }
+        (preview, planning, status) = (nil, false, "")
+    }
+
+    /// Follows `preview` as it is; the first fix shows where it goes, or asks for a new one if far from its start.
+    func start(authKey: String) {
+        guard !running, !planning, !band.busy, let preview else { return }
+        band.stream(authKey: authKey, first: BandMessage(i: "Đang chờ GPS…").json)
         guard band.busy else {
             status = "Không kết nối được vòng, xem nhật ký."
             return
         }
         running = true
+        navigator = Navigator(route: preview)
         status = "Đang chờ GPS…"
-        gps.requestWhenInUseAuthorization()
         gps.startUpdatingLocation()
     }
 
@@ -46,6 +78,12 @@ final class Navigation: NSObject {
     }
 
     private func fail(_ why: String) {
+        guard !planning else {
+            planning = false
+            gps.stopUpdatingLocation()
+            status = "Lỗi: " + why
+            return
+        }
         finish(BandMessage(i: "Lỗi: " + why), "Lỗi: " + why)
     }
 
@@ -64,22 +102,26 @@ final class Navigation: NSObject {
     private func route(from here: Point) {
         guard routing == nil else { return }
         status = navigator == nil ? "Đang tìm đường…" : "Đang tìm đường lại…"
-        routing = Task { @MainActor [weak self, destination, vietmapKey] in
+        routing = Task { @MainActor [weak self, destination, vietmapKey, fetchRoute] in
             let result: Result<Route, Error>
             do {
-                result = .success(try await Vietmap.route(from: here, to: destination, apiKey: vietmapKey))
+                result = .success(try await fetchRoute(here, destination, vietmapKey))
             } catch {
                 result = .failure(error)
             }
-            // A request cut off by Dừng must not touch the next trip.
-            guard let self, !Task.isCancelled, running else { return }
+            // A request cut off by Dừng or a new destination must not touch what came after.
+            guard let self, !Task.isCancelled else { return }
             routing = nil
             switch result {
             case .success(let route):
-                if let navigator { navigator.rerouted(route) } else { navigator = Navigator(route: route) }
+                if let navigator {
+                    navigator.rerouted(route)
+                } else {
+                    (preview, planning, status) = (route, false, "")
+                }
             case .failure(let error):
-                let why = (error as? Vietmap.Failure)?.message ?? error.localizedDescription
-                // Off the route the Navigator asks again shortly; at the start there is nothing to fall back on.
+                let why = Vietmap.Failure.message(for: error)
+                // Off the route the Navigator asks again shortly; for the preview there is nothing to fall back on.
                 guard let navigator else { return fail(why) }
                 navigator.rerouteFailed()
                 band.send(BandMessage(i: "Lỗi: " + why).json)
@@ -98,13 +140,18 @@ extension Navigation: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // A cached fix from minutes ago would start the route somewhere else.
-        guard running, let fix = locations.last, fix.horizontalAccuracy >= 0, fix.timestamp.timeIntervalSinceNow > -10 else { return }
+        guard let fix = locations.last, fix.horizontalAccuracy >= 0, fix.timestamp.timeIntervalSinceNow > -10 else { return }
+        let here = Point(lat: fix.coordinate.latitude, lon: fix.coordinate.longitude)
+        if planning, routing == nil {
+            gps.stopUpdatingLocation()
+            return route(from: here)
+        }
+        guard running else { return }
         guard band.busy else {
             // The band connection failed on its own (reason in the log); nothing left to show the route on.
             return finish(BandMessage(i: ""), "Mất kết nối với vòng, xem nhật ký.")
         }
-        let here = Point(lat: fix.coordinate.latitude, lon: fix.coordinate.longitude)
-        guard let navigator else { return route(from: here) }
+        guard let navigator else { return }
         for effect in navigator.update(here, at: fix.timestamp) {
             switch effect {
             case .send(let m):

@@ -1,6 +1,6 @@
 import Foundation
 
-/// Vietmap Route v4, motorcycle profile. Sign table and the `interval` quirk: docs/vietmap/README.md.
+/// Vietmap Autocomplete v4, Place v4 and Route v4 (motorcycle). Sign table and the `interval` quirk: docs/vietmap/README.md.
 public enum Vietmap {
     public enum Failure: Error, Equatable {
         case offline
@@ -21,32 +21,82 @@ public enum Vietmap {
             case .badResponse: "Vietmap trả dữ liệu lạ"
             }
         }
+
+        public static func message(for error: Error) -> String {
+            (error as? Failure)?.message ?? error.localizedDescription
+        }
+    }
+
+    /// Autocomplete v4 result; `id` is Vietmap's ref_id, only good for `point(of:)` right away.
+    public struct Place: Equatable, Identifiable, Decodable {
+        public let id: String
+        public let name: String
+        public let address: String
+
+        enum CodingKeys: String, CodingKey {
+            case id = "ref_id", name, address
+        }
+    }
+
+    /// Places matching `text`, nearest to `near` first.
+    public static func search(_ text: String, near: Point?, apiKey: String) async throws -> [Place] {
+        var query = [URLQueryItem(name: "text", value: text), URLQueryItem(name: "display_type", value: "1")]
+        if let near { query.append(URLQueryItem(name: "focus", value: "\(near.lat),\(near.lon)")) }
+        let (data, status) = try await get("autocomplete/v4", query, apiKey: apiKey)
+        return try parsePlaces(data, status: status)
+    }
+
+    public static func parsePlaces(_ data: Data, status: Int) throws -> [Place] {
+        try check(status)
+        guard let places = try? JSONDecoder().decode([Place].self, from: data) else { throw Failure.badResponse }
+        return places
+    }
+
+    /// Place v4: where a search result is. Costs one Place request (500/day on Trial).
+    public static func point(of place: Place, apiKey: String) async throws -> Point {
+        let (data, status) = try await get("place/v4", [URLQueryItem(name: "refid", value: place.id)], apiKey: apiKey)
+        return try parsePoint(data, status: status)
+    }
+
+    public static func parsePoint(_ data: Data, status: Int) throws -> Point {
+        struct Body: Decodable { let lat: Double; let lng: Double }
+        try check(status)
+        guard let body = try? JSONDecoder().decode(Body.self, from: data) else { throw Failure.badResponse }
+        return Point(lat: body.lat, lon: body.lng)
     }
 
     public static func route(from: Point, to: Point, apiKey: String) async throws -> Route {
-        var url = URLComponents(string: "https://maps.vietmap.vn/api/route/v4")!
-        url.queryItems = [
-            URLQueryItem(name: "apikey", value: apiKey),
+        let (data, status) = try await get("route/v4", [
             URLQueryItem(name: "point", value: "\(from.lat),\(from.lon)"),
             URLQueryItem(name: "point", value: "\(to.lat),\(to.lon)"),
             URLQueryItem(name: "vehicle", value: "motorcycle"),
-        ]
+        ], apiKey: apiKey)
+        return try parse(data, status: status)
+    }
+
+    private static func get(_ path: String, _ query: [URLQueryItem], apiKey: String) async throws -> (Data, Int) {
+        var url = URLComponents(string: "https://maps.vietmap.vn/api/" + path)!
+        url.queryItems = [URLQueryItem(name: "apikey", value: apiKey)] + query
         let data: Data, response: URLResponse
         do {
             (data, response) = try await URLSession.shared.data(from: url.url!)
         } catch let error as URLError where error.code != .cancelled {
             throw Failure.offline
         }
-        return try parse(data, status: (response as? HTTPURLResponse)?.statusCode ?? 0)
+        return (data, (response as? HTTPURLResponse)?.statusCode ?? 0)
     }
 
-    public static func parse(_ data: Data, status: Int) throws -> Route {
+    private static func check(_ status: Int) throws {
         switch status {
         case 200: break
         case 401, 403: throw Failure.badKey
         case 429: throw Failure.quota
         default: throw Failure.http(status)
         }
+    }
+
+    public static func parse(_ data: Data, status: Int) throws -> Route {
+        try check(status)
         guard let body = try? JSONDecoder().decode(Body.self, from: data) else { throw Failure.badResponse }
         guard body.code == "OK", let path = body.paths?.first else {
             throw Failure.noRoute(body.messages ?? body.code)

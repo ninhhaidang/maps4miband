@@ -1,4 +1,5 @@
 import BandLink
+import MapKit
 import Navigator
 import SwiftUI
 
@@ -24,7 +25,12 @@ struct ContentView: View {
     @State private var invalid = false
     @State private var vietmapKey = Keychain.load(Keychain.vietmapKey) ?? ""
     @State private var vietmapSaved = Keychain.load(Keychain.vietmapKey) != nil
-    @State private var destination = ""
+    @State private var query = ""
+    @State private var places: [Vietmap.Place] = []
+    @State private var searchError: String?
+    /// The result last chosen, now in the search box; not searched again.
+    @State private var picked = ""
+    @State private var choosing: Task<Void, Never>?
 
     init() {
         let band = BandConnection()
@@ -63,19 +69,45 @@ struct ContentView: View {
                 }
 
                 Section {
-                    TextField("Điểm đến: vĩ độ,kinh độ", text: $destination)
-                        .keyboardType(.numbersAndPunctuation)
+                    TextField("Tìm điểm đến, hoặc vĩ độ,kinh độ", text: $query)
                         .autocorrectionDisabled()
-                        .disabled(nav.running)
+                        .disabled(nav.running || !vietmapSaved)
+                        .task(id: query) { await search() }
+                    if let to = Point(parsing: query), !nav.running {
+                        Button("Đến toạ độ \(query)") {
+                            picked = query.trimmingCharacters(in: .whitespaces)
+                            nav.plan(to: to, vietmapKey: Keychain.load(Keychain.vietmapKey) ?? "")
+                        }
+                    }
+                    ForEach(nav.running ? [] : places) { place in
+                        Button { choose(place) } label: {
+                            VStack(alignment: .leading) {
+                                Text(place.name)
+                                Text(place.address).font(.footnote).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    if let searchError { Text(searchError).foregroundStyle(.red) }
+                    if !vietmapSaved { Text("Lưu Vietmap API key ở trên để tìm điểm đến.").foregroundStyle(.secondary) }
+                    if let route = nav.preview {
+                        // A new preview replaces this view (preview goes nil in between), so the camera refits.
+                        Map {
+                            MapPolyline(coordinates: route.points.map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
+                                .stroke(.blue, lineWidth: 5)
+                            if let end = route.points.last {
+                                Marker("Điểm đến", coordinate: CLLocationCoordinate2D(latitude: end.lat, longitude: end.lon))
+                            }
+                            UserAnnotation()
+                        }
+                        .frame(height: 260)
+                        .listRowInsets(EdgeInsets())
+                        Text("Quãng đường xe máy: \(formatDistance(route.length))")
+                    }
                     if nav.running {
                         Button("Dừng", role: .destructive) { nav.stop() }
                     } else {
-                        Button("Bắt đầu") {
-                            guard let to = Point(parsing: destination) else { return }
-                            nav.start(to: to, authKey: Keychain.load(Keychain.authKey) ?? "",
-                                      vietmapKey: Keychain.load(Keychain.vietmapKey) ?? "")
-                        }
-                        .disabled(band.busy || !saved || !vietmapSaved || Point(parsing: destination) == nil)
+                        Button("Bắt đầu") { nav.start(authKey: Keychain.load(Keychain.authKey) ?? "") }
+                            .disabled(band.busy || !saved || nav.planning || nav.preview == nil)
                     }
                     if !nav.status.isEmpty { Text(nav.status) }
                 } header: {
@@ -114,6 +146,45 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Dẫn đường")
+        }
+    }
+
+    /// Autocomplete as the user types; a typed coordinate or the result just chosen is not searched.
+    private func search() async {
+        places = []
+        searchError = nil
+        let text = query.trimmingCharacters(in: .whitespaces)
+        if text != picked, !nav.running {
+            // Another destination: the old route must not be the one Bắt đầu starts.
+            picked = ""
+            choosing?.cancel()
+            nav.cancelPlan()
+        }
+        guard text.count >= 2, text != picked, Point(parsing: text) == nil, vietmapSaved else { return }
+        try? await Task.sleep(for: .milliseconds(300))
+        guard !Task.isCancelled else { return }
+        do {
+            places = try await Vietmap.search(text, near: nav.here, apiKey: Keychain.load(Keychain.vietmapKey) ?? "")
+            if places.isEmpty { searchError = "Không tìm thấy \"\(text)\"." }
+        } catch where !Task.isCancelled {
+            searchError = Vietmap.Failure.message(for: error)
+        } catch {}
+    }
+
+    private func choose(_ place: Vietmap.Place) {
+        (picked, query, places) = (place.name, place.name, [])
+        nav.cancelPlan()
+        choosing?.cancel()
+        let key = Keychain.load(Keychain.vietmapKey) ?? ""
+        choosing = Task {
+            do {
+                let to = try await Vietmap.point(of: place, apiKey: key)
+                // A later pick wins even if its Place answer came first.
+                guard !Task.isCancelled else { return }
+                nav.plan(to: to, vietmapKey: key)
+            } catch where !Task.isCancelled {
+                searchError = Vietmap.Failure.message(for: error)
+            } catch {}
         }
     }
 }

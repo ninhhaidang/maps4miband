@@ -111,3 +111,8 @@ Autocomplete v4 (`display_type=1`, `focus` = vị trí hiện tại) rồi Place
 
 Kết luận: đủ tốt cho ô tìm kiếm. Số nhà trong ngõ thì rơi về đầu ngõ; trường hợp đó dùng tìm kiếm Apple
 (dự phòng trong spec) hoặc nhập toạ độ. Mỗi lần chọn kết quả tốn thêm một lượt Place (hạn mức ở trên).
+
+Fixture: [`autocomplete-benh-vien-bach-mai.json`](autocomplete-benh-vien-bach-mai.json) (`text=benh vien bach mai`,
+`focus=21.0020,105.8200`) và [`place-benh-vien-bach-mai.json`](place-benh-vien-bach-mai.json) (Place v4 của kết quả
+đầu). Không có kết quả thì Autocomplete trả `[]`; `refid` sai thì Place trả 404 rỗng; key sai thì 401. App chưa dùng
+tìm kiếm Apple: kết quả trên đủ tốt.
