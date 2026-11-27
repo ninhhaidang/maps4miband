@@ -1,0 +1,144 @@
+{
+  "license": "vietmap",
+  "code": "OK",
+  "paths": [
+    {
+      "distance": 1452,
+      "weight": 352.5,
+      "time": 178306,
+      "transfers": 0,
+      "points_encoded": true,
+      "bbox": [
+        105.81454,
+        21.00146,
+        105.81998,
+        21.00669
+      ],
+      "points": "a}d_C{}zdSj@x@p@|@?XCPELGFkAl@OSYg@uBcDOBQJKRXf@j@z@v@nAdAxAf@Xl@dAi@b@i@VeCp@cC`AqC|@i@N}@ToA\\mAb@aDfBkBjAb@`AVDLFNJZb@LZ`@Oj@SWq@",
+      "instructions": [
+        {
+          "distance": 84,
+          "heading": 231,
+          "sign": 0,
+          "interval": [
+            0,
+            1
+          ],
+          "text": "tiếp tục đến Ngõ 73 Nguyễn Trãi",
+          "time": 10427,
+          "street_name": "Ngõ 73 Nguyễn Trãi",
+          "last_heading": 230.9
+        },
+        {
+          "distance": 89,
+          "heading": 0,
+          "sign": 1,
+          "interval": [
+            1,
+            5
+          ],
+          "text": "rẽ nhẹ sang phải vào Ngõ 73 Nguyễn Trãi",
+          "time": 11048,
+          "street_name": "Ngõ 73 Nguyễn Trãi"
+        },
+        {
+          "distance": 152,
+          "heading": 0,
+          "sign": 2,
+          "interval": [
+            5,
+            7
+          ],
+          "text": "rẽ phải vào Nguyễn Trãi",
+          "time": 18240,
+          "street_name": "Nguyễn Trãi"
+        },
+        {
+          "distance": 291,
+          "heading": 0,
+          "sign": -8,
+          "interval": [
+            7,
+            15
+          ],
+          "text": "quay đầu xe vào Nguyễn Trãi",
+          "time": 34920,
+          "street_name": "Nguyễn Trãi"
+        },
+        {
+          "distance": 642,
+          "heading": 0,
+          "sign": 2,
+          "interval": [
+            15,
+            25
+          ],
+          "text": "rẽ phải vào Giáp Nhất",
+          "time": 77040,
+          "street_name": "Giáp Nhất"
+        },
+        {
+          "distance": 41,
+          "heading": 0,
+          "sign": -2,
+          "interval": [
+            25,
+            25
+          ],
+          "text": "rẽ trái vào Ngõ 213 Giáp Nhất",
+          "time": 5089,
+          "street_name": "Ngõ 213 Giáp Nhất"
+        },
+        {
+          "distance": 76,
+          "heading": 0,
+          "sign": -2,
+          "interval": [
+            25,
+            29
+          ],
+          "text": "rẽ trái vào Ngõ 213 Giáp Nhất",
+          "time": 10523,
+          "street_name": "Ngõ 213 Giáp Nhất"
+        },
+        {
+          "distance": 46,
+          "heading": 0,
+          "sign": -2,
+          "interval": [
+            29,
+            30
+          ],
+          "text": "rẽ trái vào Ngách 213/29 Giáp Nhất",
+          "time": 6369,
+          "street_name": "Ngách 213/29 Giáp Nhất"
+        },
+        {
+          "distance": 31,
+          "heading": 0,
+          "sign": -2,
+          "interval": [
+            30,
+            30
+          ],
+          "text": "rẽ trái vào Hẻm 213/29/7 Giáp Nhất",
+          "time": 4650,
+          "street_name": "Hẻm 213/29/7 Giáp Nhất"
+        },
+        {
+          "distance": 0,
+          "heading": 0,
+          "sign": 4,
+          "interval": [
+            30,
+            30
+          ],
+          "text": "Kết thúc!",
+          "time": 0,
+          "street_name": ""
+        }
+      ],
+      "snapped_waypoints": "a}d_C{}zdS}Vh^"
+    }
+  ]
+}
