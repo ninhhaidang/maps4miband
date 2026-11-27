@@ -7,7 +7,7 @@ Số đo cho bố cục dẫn đường (#13). Ô **?** là chưa đo trên vòn
 | Cạnh dài bị che (px) | 0 | `SAFE.side = 0` (band/src/common/render.js) |
 | Góc bo | bán kính ~100 px: hai đầu gần như nửa hình tròn (bảng dưới) | `SAFE.radius = 100`, `inset(y)` |
 | Số đoạn vẽ mượt, cập nhật mỗi giây | 100 (chu kỳ chậm nhất: 50 → 1011 ms, 100 → 1070 ms, 200 → 3340 ms) | `Tuning.maxSegments = 100`, bỏ phần xa nhất |
-| Pin tụt sau 10 phút ở 50 / 100 / 200 đoạn | ? / ? / ? | |
+| Pin tụt sau 10 phút ở 50 / 100 / 200 đoạn | không đo (bỏ qua) | |
 | Tin nhắn interconnect lớn nhất nhận đủ | 16 KB (32 KB không tới) | tin dẫn đường hiện ~0.5 KB; 16 KB ≈ 2000 điểm, nên giới hạn đoạn là do vẽ chứ không do tin nhắn |
 | Mẫu bố cục đã chọn (A / B / C) | A | A |
 
