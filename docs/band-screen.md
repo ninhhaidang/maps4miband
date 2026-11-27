@@ -1,6 +1,6 @@
 # Màn hình vòng (Smart Band 11, 212×520)
 
-Số đo cho bố cục dẫn đường (#13). Ô **?** là chưa đo trên vòng thật.
+Số đo trên vòng thật cho bố cục dẫn đường (#13).
 
 | Đo gì | Kết quả | Trong code |
 |---|---|---|
@@ -22,21 +22,17 @@ nhãn tên đường giữ cách mép dưới ≥ 28 px và lùi vào theo `inse
 
 ## Cách đo
 
-Cài bản quick app mới (`cd band && npx aiot build`, Run app iOS, **Cài app lên vòng**), mở *Dẫn đường* trên vòng.
+Đo bằng trang đo trong quick app (giữ lâu màn hình dẫn đường để mở) và nút **Thử tin nhắn N KB** trong app iOS;
+cả hai đã xoá sau khi đo, lấy lại từ commit `58dca7f` (`band/src/pages/proto/proto.ux`, `probeMessage` trong
+`ios/Maps4MiBand/Maps4MiBandApp.swift`) nếu cần đo lại, ví dụ trên vòng khác.
 
-- **Mẫu bố cục**: đã chọn A (mũi tên + khoảng cách một hàng, chỉ dẫn 2 dòng, quãng còn lại); B (mũi tên to riêng
-  một hàng, bỏ quãng còn lại) và C (khung thấp, chỉ dẫn 1 dòng) đã bỏ.
-- **Thước**: giữ lâu trên màn hình dẫn đường để mở trang đo. Chú thích màu ở giữa ghi "hàng · cạnh".
-  - Vạch ngang toàn chiều rộng mỗi 10 px từ mép trên và mép dưới: góc bo làm các vạch đầu ngắn đi; mỗi vạch mất
-    bao nhiêu ở hai đầu cho ra `SAFE.radius`.
-  - Vạch dọc mỗi 4 px từ hai cạnh dài, ở giữa màn hình: vạch đầu tiên hiện đủ = `SAFE.side`.
-- **Thử tải**: chạm trang thước để chuyển sang 50 → 100 → 200 đoạn xám, vẽ lại mỗi giây. Xem có giật không,
-  "chu kỳ chậm nhất" (gần 1000 ms là ổn), để 10 phút ghi pin tụt. Vuốt phải để quay lại.
-- **Kích thước tin nhắn**: trong app iOS bấm **Thử tin nhắn N KB** nhiều lần (1, 2, 4 … 32 KB). Vòng hiện
-  "Nhận đủ N KB" khi nhận trọn; "Tin nhắn hỏng" hoặc không đổi gì là quá cỡ. Dừng ở 32 KB vì một khung
-  BandLink chỉ chứa dưới 64 KB; vòng nhận đủ 32 KB thì ghi "≥ 32 KB".
-
-## Sau khi đo
-
-Khi đã có số thử tải: xoá trang `pages/proto`
-(cùng `onlongpress` trong `index.ux`), nút thử tin nhắn trong app iOS (tìm `shortcut:`).
+- **Mẫu bố cục**: ba mẫu, chạm khung chỉ dẫn để đổi, đeo thử rồi chọn A (mũi tên + khoảng cách một hàng, chỉ dẫn
+  2 dòng, quãng còn lại). B (mũi tên to riêng một hàng, bỏ quãng còn lại) và C (khung thấp, chỉ dẫn 1 dòng) đã bỏ.
+- **Thước**: vạch ngang toàn chiều rộng mỗi 10 px từ mép trên và mép dưới (góc bo làm các vạch đầu ngắn đi; mỗi
+  vạch mất bao nhiêu ở hai đầu cho ra `SAFE.radius`), vạch dọc mỗi 4 px từ hai cạnh dài (vạch đầu tiên hiện đủ =
+  `SAFE.side`). Đọc từ ảnh chụp thẳng.
+- **Thử tải**: 50 / 100 / 200 đoạn xám ngẫu nhiên vẽ lại mỗi giây, ghi chu kỳ chậm nhất của `setInterval`.
+- **Kích thước tin nhắn**: tin 1, 2, 4 … 32 KB; vòng hiện "Nhận đủ N KB" khi nhận trọn. Dừng ở 32 KB vì một khung
+  BandLink chỉ chứa dưới 64 KB.
+- **Tên đường trên bản đồ**: chữ đậm 14 px cần ~9 px mỗi ký tự ("Phan Huy Chú" bị "…" trong ô 98 px, đủ trong
+  ô 116 px).

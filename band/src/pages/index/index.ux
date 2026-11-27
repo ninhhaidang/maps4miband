@@ -1,6 +1,6 @@
 <template>
   <!-- Later children draw on top: the map fills the page, the panel covers its top MAP_TOP px. -->
-  <stack class="page" onlongpress="openProto">
+  <stack class="page">
     <div class="map">
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
@@ -122,7 +122,6 @@
 import interconnect from '@system.interconnect'
 import brightness from '@system.brightness'
 import vibrator from '@system.vibrator'
-import router from '@system.router'
 import { segments, rotate, label } from '../../common/render.js'
 
 export default {
@@ -150,7 +149,7 @@ export default {
         m = JSON.parse(msg.data)
       } catch (e) {
         console.log('bad message: ' + msg.data)
-        // Also how a too-big message shows up when probing the size limit.
+        // Also what a message over the band's 16 KB limit turns into (docs/band-screen.md).
         this.show({ i: 'Tin nhắn hỏng (' + msg.data.length + ' ký tự)' })
         return
       }
@@ -159,9 +158,6 @@ export default {
   },
   onDestroy() {
     brightness.setKeepScreenOn({ keepScreenOn: false })
-  },
-  openProto() {
-    router.push({ uri: 'pages/proto' })
   },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
   // (flat x,y), n = street at the first mark, a = turn angle (deg, null = no arrow), d = distance to the turn,

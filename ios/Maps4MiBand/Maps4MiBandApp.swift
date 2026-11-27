@@ -16,13 +16,6 @@ let bundledRpk = Bundle.main.url(forResource: "band", withExtension: "rpk").flat
 /// One screen in the quick app's message format (BandMessage): rider at 106,460 heading up, a left turn 160 m ahead.
 let sampleFrame = Data(#"{"p":[106,510,106,460,106,380,40,380],"t":[106,380],"n":"Phố Tôn Đức Thắng","a":-90,"d":"160 m","i":"Rẽ trái vào Phố Tôn Đức Thắng","r":"Còn 1.6 km","v":1}"#.utf8)
 
-/// shortcut: probe for the largest interconnect message the band takes (#13); drop once docs/band-screen.md has it.
-/// The band shows `i` only if the whole message arrived and parsed. Stops at 32 KB: a BandLink frame holds < 64 KB.
-func probeMessage(kb: Int) -> Data {
-    let head = #"{"i":"Nhận đủ \#(kb) KB","z":""#
-    return Data((head + String(repeating: "x", count: max(kb * 1024 - head.utf8.count - 2, 0)) + #""}"#).utf8)
-}
-
 struct ContentView: View {
     @State private var band: BandConnection
     @State private var nav: Navigation
@@ -37,7 +30,6 @@ struct ContentView: View {
     /// The result last chosen, now in the search box; not searched again.
     @State private var picked = ""
     @State private var choosing: Task<Void, Never>?
-    @State private var probeKB = 1
 
     init() {
         let band = BandConnection()
@@ -140,11 +132,6 @@ struct ContentView: View {
                 Section {
                     Button(band.busy && band.progress == nil ? "Đang gửi…" : "Gửi thử lên vòng") {
                         band.sendOnce(authKey: Keychain.load(Keychain.authKey) ?? "", payload: sampleFrame)
-                    }
-                    .disabled(band.busy || !saved)
-                    Button("Thử tin nhắn \(probeKB) KB") {
-                        band.sendOnce(authKey: Keychain.load(Keychain.authKey) ?? "", payload: probeMessage(kb: probeKB))
-                        probeKB = probeKB >= 32 ? 1 : probeKB * 2
                     }
                     .disabled(band.busy || !saved)
                 } footer: {
