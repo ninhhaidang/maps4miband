@@ -26,7 +26,8 @@ cd ios/BandLink && swift test
 cd legacy/android && JAVA_HOME=/opt/homebrew/opt/openjdk@21 ./gradlew testDebugUnitTest assembleDebug
 ```
 
-Cài `.rpk` lên vòng bằng AstroBox trên Mac (xem #2).
+Cài `.rpk` lên vòng: build `band/` trước rồi Run app iOS (bước build tự đóng gói `.rpk` mới nhất), đóng hẳn
+Mi Fitness, bấm **Cài app lên vòng**. Lần đầu, hoặc khi cài từ iPhone lỗi, dùng AstroBox trên Mac (xem #2).
 
 ## Thử trên vòng thật
 

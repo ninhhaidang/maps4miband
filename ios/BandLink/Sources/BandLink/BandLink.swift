@@ -13,6 +13,13 @@ public enum Event: Equatable {
     case appNotInstalled(installed: [String])
     case messageSent
     case sessionTakenOver
+    /// The band would not take the package. PrepareStatus: 1 busy, 2 duplicated, 3 low storage, 4 low battery,
+    /// 5 downgrade, 6 not supported, 7 too many apps, 255 failed.
+    case installRefused(status: Int)
+    case installProgress(sent: Int, of: Int)
+    case installed
+    /// AppInstaller.Result code: 1 install failed, 2 verify failed (corrupt package).
+    case installFailed(code: Int)
 }
 
 /// Xiaomi BLE V2 protocol to talk to a quick app on the band, bytes in / bytes out (no CoreBluetooth).
@@ -85,6 +92,11 @@ public final class BandLink {
             }
             guard let cmd = ProtoFields(body) else { return ack }
             return ack + handle(cmd)
+        case .ack where frame.seq == awaitingAck:
+            awaitingAck = nil
+            return [.event(.installProgress(sent: partsTotal - parts.count, of: partsTotal))] + sendNextPart()
+        case .nack where frame.seq == awaitingAck:
+            return write(partInFlight!)
         default:
             return []
         }
@@ -95,6 +107,13 @@ public final class BandLink {
     private var appOpen = false
     /// Only the newest message waits for the quick app: each one is a whole screen.
     private var pending: Data?
+    /// Package being installed; set, it replaces opening the app after auth.
+    private var rpk: Data?
+    private var sliceHint: UInt64?
+    private var parts: [Data] = []
+    private var partsTotal = 0
+    private var awaitingAck: UInt8?
+    private var partInFlight: Frame?
 
     private func handle(_ cmd: ProtoFields) -> [Effect] {
         switch (cmd[varint: 1], cmd[varint: 2]) {
@@ -119,7 +138,28 @@ public final class BandLink {
             guard state == .confirming else { return state == .ready ? takenOver() : [] }
             guard cmd[message: 3]?[message: 33]?[varint: 1] == 1 else { return reject() }
             state = .ready
-            return [.event(.authenticated)] + send(Command.rpk(0), encrypted: true)
+            return [.event(.authenticated)]
+                + send(rpk.map { Command.prepareInstall(appPackage, size: $0.count) } ?? Command.rpk(0), encrypted: true)
+        case (20, _) where state == .ready && rpk != nil && cmd[message: 22]?[message: 3] != nil:
+            let reply = cmd[message: 22]![message: 3]!
+            let status = reply[varint: 1] ?? 255
+            guard status == 0 else { return refuseInstall(status) }
+            sliceHint = reply[varint: 2]
+            return send(Command.massPrepare(md5: Mass.md5(rpk!), length: rpk!.count), encrypted: true)
+        case (22, _) where state == .ready && rpk != nil && cmd[message: 24]?[message: 2] != nil:
+            let reply = cmd[message: 24]![message: 2]!
+            let status = reply[varint: 2] ?? 255
+            guard status == 0 else { return refuseInstall(status) }
+            // The mass reply's slice length wins over the install reply's; neither → the official default.
+            let slice = [reply[varint: 5], sliceHint].compactMap { $0 }.first { $0 > 0 }.map(Int.init) ?? Mass.defaultSlice
+            guard slice > Mass.partHeader else { return refuseInstall(255) }
+            parts = Mass.parts(rpk!, from: Int(reply[varint: 4] ?? 0), slice: slice)
+            partsTotal = parts.count
+            return sendNextPart()
+        case (20, _) where state == .ready && rpk != nil && cmd[message: 22]?[message: 4] != nil:
+            let code = cmd[message: 22]![message: 4]![varint: 1] ?? 255
+            endInstall()
+            return [.event(code == 0 ? .installed : .installFailed(code: Int(code)))]
         case (20, 0) where state == .ready:
             // Installed list: rpk.rpkList.rpkInfo[] = { id 1, sha 2, name 5 }. Launch needs the sha.
             let apps = cmd[message: 22]?[message: 1]?.all(1) ?? []
@@ -153,6 +193,35 @@ public final class BandLink {
         return send(Command.message(id: appPackage, sha: appSha!, payload: payload), encrypted: true) + [.event(.messageSent)]
     }
 
+    /// Installs `rpk` as the quick app (same package), instead of opening it, once authenticated.
+    public func install(_ rpk: Data) -> [Effect] {
+        self.rpk = rpk
+        return state == .ready ? send(Command.prepareInstall(appPackage, size: rpk.count), encrypted: true) : []
+    }
+
+    private func refuseInstall(_ status: UInt64) -> [Effect] {
+        endInstall()
+        return [.event(.installRefused(status: Int(status)))]
+    }
+
+    private func endInstall() {
+        rpk = nil
+        sliceHint = nil
+        parts = []
+        awaitingAck = nil
+        partInFlight = nil
+    }
+
+    /// Mass parts go on channel 2, opcode 1 (plaintext), one at a time: the next waits for this one's ack.
+    private func sendNextPart() -> [Effect] {
+        guard !parts.isEmpty else { return [] }
+        let frame = Frame(type: .data, seq: nextSeq, payload: Data([2, 1]) + parts.removeFirst())
+        nextSeq &+= 1
+        awaitingAck = frame.seq
+        partInFlight = frame
+        return write(frame)
+    }
+
     /// Another app on the phone started its own session on the shared link; ours is dead. Reported once.
     private func takenOver() -> [Effect] {
         state = .idle
@@ -168,7 +237,12 @@ public final class BandLink {
     /// Auth commands go in plaintext (opcode 1); everything after auth is AES-CTR with key = IV (opcode 2).
     private func send(_ command: Proto, encrypted: Bool = false) -> [Effect] {
         let body = encrypted ? aesCTR(key: keys!.encKey, iv: keys!.encKey, command.bytes) : command.bytes
-        let frame = Frame(type: .data, seq: nextSeq, payload: Data([1, encrypted ? 2 : 1]) + body)
+        return sendFrame(Data([1, encrypted ? 2 : 1]) + body)
+    }
+
+    /// Data payload: channel | opcode | body.
+    private func sendFrame(_ payload: Data) -> [Effect] {
+        let frame = Frame(type: .data, seq: nextSeq, payload: payload)
         nextSeq &+= 1
         return write(frame)
     }

@@ -14,32 +14,57 @@ final class BandConnection: NSObject {
 
     private(set) var log: [String] = []
     private(set) var busy = false
+    /// Install progress 0...1 while an install runs, nil otherwise.
+    private(set) var progress: Double?
 
     @ObservationIgnored private var central: CBCentralManager?
     @ObservationIgnored private var peripheral: CBPeripheral?
     @ObservationIgnored private var tx: CBCharacteristic?
     @ObservationIgnored private var writeType = CBCharacteristicWriteType.withResponse
+    /// BLE writes waiting for CoreBluetooth: write-without-response drops what it has no room for.
+    @ObservationIgnored private var outbox: [Data] = []
     @ObservationIgnored private var link: BandLink?
-    @ObservationIgnored private var payload = Data()
+    @ObservationIgnored private var job: ((BandLink) -> [Effect])?
     @ObservationIgnored private var timeout: DispatchWorkItem?
-    /// What the 30 s timeout tells the user, depending on how far we got.
+    /// What the timeout tells the user, depending on how far we got.
     @ObservationIgnored private var stuck = ""
 
     /// Connects, authenticates, opens the quick app, sends `payload` once, then releases the band.
     func sendOnce(authKey: String, payload: Data) {
+        begin(authKey: authKey, installing: false) { $0.send(payload) }
+    }
+
+    /// Connects, authenticates, installs `rpk` as the quick app, then releases the band.
+    func install(authKey: String, rpk: Data) {
+        begin(authKey: authKey, installing: true) { $0.install(rpk) }
+    }
+
+    /// Drops the connection; the band abandons a half-sent package.
+    func cancel() {
+        fail("Đã huỷ.")
+    }
+
+    private func begin(authKey: String, installing: Bool, job: @escaping (BandLink) -> [Effect]) {
         guard !busy else { return }
         guard let link = BandLink(authKey: authKey, appPackage: Self.appPackage) else {
             return note("Lỗi: AuthKey phải gồm đúng 32 ký tự hex. Vào Cài đặt nhập lại.")
         }
         busy = true
+        progress = installing ? 0 : nil
         self.link = link
-        self.payload = payload
+        self.job = job
         note("Đang tìm vòng…")
         stuck = "Vòng không phản hồi sau 30 giây. Hãy đóng hẳn Mi Fitness rồi thử lại."
+        armTimeout()
+        if let central { centralManagerDidUpdateState(central) } else { central = CBCentralManager(delegate: self, queue: nil) }
+    }
+
+    /// Fails if the band goes 30 s without moving forward; rearmed at each step.
+    private func armTimeout() {
+        timeout?.cancel()
         let timeout = DispatchWorkItem { [weak self] in self.map { $0.fail($0.stuck) } }
         self.timeout = timeout
         DispatchQueue.main.asyncAfter(deadline: .now() + 30, execute: timeout)
-        if let central { centralManagerDidUpdateState(central) } else { central = CBCentralManager(delegate: self, queue: nil) }
     }
 
     private func findBand() {
@@ -54,31 +79,57 @@ final class BandConnection: NSObject {
     }
 
     private func run(_ effects: [Effect]) {
-        guard let p = peripheral, let tx else { return }
         for effect in effects {
             switch effect {
-            // shortcut: no flow control on write-without-response; fine for a few short frames, check
-            // canSendWriteWithoutResponse once frames go out every second.
-            case .write(let bytes): p.writeValue(bytes, for: tx, type: writeType)
+            case .write(let bytes): outbox.append(bytes)
             case .event(let event): handle(event)
             }
+        }
+        flush()
+    }
+
+    private func flush() {
+        guard let p = peripheral, let tx else { return }
+        while !outbox.isEmpty, writeType == .withResponse || p.canSendWriteWithoutResponse {
+            p.writeValue(outbox.removeFirst(), for: tx, type: writeType)
         }
     }
 
     private func handle(_ event: Event) {
         switch event {
         case .authenticated:
-            note("Đã xác thực với vòng. Đang mở quick app “Dẫn đường”…")
-            stuck = "Quick app “Dẫn đường” không mở trên vòng sau 30 giây. Kiểm tra app đã cài và thử lại."
+            note("Đã xác thực với vòng.")
+            stuck = progress == nil
+                ? "Quick app “Dẫn đường” không mở trên vòng. Kiểm tra app đã cài và thử lại."
+                : "Vòng ngừng phản hồi khi đang cài. Thử lại; nếu vẫn lỗi, cài bằng AstroBox trên Mac."
         case .authKeyRejected: fail("AuthKey sai: vòng từ chối xác thực. Lấy lại AuthKey bằng tools/fetch_authkey.py trên Mac.")
         case .appNotInstalled(let installed):
             note("App trên vòng: \(installed.joined(separator: ", "))")
-            fail("Quick app “Dẫn đường” chưa được cài trên vòng. Cài file .rpk bằng AstroBox trên Mac.")
+            fail("Quick app “Dẫn đường” chưa được cài trên vòng. Bấm “Cài app lên vòng”.")
         case .sessionTakenOver: fail("Mi Fitness đang giành kết nối — hãy đóng hẳn Mi Fitness rồi thử lại.")
         case .messageSent:
             note("Đã gửi khung hình.")
             // shortcut: fixed 1 s for queued writes to leave; wait for the band's ack once frames stream every second.
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in self?.release("Xong, đã nhả kết nối cho Mi Fitness.") }
+        case .installProgress(let sent, let total):
+            progress = Double(sent) / Double(total)
+            armTimeout()
+            if sent == total { note("Đã gửi xong file, chờ vòng cài…") }
+        case .installed: release("Đã cài app lên vòng. Xong, đã nhả kết nối cho Mi Fitness.")
+        case .installRefused(let status): fail(Self.refusal(status))
+        case .installFailed(2): fail("Vòng báo file .rpk hỏng. Build lại app trên vòng (npx aiot build), Run lại app iOS rồi thử lại.")
+        case .installFailed(let code): fail("Vòng cài không thành công (mã \(code)). Thử lại; nếu vẫn lỗi, cài bằng AstroBox trên Mac.")
+        }
+    }
+
+    private static func refusal(_ status: Int) -> String {
+        switch status {
+        case 1: "Vòng đang bận, thử lại sau ít phút."
+        case 2: "Vòng báo app này đã có. Gỡ app “Dẫn đường” trên vòng rồi cài lại."
+        case 3: "Vòng hết dung lượng. Gỡ bớt app hoặc mặt đồng hồ rồi thử lại."
+        case 4: "Pin vòng yếu. Sạc rồi thử lại."
+        case 5: "Vòng không cho cài bản cũ hơn bản đang có."
+        default: "Vòng từ chối cài (mã \(status))."
         }
     }
 
@@ -89,10 +140,14 @@ final class BandConnection: NSObject {
     private func release(_ message: String) {
         guard busy else { return }
         timeout?.cancel()
+        flush() // the ack of the band's last reply
         if let p = peripheral { central?.cancelPeripheralConnection(p) }
         peripheral = nil
         tx = nil
+        outbox = []
         link = nil
+        job = nil
+        progress = nil
         busy = false
         note(message)
     }
@@ -123,7 +178,7 @@ extension BandConnection: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        fail("Mất kết nối với vòng.")
+        fail(progress == nil ? "Mất kết nối với vòng." : "Mất kết nối với vòng khi đang cài. Đưa vòng lại gần rồi cài lại.")
     }
 }
 
@@ -147,18 +202,22 @@ extension BandConnection: CBPeripheralDelegate {
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        guard error == nil, characteristic.isNotifying, let link else {
+        guard error == nil, characteristic.isNotifying, let link, let job else {
             return fail("Không bật được thông báo từ vòng: \(error?.localizedDescription ?? "không rõ lý do").")
         }
         note("Đang xác thực…")
         link.maxWriteLength = peripheral.maximumWriteValueLength(for: writeType)
         run(link.start())
-        run(link.send(payload))
+        run(job(link))
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let value = characteristic.value, let link else { return }
         run(link.receive(value))
+    }
+
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+        flush()
     }
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
