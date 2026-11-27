@@ -23,7 +23,7 @@
 </template>
 
 <style>
-/* Text stays centred and at least SAFE.side (render.js) from the edges; rows in the top SAFE.corner px stay narrow. */
+/* Text stays centred; near the top and bottom ends a row only keeps 212 - 2 × inset(y) px (render.js). */
 .page {
   width: 212px;
   height: 520px;
@@ -81,8 +81,9 @@
   top: 0px;
   width: 212px;
   /* MAP_TOP in render.js */
-  height: 160px;
-  padding: 14px 12px 0 12px;
+  height: 170px;
+  /* The arrow + distance row is up to ~172 px wide ("10.5 km"); from y 40 down the corners cut at most 20 px a side. */
+  padding: 40px 12px 0 12px;
   flex-direction: column;
   align-items: center;
   background-color: #111111;

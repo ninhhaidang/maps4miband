@@ -3,8 +3,8 @@
        delete it and its router entry once docs/band-screen.md has the numbers. -->
   <stack class="page" onclick="next">
     <div if="{{mode === 'ruler'}}" class="page">
-      <!-- Full-width rows every 10 px from the top and bottom: the corners shorten the first ones; the first row
-           that reaches both edges is SAFE.corner. Columns every 4 px in from each long edge, mid-height: the first
+      <!-- Full-width rows every 10 px from the top and bottom: the corners shorten the first ones; how much each
+           row loses at its ends gives SAFE.radius. Columns every 4 px in from each long edge, mid-height: the first
            one fully lit is SAFE.side. -->
       <div for="{{ticks}}" class="tick" style="left: 0px; top: {{$item.row}}px; width: 212px; height: 2px; background-color: {{$item.c}};"></div>
       <div for="{{ticks}}" class="tick" style="left: 0px; top: {{$item.bottom}}px; width: 212px; height: 2px; background-color: {{$item.c}};"></div>
