@@ -57,6 +57,18 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(m.n, "Láng Hạ")
     }
 
+    func testDrawsAtMost100SegmentsTheMostTheBandRedrawsEverySecond() throws {
+        // 800 m due north, a point every 6.5 m (3.25 px, just over the 3 px step): ~108 points in the 700 m ahead.
+        let o = Point(lat: 21, lon: 105.8)
+        let pts = (0...123).map { Point(lat: o.lat + Double($0) * 6.5 / 111_320, lon: o.lon) }
+        let r = Route(points: pts, maneuvers: [Maneuver(at: 0, text: "Xuất phát", angle: nil),
+                                               Maneuver(at: 123, text: "Đến nơi", angle: nil)])
+        let first = Navigator(route: r).update(o, at: t0)
+        guard case .send(let m) = first.first else { return XCTFail("\(first)") }
+        XCTAssertEqual(m.p!.count / 2 - 1, 100)
+        XCTAssertEqual(Array(m.p!.prefix(2)), [106, 460]) // the near end is kept, the far end goes
+    }
+
     /// Rides `route` in 5 m steps, 0.1 s apart (faster than frames go out), and returns everything sent.
     func ride(_ nav: Navigator, _ route: Route, from start: Date? = nil) -> [Navigator.Effect] {
         var out: [Navigator.Effect] = []

@@ -13,6 +13,8 @@ public enum Tuning {
     static let searchM = 500.0
     /// Polyline points closer than this to the previous one are dropped.
     static let minStepPx = 3.0
+    /// The band redraws 100 segments a second smoothly, 200 take 3 s (docs/band-screen.md); the far end goes first.
+    static let maxSegments = 100
     /// At most one frame per this many seconds, unless it buzzes.
     static let sendEvery: TimeInterval = 1
     /// Buzz once at each of these distances before a turn.
@@ -71,7 +73,7 @@ func frame(_ route: Route, here: Point, hint: Int) -> Frame {
     var last = (x: Double.nan, y: Double.nan)
     func add(_ p: Point, force: Bool = false) {
         let (x, y) = screen(p)
-        if !force && hypot(x - last.x, y - last.y) < Tuning.minStepPx { return }
+        if poly.count > 2 * Tuning.maxSegments || !force && hypot(x - last.x, y - last.y) < Tuning.minStepPx { return }
         poly += [Int(x.rounded()), Int(y.rounded())]
         last = (x, y)
     }
