@@ -44,8 +44,11 @@ final class NavigationTests: XCTestCase {
         // Long enough for a route request, had one been started, to reach the fake.
         try await Task.sleep(for: .milliseconds(50))
         XCTAssertEqual(asked.count, 1)
-        XCTAssertTrue(nav.status.contains("Rẽ phải vào Phố Thử"), nav.status)
+        // The card on the phone shows the very message the band got.
+        XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
+        XCTAssertEqual(nav.shown?.a, 90)
         nav.stop()
+        XCTAssertNil(nav.shown)
     }
 
     func testAFailedPreviewSaysWhyAndCannotStart() async throws {

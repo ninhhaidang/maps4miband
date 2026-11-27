@@ -200,7 +200,7 @@ extension BandConnection: CBCentralManagerDelegate {
         switch central.state {
         case .poweredOn: findBand()
         case .unknown, .resetting: break
-        case .unauthorized: fail("App chưa được cấp quyền Bluetooth. Bật trong Cài đặt → Dẫn đường.")
+        case .unauthorized: fail("App chưa được cấp quyền Bluetooth. Bật trong ứng dụng Cài đặt của iPhone → Dẫn đường.")
         default: fail("Bluetooth của iPhone đang tắt.")
         }
     }

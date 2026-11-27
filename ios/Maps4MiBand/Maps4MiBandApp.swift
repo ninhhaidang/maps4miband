@@ -16,20 +16,28 @@ let bundledRpk = Bundle.main.url(forResource: "band", withExtension: "rpk").flat
 /// One screen in the quick app's message format (BandMessage): rider at 106,460 heading up, a left turn 160 m ahead.
 let sampleFrame = Data(#"{"p":[106,510,106,460,106,380,40,380],"t":[106,380],"n":"Phố Tôn Đức Thắng","a":-90,"d":"160 m","i":"Rẽ trái vào Phố Tôn Đức Thắng","r":"Còn 1.6 km","v":1}"#.utf8)
 
+/// The map fills the screen. Idle: search, results and the route preview in a sheet pulled up from the bottom.
+/// Navigating: the map follows the rider heading-up, under a card showing what the band shows, with Dừng below.
 struct ContentView: View {
     @State private var band: BandConnection
     @State private var nav: Navigation
-    @State private var authKey = Keychain.load(Keychain.authKey) ?? ""
     @State private var saved = Keychain.load(Keychain.authKey) != nil
-    @State private var invalid = false
-    @State private var vietmapKey = Keychain.load(Keychain.vietmapKey) ?? ""
     @State private var vietmapSaved = Keychain.load(Keychain.vietmapKey) != nil
+    @State private var settingsOpen = Keychain.load(Keychain.authKey) == nil || Keychain.load(Keychain.vietmapKey) == nil
+    @State private var camera = MapCameraPosition.userLocation(fallback: .automatic)
+    @State private var detent = peek
+    @FocusState private var typing: Bool
     @State private var query = ""
     @State private var places: [Vietmap.Place] = []
     @State private var searchError: String?
     /// The result last chosen, now in the search box; not searched again.
     @State private var picked = ""
     @State private var choosing: Task<Void, Never>?
+
+    /// The sheet pulled down: search box and, with a route, its length and Bắt đầu.
+    // shortcut: fixed height, large Dynamic Type pushes Bắt đầu below it; measure the sheet content if riders hit that.
+    private static let peekHeight: CGFloat = 170
+    private static let peek = PresentationDetent.height(peekHeight)
 
     init() {
         let band = BandConnection()
@@ -38,114 +46,131 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    SecureField("AuthKey (32 ký tự hex)", text: $authKey)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .font(.body.monospaced())
-                        .onChange(of: authKey) { saved = false }
-                    Button(saved ? "Đã lưu trong Keychain" : "Lưu vào Keychain") {
-                        let key = authKey.trimmingCharacters(in: .whitespaces)
-                        invalid = BandLink(authKey: key, appPackage: BandConnection.appPackage) == nil
-                        saved = !invalid && Keychain.save(key, as: Keychain.authKey)
-                    }
-                    .disabled(saved || authKey.isEmpty)
-                    SecureField("Vietmap API key", text: $vietmapKey)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .font(.body.monospaced())
-                        .onChange(of: vietmapKey) { vietmapSaved = false }
-                    Button(vietmapSaved ? "Đã lưu trong Keychain" : "Lưu vào Keychain") {
-                        vietmapSaved = Keychain.save(vietmapKey.trimmingCharacters(in: .whitespaces), as: Keychain.vietmapKey)
-                    }
-                    .disabled(vietmapSaved || vietmapKey.trimmingCharacters(in: .whitespaces).isEmpty)
-                } header: {
-                    Text("Cài đặt")
-                } footer: {
-                    if invalid { Text("AuthKey phải gồm đúng 32 ký tự hex.").foregroundStyle(.red) }
+        Map(position: $camera) {
+            if let route = nav.preview {
+                MapPolyline(coordinates: route.points.map(\.coordinate)).stroke(.blue, lineWidth: 6)
+                if let end = route.points.last { Marker("Điểm đến", coordinate: end.coordinate) }
+            }
+            UserAnnotation()
+        }
+        .mapControls {
+            MapCompass()
+            MapUserLocationButton()
+        }
+        .overlay(alignment: .bottomTrailing) {
+            Text("© OpenStreetMap contributors")
+                .font(.caption2)
+                .padding(.horizontal, 4)
+                .background(.thinMaterial, in: .rect(cornerRadius: 4))
+                .padding(8)
+        }
+        // Keeps the route, the controls and the credit above the pulled-down sheet.
+        .safeAreaPadding(.bottom, nav.running ? 0 : Self.peekHeight)
+        .safeAreaInset(edge: .top) {
+            if nav.running, let shown = nav.shown { card(shown) }
+        }
+        .safeAreaInset(edge: .bottom) {
+            if nav.running {
+                Button(role: .destructive) { nav.stop() } label: {
+                    Text("Dừng").font(.title3.bold()).frame(maxWidth: .infinity)
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding()
+            }
+        }
+        .sheet(isPresented: .constant(!nav.running)) { sheet }
+        .onChange(of: nav.running) {
+            camera = nav.running ? .userLocation(followsHeading: true, fallback: .automatic) : nav.preview.map(fit) ?? camera
+        }
+        .onChange(of: nav.preview?.points) {
+            if !nav.running, let route = nav.preview { camera = fit(route) }
+        }
+    }
 
-                Section {
-                    TextField("Tìm điểm đến, hoặc vĩ độ,kinh độ", text: $query)
-                        .autocorrectionDisabled()
-                        .disabled(nav.running || !vietmapSaved)
-                        .task(id: query) { await search() }
-                    if let to = Point(parsing: query), !nav.running {
-                        Button("Đến toạ độ \(query)") {
-                            picked = query.trimmingCharacters(in: .whitespaces)
-                            nav.plan(to: to, vietmapKey: Keychain.load(Keychain.vietmapKey) ?? "")
-                        }
-                    }
-                    ForEach(nav.running ? [] : places) { place in
-                        Button { choose(place) } label: {
-                            VStack(alignment: .leading) {
-                                Text(place.name)
-                                Text(place.address).font(.footnote).foregroundStyle(.secondary)
-                            }
-                        }
-                    }
-                    if let searchError { Text(searchError).foregroundStyle(.red) }
-                    if !vietmapSaved { Text("Lưu Vietmap API key ở trên để tìm điểm đến.").foregroundStyle(.secondary) }
-                    if let route = nav.preview {
-                        // A new preview replaces this view (preview goes nil in between), so the camera refits.
-                        Map {
-                            MapPolyline(coordinates: route.points.map { CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.lon) })
-                                .stroke(.blue, lineWidth: 5)
-                            if let end = route.points.last {
-                                Marker("Điểm đến", coordinate: CLLocationCoordinate2D(latitude: end.lat, longitude: end.lon))
-                            }
-                            UserAnnotation()
-                        }
-                        .frame(height: 260)
-                        .listRowInsets(EdgeInsets())
-                        Text("Quãng đường xe máy: \(formatDistance(route.length))")
-                    }
-                    if nav.running {
-                        Button("Dừng", role: .destructive) { nav.stop() }
-                    } else {
-                        Button("Bắt đầu") { nav.start(authKey: Keychain.load(Keychain.authKey) ?? "") }
-                            .disabled(band.busy || !saved || nav.planning || nav.preview == nil)
-                    }
-                    if !nav.status.isEmpty { Text(nav.status) }
-                } header: {
-                    Text("Dẫn đường xe máy")
-                } footer: {
-                    Text("Đóng hẳn Mi Fitness trước. Giữ app mở trên màn hình trong lúc đi.")
+    /// The band's screen as text: arrow and distance on one row, then the instruction and what remains.
+    private func card(_ m: BandMessage) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 12) {
+                if let a = m.a {
+                    Image(systemName: "arrow.up")
+                        .font(.system(size: 36, weight: .bold))
+                        .rotationEffect(.degrees(Double(a)))
                 }
+                if let d = m.d, !d.isEmpty { Text(d).font(.largeTitle.bold()) }
+            }
+            Text(m.i).font(.title3.weight(.semibold))
+            if let r = m.r { Text(r).foregroundStyle(.secondary) }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(.regularMaterial, in: .rect(cornerRadius: 16))
+        .padding(.horizontal)
+    }
 
-                Section {
-                    Button(band.progress != nil ? "Đang cài…" : "Cài app lên vòng") {
-                        if let rpk = bundledRpk { band.install(authKey: Keychain.load(Keychain.authKey) ?? "", rpk: rpk) }
-                    }
-                    .disabled(band.busy || !saved || bundledRpk == nil)
-                    if let progress = band.progress {
-                        ProgressView(value: progress)
-                        Button("Huỷ", role: .destructive) { band.cancel() }
-                    }
-                } footer: {
-                    Text(bundledRpk.map { "Cài bản quick app đóng gói trong app (\($0.count / 1024) KB). Đóng hẳn Mi Fitness trước." }
-                         ?? "Chưa có .rpk trong app: chạy npx aiot build trong band/ rồi Run lại từ Xcode.")
+    private var sheet: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                TextField("Tìm điểm đến, hoặc vĩ độ,kinh độ", text: $query)
+                    .autocorrectionDisabled()
+                    .focused($typing)
+                    .padding(10)
+                    .background(.fill.tertiary, in: .rect(cornerRadius: 10))
+                    .disabled(!vietmapSaved)
+                    .task(id: query) { await search() }
+                Button { settingsOpen = true } label: {
+                    Image(systemName: "gearshape").font(.title2)
                 }
-
-                Section {
-                    Button(band.busy && band.progress == nil ? "Đang gửi…" : "Gửi thử lên vòng") {
-                        band.sendOnce(authKey: Keychain.load(Keychain.authKey) ?? "", payload: sampleFrame)
-                    }
-                    .disabled(band.busy || !saved)
-                } footer: {
-                    Text("Đóng hẳn Mi Fitness trước khi thử: vòng chỉ giữ một phiên xác thực.")
-                }
-
-                Section("Nhật ký chẩn đoán") {
-                    ForEach(Array(band.log.enumerated().reversed()), id: \.offset) { _, line in
-                        Text(line).font(.footnote.monospaced())
-                    }
+                .accessibilityLabel("Cài đặt")
+            }
+            if let route = nav.preview {
+                HStack {
+                    Text("Xe máy: \(formatDistance(route.length))").font(.headline)
+                    Spacer()
+                    Button("Bắt đầu") { nav.start(authKey: Keychain.load(Keychain.authKey) ?? "") }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(band.busy || !saved || nav.planning)
                 }
             }
-            .navigationTitle("Dẫn đường")
+            if !nav.status.isEmpty { Text(nav.status).font(.subheadline) }
+            List {
+                if let to = Point(parsing: query) {
+                    Button("Đến toạ độ \(query)") {
+                        picked = query.trimmingCharacters(in: .whitespaces)
+                        typing = false
+                        detent = Self.peek
+                        nav.plan(to: to, vietmapKey: Keychain.load(Keychain.vietmapKey) ?? "")
+                    }
+                }
+                ForEach(places) { place in
+                    Button { choose(place) } label: {
+                        VStack(alignment: .leading) {
+                            Text(place.name)
+                            Text(place.address).font(.footnote).foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                if let searchError { Text(searchError).foregroundStyle(.red) }
+                if !vietmapSaved { Text("Lưu Vietmap API key trong Cài đặt để tìm điểm đến.").foregroundStyle(.secondary) }
+                if !saved { Text("Lưu AuthKey trong Cài đặt để bắt đầu dẫn đường.").foregroundStyle(.secondary) }
+                Text("Đóng hẳn Mi Fitness trước. Giữ app mở trên màn hình trong lúc đi.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            .listStyle(.plain)
         }
+        .padding([.horizontal, .top])
+        .presentationDetents([Self.peek, .medium, .large], selection: $detent)
+        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        .interactiveDismissDisabled()
+        .onChange(of: typing) { if typing { detent = .large } }
+        .sheet(isPresented: $settingsOpen) { SettingsView(band: band, saved: $saved, vietmapSaved: $vietmapSaved) }
+    }
+
+    /// The whole route with a margin, above the pulled-down sheet.
+    private func fit(_ route: Route) -> MapCameraPosition {
+        let r = MKPolyline(coordinates: route.points.map(\.coordinate), count: route.points.count).boundingMapRect
+        return .rect(r.insetBy(dx: -r.width / 5, dy: -r.height / 5))
     }
 
     /// Autocomplete as the user types; a typed coordinate or the result just chosen is not searched.
@@ -172,6 +197,8 @@ struct ContentView: View {
 
     private func choose(_ place: Vietmap.Place) {
         (picked, query, places) = (place.name, place.name, [])
+        typing = false
+        detent = Self.peek
         nav.cancelPlan()
         choosing?.cancel()
         let key = Keychain.load(Keychain.vietmapKey) ?? ""
@@ -186,4 +213,8 @@ struct ContentView: View {
             } catch {}
         }
     }
+}
+
+extension Point {
+    var coordinate: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: lat, longitude: lon) }
 }

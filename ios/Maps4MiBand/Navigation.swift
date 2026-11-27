@@ -12,9 +12,11 @@ final class Navigation: NSObject {
     private(set) var planning = false
     /// The route Bắt đầu will follow.
     private(set) var preview: Route?
-    /// What the band shows, or why navigation ended.
+    /// Progress of the plan, or why it or navigation ended; while navigating the card shows `shown` instead.
     private(set) var status = ""
-    private static let noLocation = "App chưa được cấp quyền vị trí. Bật trong Cài đặt → Dẫn đường."
+    /// The band's current screen while navigating, for the card on the phone.
+    private(set) var shown: BandMessage?
+    private static let noLocation = "App chưa được cấp quyền vị trí. Bật trong ứng dụng Cài đặt của iPhone → Dẫn đường."
 
     @ObservationIgnored private let band: BandConnection
     @ObservationIgnored private let gps = CLLocationManager()
@@ -62,12 +64,13 @@ final class Navigation: NSObject {
     /// Follows `preview` as it is; the first fix shows where it goes, or asks for a new one if far from its start.
     func start(authKey: String) {
         guard !running, !planning, !band.busy, let preview else { return }
-        band.stream(authKey: authKey, first: BandMessage(i: "Đang chờ GPS…").json)
+        let first = BandMessage(i: "Đang chờ GPS…")
+        band.stream(authKey: authKey, first: first.json)
         guard band.busy else {
             status = "Không kết nối được vòng, xem nhật ký."
             return
         }
-        running = true
+        (running, shown) = (true, first)
         navigator = Navigator(route: preview)
         status = "Đang chờ GPS…"
         gps.startUpdatingLocation()
@@ -96,6 +99,7 @@ final class Navigation: NSObject {
         routing?.cancel()
         routing = nil
         navigator = nil
+        shown = nil
         status = why
     }
 
@@ -114,20 +118,23 @@ final class Navigation: NSObject {
             routing = nil
             switch result {
             case .success(let route):
-                if let navigator {
-                    navigator.rerouted(route)
-                } else {
-                    (preview, planning, status) = (route, false, "")
-                }
+                // While navigating, preview is the route on the map.
+                navigator?.rerouted(route)
+                (preview, planning, status) = (route, false, "")
             case .failure(let error):
                 let why = Vietmap.Failure.message(for: error)
                 // Off the route the Navigator asks again shortly; for the preview there is nothing to fall back on.
                 guard let navigator else { return fail(why) }
                 navigator.rerouteFailed()
-                band.send(BandMessage(i: "Lỗi: " + why).json)
+                show(BandMessage(i: "Lỗi: " + why))
                 status = "Lỗi: \(why). Sẽ thử lại."
             }
         }
+    }
+
+    private func show(_ m: BandMessage) {
+        band.send(m.json)
+        shown = m
     }
 }
 
@@ -155,8 +162,7 @@ extension Navigation: CLLocationManagerDelegate {
         for effect in navigator.update(here, at: fix.timestamp) {
             switch effect {
             case .send(let m):
-                band.send(m.json)
-                status = [m.d, m.i, m.r].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · ")
+                show(m)
             case .arrived(let m):
                 finish(m, "Đã đến nơi.")
             case .reroute(let from):

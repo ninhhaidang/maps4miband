@@ -27,13 +27,13 @@ cd legacy/android && JAVA_HOME=/opt/homebrew/opt/openjdk@21 ./gradlew testDebugU
 ```
 
 Cài `.rpk` lên vòng: build `band/` trước rồi Run app iOS (bước build tự đóng gói `.rpk` mới nhất), đóng hẳn
-Mi Fitness, bấm **Cài app lên vòng**. Lần đầu, hoặc khi cài từ iPhone lỗi, dùng AstroBox trên Mac (xem #2).
+Mi Fitness, trong **Cài đặt** (nút bánh răng) bấm **Cài app lên vòng**. Lần đầu, hoặc khi cài từ iPhone lỗi, dùng AstroBox trên Mac (xem #2).
 
 ## Thử trên vòng thật
 
 1. Vòng đang kết nối Bluetooth với iPhone (như khi dùng Mi Fitness). **Đóng hẳn Mi Fitness** (vuốt tắt app): vòng chỉ giữ một phiên xác thực.
-2. Trong app *Dẫn đường* trên iPhone: dán AuthKey, **Lưu vào Keychain**, bấm **Gửi thử lên vòng**.
-3. Vòng tự mở quick app và vẽ khung hình mẫu. Nhật ký chẩn đoán trên màn hình ghi từng bước hoặc lỗi.
+2. Trong app *Dẫn đường* trên iPhone, mở **Cài đặt** (lần đầu tự mở): dán AuthKey, **Lưu vào Keychain**, bấm **Gửi thử lên vòng**.
+3. Vòng tự mở quick app và vẽ khung hình mẫu. Nhật ký chẩn đoán cuối Cài đặt ghi từng bước hoặc lỗi.
 4. Xong app nhả kết nối; mở lại Mi Fitness là kết nối lại vòng.
 
 ## Lấy AuthKey
