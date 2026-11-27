@@ -195,8 +195,9 @@ final class Navigation: NSObject {
         logSent(json)
     }
 
+    /// The JSON the band got, but the grey-street picture as its size: ~11 KB of base64 a line buried the log.
     private func logSent(_ json: Data) {
-        band.log.add(.nav, String(decoding: json, as: UTF8.self))
+        band.log.add(.nav, String(decoding: json, as: UTF8.self).replacing(/"s":"([^"]*)"/) { #""s":"<ảnh \#($0.1.count) ký tự base64>""# })
     }
 }
 

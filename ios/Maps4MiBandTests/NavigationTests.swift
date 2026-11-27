@@ -142,7 +142,9 @@ final class NavigationTests: XCTestCase {
         nav.start(authKey: String(repeating: "0", count: 32))
         fix(nav, straight.points[0])
         XCTAssertEqual(nav.shown?.i, "Rẽ phải vào Phố Thử")
-        XCTAssertNotNil(nav.shown?.s)
+        let picture = try XCTUnwrap(nav.shown?.s)
+        XCTAssertTrue(band.log.lines.contains { $0.text.contains(#""s":"<ảnh \#(picture.count) ký tự base64>""#) },
+                      "the log has the picture's size, not its base64")
         nav.stop()
     }
 

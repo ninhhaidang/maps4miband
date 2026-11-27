@@ -67,7 +67,11 @@ final class NavigatorTests: XCTestCase {
         // A side street 100 m ahead, 50 m each side of the route.
         nav.streets = [[Point(lat: o.lat + 50 / 111_320.0, lon: o.lon + 100 * m), Point(lat: o.lat - 50 / 111_320.0, lon: o.lon + 100 * m)]]
         guard case .send(let first) = nav.update(o, at: t0 + 1).first else { return XCTFail() }
-        XCTAssertEqual(first.s, [206, 200, 206, 250]) // in the layer, whose middle (156, 225) is on the rider
+        // A picture of the layer, whose middle (156, 225) is on the rider: the street 50 px east of it.
+        let layer = try pixels(XCTUnwrap(Data(base64Encoded: XCTUnwrap(first.s))))
+        XCTAssertEqual([layer.w, layer.h], [312, 450])
+        XCTAssertEqual(layer.grey[225 * 312 + 206], 0x4a)
+        XCTAssertEqual(layer.grey[225 * 312 + 156], 0)
         XCTAssertEqual(first.o, [-50, 120]) // where the layer's top-left goes on the screen
         XCTAssertEqual(first.h, 90) // heading east
         // 40 m on: the same layer, 20 px further left.
@@ -76,7 +80,8 @@ final class NavigatorTests: XCTestCase {
         XCTAssertEqual(moved.o, [-70, 120])
         // 120 m on, past its 100 m margin: a new layer around here.
         guard case .send(let anew) = nav.update(east(120), at: t0 + 3).first else { return XCTFail() }
-        XCTAssertEqual(anew.s, [146, 200, 146, 250])
+        let next = try pixels(XCTUnwrap(Data(base64Encoded: XCTUnwrap(anew.s))))
+        XCTAssertEqual(next.grey[225 * 312 + 146], 0x4a, "the street is now 20 m behind")
         XCTAssertEqual(anew.o, [-50, 120])
         // A band that may have missed it gets it again.
         nav.forgetLayer()

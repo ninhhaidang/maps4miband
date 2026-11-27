@@ -10,14 +10,12 @@ public enum Tuning {
     static let screenW = 212.0
     static let screenH = 520.0
     static let mapTop = 170.0
-    /// Grey streets go to the band as one layer it moves rather than redraws: the map plus this much each side, so a
-    /// new one is due once the rider is this far from where the last one was made.
+    /// Grey streets go to the band as one picture it moves rather than redraws (mapImage): the map plus this much each
+    /// side, so a new one is due once the rider is this far from where the last one was made. 312×450 px, a message of
+    /// up to ~12 KB in central Hà Nội against the 16 KB the band was seen to take (docs/band-screen.md).
+    // shortcut: 412×550 (margin 100) would need a new picture half as often, but dense streets may take it past 16 KB;
+    // widen once a bigger message is seen to arrive.
     static let layerMarginPx = 50.0
-    /// Moving a layer of 300 streets takes up to 1.3 s a frame, 500 take 2.4 s and 4 s to build, 800 freeze the band
-    /// (docs/band-screen.md); the ones furthest from the rider go first.
-    static let maxLayerSegments = 300
-    /// Grey streets are simplified to within this of where they are, 2 m: fewer segments, the same streets.
-    static let streetTolerancePx = 1.0
     static let metresPerPx = 2.0
     static let aheadM = 700.0
     static let behindM = 100.0
@@ -116,69 +114,6 @@ func frame(_ route: Route, here: Point, hint: Int) -> Frame {
 /// The grey layer's size in band px: the map under the panel plus `Tuning.layerMarginPx` each side.
 let layerW = Tuning.screenW + 2 * Tuning.layerMarginPx
 let layerH = Tuning.screenH - Tuning.mapTop + 2 * Tuning.layerMarginPx
-
-/// `streets` around `anchor`, north up, as segments flat x1,y1,x2,y2 from the layer's top-left, `anchor` in its
-/// middle: cut to the layer, nearest `anchor` first, at most `Tuning.maxLayerSegments`.
-func layer(_ streets: [[Point]], around anchor: Point) -> [Int] {
-    func px(_ p: Point) -> (x: Double, y: Double) {
-        let (e, n) = local(anchor, p)
-        return (layerW / 2 + e / Tuning.metresPerPx, layerH / 2 - n / Tuning.metresPerPx)
-    }
-    var segs: [(d: Double, s: [Int])] = []
-    for street in streets {
-        let line = simplify(street.map(px), tolerance: Tuning.streetTolerancePx)
-        for (a, b) in zip(line, line.dropFirst()) {
-            if let c = clip(a, b) { segs.append((distance((layerW / 2, layerH / 2), c), c.map { Int($0.rounded()) })) }
-        }
-    }
-    return segs.sorted { $0.d < $1.d }.prefix(Tuning.maxLayerSegments).flatMap(\.s)
-}
-
-/// The points of `line` that keep it within `tolerance` px of where it was (Douglas–Peucker): fewer segments for
-/// the same street.
-private func simplify(_ line: [(x: Double, y: Double)], tolerance: Double) -> [(x: Double, y: Double)] {
-    guard line.count > 2 else { return line }
-    var keep = [Bool](repeating: false, count: line.count)
-    (keep[0], keep[line.count - 1]) = (true, true)
-    var spans = [(0, line.count - 1)]
-    while let (i, j) = spans.popLast() {
-        let chord = [line[i].x, line[i].y, line[j].x, line[j].y]
-        var far = i, farD = tolerance
-        for k in i + 1 ..< j {
-            let d = distance(line[k], chord)
-            if d > farD { (far, farD) = (k, d) }
-        }
-        if far != i {
-            keep[far] = true
-            spans += [(i, far), (far, j)]
-        }
-    }
-    return line.indices.filter { keep[$0] }.map { line[$0] }
-}
-
-/// The part of a→b on the layer as x1,y1,x2,y2, nil if none (Liang–Barsky).
-private func clip(_ a: (x: Double, y: Double), _ b: (x: Double, y: Double)) -> [Double]? {
-    let dx = b.x - a.x, dy = b.y - a.y
-    var t0 = 0.0, t1 = 1.0
-    for (p, q) in [(-dx, a.x), (dx, layerW - a.x), (-dy, a.y), (dy, layerH - a.y)] {
-        if p == 0 {
-            if q < 0 { return nil }
-        } else if p < 0 {
-            t0 = max(t0, q / p)
-        } else {
-            t1 = min(t1, q / p)
-        }
-    }
-    return t0 < t1 ? [a.x + t0 * dx, a.y + t0 * dy, a.x + t1 * dx, a.y + t1 * dy] : nil
-}
-
-/// From `p` to the nearest point of segment `s` (x1,y1,x2,y2).
-private func distance(_ p: (x: Double, y: Double), _ s: [Double]) -> Double {
-    let dx = s[2] - s[0], dy = s[3] - s[1]
-    let len2 = dx * dx + dy * dy
-    let t = len2 == 0 ? 0 : min(max(((p.x - s[0]) * dx + (p.y - s[1]) * dy) / len2, 0), 1)
-    return hypot(s[0] + t * dx - p.x, s[1] + t * dy - p.y)
-}
 
 /// "80 m" under 1 km (to 10 m), else "1.6 km".
 public func formatDistance(_ m: Double) -> String {

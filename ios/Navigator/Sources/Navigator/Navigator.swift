@@ -1,14 +1,14 @@
 import Foundation
 
 /// One message to the quick app (band/src/pages/index/index.ux): p = polyline in band px (rider at 106,345,
-/// north up), t = turn marks on it (flat x,y), s = a new layer of grey streets (flat x1,y1,x2,y2 from its top-left),
+/// north up), t = turn marks on it (flat x,y), s = a new layer of grey streets (base64 PNG, layerW×layerH),
 /// o = where the layer's top-left goes on the screen (x,y; nil = no layer), n = street of the first mark, h = the rider's heading (degrees clockwise from north), a = turn angle (+ right, nil = no arrow),
 /// d = distance to the turn, i = instruction, r = remaining, v = 1 to buzz.
 /// A message with only `i` is a status message.
 public struct BandMessage: Encodable, Equatable {
     public var p: [Int]?
     public var t: [Int]?
-    public var s: [Int]?
+    public var s: String?
     public var o: [Int]?
     public var n: String?
     public var h: Int?
@@ -18,16 +18,17 @@ public struct BandMessage: Encodable, Equatable {
     public var r: String?
     public var v: Int?
 
-    public init(p: [Int]? = nil, t: [Int]? = nil, s: [Int]? = nil, o: [Int]? = nil, n: String? = nil, h: Int? = nil,
+    public init(p: [Int]? = nil, t: [Int]? = nil, s: String? = nil, o: [Int]? = nil, n: String? = nil, h: Int? = nil,
                 a: Int? = nil, d: String? = nil, i: String, r: String? = nil, v: Int? = nil) {
         (self.p, self.t, self.s, self.o, self.n, self.h, self.a, self.d, self.i, self.r, self.v) =
             (p, t, s, o, n, h, a, d, i, r, v)
     }
 
-    /// Keys sorted so the same screen is always the same bytes, in the log too.
+    /// Keys sorted so the same screen is always the same bytes, in the log too. Slashes as they are: escaped, the
+    /// grey-street picture's base64 grows by one byte in 64.
     public var json: Data {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .sortedKeys
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
         return try! encoder.encode(self)
     }
 }
@@ -102,19 +103,19 @@ public final class Navigator {
         buzzes = max(buzzes, due)
         if !buzz, let lastSend, time.timeIntervalSince(lastSend) < Tuning.sendEvery { return [] }
         lastSend = time
-        var layerSegs: [Int]?, layerAt: [Int]?
+        var layerPNG: String?, layerAt: [Int]?
         if !streets.isEmpty {
             // Past the layer's margin the screen would show its edge.
             let off = anchor.map { local($0, f.snap) }.map { max(abs($0.e), abs($0.n)) } ?? .infinity
             if off > Tuning.layerMarginPx * Tuning.metresPerPx {
                 anchor = f.snap
-                layerSegs = layer(streets, around: f.snap)
+                layerPNG = mapImage(streets, around: f.snap, width: Int(layerW), height: Int(layerH))?.base64EncodedString()
             }
             let (e, n) = local(f.snap, anchor!)
             layerAt = [Int((Tuning.meX + e / Tuning.metresPerPx - layerW / 2).rounded()),
                        Int((Tuning.meY - n / Tuning.metresPerPx - layerH / 2).rounded())]
         }
-        return [.send(BandMessage(p: f.poly, t: f.marks, s: layerSegs, o: layerAt,
+        return [.send(BandMessage(p: f.poly, t: f.marks, s: layerPNG, o: layerAt,
                                   n: f.marks.isEmpty ? nil : f.turn.street, h: f.heading, a: f.turn.angle,
                                   d: formatDistance(f.toTurn), i: f.turn.text, r:"Còn \(formatDistance(f.remaining))", v: buzz ? 1 : 0))]
     }

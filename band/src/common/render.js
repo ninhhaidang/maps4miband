@@ -1,6 +1,4 @@
 export const LINE = 8
-// Grey streets around the route (index.ux .street): thin so the blue route stays what stands out.
-export const STREET = 4
 
 // Measured with the ruler page (docs/band-screen.md): the long edges show every px, the corners are rounded at
 // radius 100, so both ends are close to half circles.
@@ -53,15 +51,6 @@ export function segments(p, line = LINE) {
   return out
 }
 
-// Grey streets from the phone: flat x1,y1,x2,y2 per segment (BandMessage.g).
-export function streets(g) {
-  // concat, not spread: the build ships this file to the band as written, and spread is the one newer syntax here
-  // the band had never run.
-  let out = []
-  for (let i = 0; i + 3 < g.length; i += 4) out = out.concat(segments(g.slice(i, i + 4), STREET))
-  return out
-}
-
 // Where the street-name box for `name` goes beside a turn mark at (x, y), given the drawn polyline `p`: on one line or
 // two, above or below the mark, centred or to one side, whichever covers the least road (the first in that order on
 // a tie), kept on the map and clear of the rounded bottom end. null when the mark itself is not on the map.
@@ -107,4 +96,25 @@ function roadUnder(p, l, t, w, h) {
     }
   }
   return n
+}
+
+const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+const B64_VALUE = new Uint8Array(128)
+for (let i = 0; i < 64; i++) B64_VALUE[B64.charCodeAt(i)] = i
+
+// Bytes of a padded base64 string, for the grey-street picture the phone sends as text (interconnect carries strings
+// only); the band may have no atob. Four characters to three bytes at a time: a character at a time took 0.6 s for
+// 11 KB on the band.
+export function fromBase64(s) {
+  const pad = s.endsWith('==') ? 2 : s.endsWith('=') ? 1 : 0
+  const out = new Uint8Array((s.length / 4) * 3 - pad)
+  let k = 0
+  for (let i = 0; i < s.length; i += 4) {
+    const n = (B64_VALUE[s.charCodeAt(i)] << 18) | (B64_VALUE[s.charCodeAt(i + 1)] << 12) |
+      (B64_VALUE[s.charCodeAt(i + 2)] << 6) | B64_VALUE[s.charCodeAt(i + 3)]
+    out[k++] = n >> 16
+    if (k < out.length) out[k++] = n >> 8
+    if (k < out.length) out[k++] = n
+  }
+  return out
 }

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { segments, streets, STREET, rotate, label, inset, LINE, MAP_TOP, LABEL_W, LABEL_H } from '../src/common/render.js'
+import { segments, rotate, label, inset, fromBase64, LINE, MAP_TOP, LABEL_W, LABEL_H } from '../src/common/render.js'
 
 test('one segment per point pair, placed at its start point and rotated in screen degrees', () => {
   // right, then down (screen y grows downwards)
@@ -13,14 +13,6 @@ test('one segment per point pair, placed at its start point and rotated in scree
 
 test('a thinner stroke runs half its own width past both ends', () => {
   assert.deepEqual(segments([0, 0, 10, 0], 4), [{ l: -2, t: -2, w: 14, r: '{"rotate":"0deg"}' }])
-})
-
-test('grey streets come as separate x1,y1,x2,y2 segments, drawn STREET px thick', () => {
-  assert.equal(STREET, 4)
-  assert.deepEqual(streets([0, 0, 10, 0, 50, 50, 50, 70, 1]), [
-    { l: -2, t: -2, w: 14, r: '{"rotate":"0deg"}' },
-    { l: 48, t: 48, w: 24, r: '{"rotate":"90deg"}' }
-  ])
 })
 
 test('drops zero-length segments and odd trailing values', () => {
@@ -128,4 +120,12 @@ test('the rounded corners cut off what the ruler page showed on the band', () =>
   // px cut off each side of the row 10, 20 … 90 px from the top, read off a photo of the ruler page
   const read = [59, 41, 29, 20, 13, 8, 4, 2, 0]
   read.forEach((px, k) => assert.ok(Math.abs(inset((k + 1) * 10) - px) <= 4, `row ${(k + 1) * 10}: ${inset((k + 1) * 10)} vs ${px}`))
+})
+
+test('base64 to bytes as Node decodes it, with and without padding', () => {
+  for (const len of [0, 1, 2, 3, 4, 5, 300]) {
+    const bytes = Uint8Array.from({ length: len }, (_, i) => (i * 37 + 11) & 0xff)
+    const s = Buffer.from(bytes).toString('base64')
+    assert.deepEqual(fromBase64(s), bytes, `${len} bytes`)
+  }
 })

@@ -2,11 +2,9 @@
   <!-- Later children draw on top: the map fills the page, the panel covers its top MAP_TOP px. -->
   <stack class="page">
     <div class="map">
-      <!-- Grey streets, built once per layer and then only moved: the band can't redraw this many each second. -->
-      <div show="{{hasLayer}}" class="layer" style="left: {{layerL}}px; top: {{layerT}}px;">
-        <div for="{{streets}}" class="street"
-             style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
-      </div>
+      <!-- Grey streets: one picture per layer from the phone, then only moved; the band moves it in no time where 300
+           divs took 1.3 s (docs/band-screen.md). -->
+      <image show="{{hasLayer}}" class="layer" src="{{layerSrc}}" style="left: {{layerL}}px; top: {{layerT}}px;"></image>
       <div for="{{segs}}" class="seg"
            style="left: {{$item.l}}px; top: {{$item.t}}px; width: {{$item.w}}px; transform: {{$item.r}};"></div>
       <div for="{{marks}}" class="mark" style="left: {{$item.l}}px; top: {{$item.t}}px;"></div>
@@ -51,14 +49,7 @@
   /* layerW × layerH in ios/Navigator Frame.swift: the map plus 50 px each side */
   width: 312px;
   height: 450px;
-}
-.street {
-  position: absolute;
-  /* STREET in render.js */
-  height: 4px;
-  border-radius: 2px;
-  background-color: #4a4a4a;
-  transform-origin: 2px 2px;
+  object-fit: none;
 }
 .mark {
   position: absolute;
@@ -139,12 +130,13 @@
 import interconnect from '@system.interconnect'
 import brightness from '@system.brightness'
 import vibrator from '@system.vibrator'
-import { segments, streets, rotate, label } from '../../common/render.js'
+import file from '@system.file'
+import { segments, rotate, label, fromBase64 } from '../../common/render.js'
 
 export default {
   private: {
-    streets: [],
     hasLayer: false,
+    layerSrc: '',
     layerL: 0,
     layerT: 0,
     segs: [],
@@ -182,18 +174,16 @@ export default {
     brightness.setKeepScreenOn({ keepScreenOn: false })
   },
   // Message from the phone (BandMessage in ios/Navigator): p = flat polyline in screen px, t = turn marks on it
-  // (flat x,y), s = a new layer of grey streets (flat x1,y1,x2,y2 from its top-left), o = where the layer's top-left
+  // (flat x,y), s = a new layer of grey streets (base64 PNG), o = where the layer's top-left
   // goes (x,y; none = hide it), n = street at the first mark, a = turn angle (deg,
   // null = no arrow), h = the rider's heading (deg clockwise from north), d = distance to the turn,
   // i = instruction, r = remaining trip, v = 1 to buzz.
   show(m) {
     const p = m.p || []
-    if (m.s) this.streets = streets(m.s)
-    this.hasLayer = !!m.o
-    if (m.o) {
-      this.layerL = m.o[0]
-      this.layerT = m.o[1]
-    }
+    if (m.s) this.newLayer(m.s)
+    this.layerAt = m.o
+    // While a new picture is being written the old one stays put rather than jump to where the new one goes.
+    if (!this.writing) this.placeLayer()
     this.segs = segments(p)
     const t = m.t || []
     const marks = []
@@ -215,6 +205,39 @@ export default {
     this.instr = m.i || ''
     this.rem = m.r || ''
     if (m.v) vibrator.vibrate({ mode: 'long' })
+  },
+  // The picture goes to a file the image reads, two names in turn so it can't show a cached copy of the last one.
+  newLayer(png) {
+    const n = (this.layers || 0) + 1
+    this.layers = n
+    this.writing = true
+    const uri = 'internal://files/layer-' + (n % 2) + '.png'
+    file.writeArrayBuffer({
+      uri: uri,
+      buffer: fromBase64(png),
+      success: () => {
+        if (n !== this.layers) return // a newer one is on its way
+        this.writing = false
+        this.layerSrc = uri
+        this.placeLayer()
+      },
+      fail: (data, code) => {
+        if (n !== this.layers) return
+        console.log('layer not written: ' + code)
+        // Hidden rather than the old picture in the new one's place, until the phone sends another.
+        this.writing = false
+        this.layerSrc = ''
+        this.placeLayer()
+      }
+    })
+  },
+  placeLayer() {
+    const o = this.layerAt
+    this.hasLayer = !!o && this.layerSrc !== ''
+    if (o) {
+      this.layerL = o[0]
+      this.layerT = o[1]
+    }
   }
 }
 </script>

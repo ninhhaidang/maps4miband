@@ -31,47 +31,6 @@ final class FrameTests: XCTestCase {
         XCTAssertEqual(frame(r, here: south, hint: 1).heading, 180)
     }
 
-    /// 100 m east, right turn, 100 m south; north up, the rider in the middle of the map.
-    let o = Point(lat: 21, lon: 105.8)
-    func at(east: Double, north: Double) -> Point {
-        Point(lat: o.lat + north / 111_320, lon: o.lon + east / (111_320 * cos(o.lat * .pi / 180)))
-    }
-    lazy var r = Route(points: [o, at(east: 100, north: 0), at(east: 100, north: -100)], maneuvers: [
-        Maneuver(at: 0, text: "", angle: nil), Maneuver(at: 1, text: "", angle: 90), Maneuver(at: 2, text: "", angle: nil),
-    ])
-
-    func testALayerOfStreetsAroundTheAnchorCutToItsBoxNearestFirst() {
-        // The box is the map plus 100 m each side: 312×450 px, the anchor in its middle at (156, 225).
-        let streets = [
-            [at(east: 0, north: 20), at(east: 1000, north: 20)], // 20 m north, runs off the right edge
-            [at(east: 100, north: 0), at(east: 100, north: 100)], // 100 m east, going north
-            [at(east: 2000, north: 0), at(east: 2000, north: 100)], // far off
-        ]
-        XCTAssertEqual(layer(streets, around: o), [156, 215, 312, 215, 206, 225, 206, 175])
-    }
-
-    func testStreetsAreSimplifiedToWithin2MOfWhereTheyAre() {
-        // 100 m east with a point every 10 m, each up to 0.5 m off the line: one segment.
-        let wobbly = (0...10).map { k in at(east: 10 * Double(k), north: k % 2 == 0 ? 0.5 : -0.5) }
-        XCTAssertEqual(layer([wobbly], around: o), [156, 225, 206, 225])
-        // A real corner stays.
-        let corner = [at(east: 0, north: -40), at(east: 50, north: -40), at(east: 50, north: -80)]
-        XCTAssertEqual(layer([corner], around: o), [156, 245, 181, 245, 181, 245, 181, 265])
-    }
-
-    func testALayerHoldsAt300SegmentsTheBandCanMove() {
-        // 400 short streets 10 m apart, 100 m each way around the anchor.
-        let streets = (0..<400).map { k in
-            let e = -100 + 10 * Double(k % 20), n = -100 + 10 * Double(k / 20)
-            return [at(east: e, north: n), at(east: e + 6, north: n)]
-        }
-        let l = layer(streets, around: o)
-        XCTAssertEqual(l.count / 4, 300)
-        let starts = stride(from: 0, to: l.count, by: 4).map { [l[$0], l[$0 + 1]] }
-        XCTAssertTrue(starts.contains([156, 225]), "the one at the anchor stays")
-        XCTAssertFalse(starts.contains([106, 275]), "the far corner goes")
-    }
-
     func testAfterTheUturnItDoesNotSnapBackToTheOutboundLeg() {
         let uturn = route.maneuvers[3].at
         XCTAssertEqual(route.maneuvers[3].text, "Quay đầu vào Nguyễn Trãi")

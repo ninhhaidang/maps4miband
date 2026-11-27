@@ -7,7 +7,8 @@ Số đo trên vòng thật cho bố cục dẫn đường (#13).
 | Cạnh dài bị che (px) | 0 | `SAFE.side = 0` (band/src/common/render.js) |
 | Góc bo | bán kính ~100 px: hai đầu gần như nửa hình tròn (bảng dưới) | `SAFE.radius = 100`, `inset(y)` |
 | Số đoạn vẽ mượt, cập nhật mỗi giây | 100 (chu kỳ chậm nhất: 50 → 1011 ms, 100 → 1070 ms, 200 → 3340 ms) | `Tuning.maxSegments = 100`, bỏ phần xa nhất |
-| Đường xám vẽ một lần thành lớp, mỗi giây chỉ dời lớp (#15, kèm 20 đoạn tuyến vẽ lại) | 300 (chậm nhất: 100 → 1019 ms, 300 → 1265 ms, 500 → dựng 4095 ms rồi 2393 ms, 800 → đơ) | `Tuning.maxLayerSegments = 300`, bỏ phần xa người lái nhất |
+| Đường xám vẽ một lần thành lớp `div`, mỗi giây chỉ dời lớp (#15, kèm 20 đoạn tuyến vẽ lại) | 300 (chậm nhất: 100 → 1019 ms, 300 → 1265 ms, 500 → dựng 4095 ms rồi 2393 ms, 800 → đơ) | đã thay bằng ảnh (hàng dưới) |
+| Đường xám thành một ảnh PNG bảng màu từ điện thoại, ghi ra `internal://files`, mỗi giây chỉ dời ảnh (#15, kèm 20 đoạn tuyến vẽ lại) | vòng hiện được PNG 1 và 2 bit; dời chậm nhất ~1010 ms với mọi cỡ (tin 6.3 KB 312×450 1 bit, 10.5 KB 312×450 2 bit, 11 KB 412×550 1 bit); ghi file 48–74 ms; giải base64 từng ký tự 337–617 ms (nay 4 ký tự một lượt); 1 bit và 2 bit trông như nhau | `mapImage`, 1 bit, 312×450 (`Tuning.layerMarginPx`), mọi đường trong lớp |
 | Pin tụt sau 10 phút ở 50 / 100 / 200 đoạn | không đo (bỏ qua) | |
 | Tin nhắn interconnect lớn nhất nhận đủ | 16 KB (32 KB không tới) | tin dẫn đường hiện ~0.5 KB; 16 KB ≈ 2000 điểm, nên giới hạn đoạn là do vẽ chứ không do tin nhắn |
 | Mẫu bố cục đã chọn (A / B / C) | A | A |
@@ -32,6 +33,8 @@ cả hai đã xoá sau khi đo, lấy lại từ commit `58dca7f` (`band/src/pag
 - **Thước**: vạch ngang toàn chiều rộng mỗi 10 px từ mép trên và mép dưới (góc bo làm các vạch đầu ngắn đi; mỗi
   vạch mất bao nhiêu ở hai đầu cho ra `SAFE.radius`), vạch dọc mỗi 4 px từ hai cạnh dài (vạch đầu tiên hiện đủ =
   `SAFE.side`). Đọc từ ảnh chụp thẳng.
+- **Ảnh đường xám**: nút tạm trong Cài đặt gửi ảnh quanh Hồ Gươm ở 3 cỡ; vòng hiện ảnh, dời nó mỗi giây và ghi
+  thời gian giải base64, ghi file và chu kỳ chậm nhất lên khung chỉ dẫn.
 - **Thử tải**: 50 / 100 / 200 đoạn xám ngẫu nhiên vẽ lại mỗi giây, ghi chu kỳ chậm nhất của `setInterval`.
 - **Kích thước tin nhắn**: tin 1, 2, 4 … 32 KB; vòng hiện "Nhận đủ N KB" khi nhận trọn. Dừng ở 32 KB vì một khung
   BandLink chỉ chứa dưới 64 KB.
